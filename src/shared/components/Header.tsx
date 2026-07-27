@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 import logoUrl from '@/assets/design/logo-header.png'
 
 type Lang = 'FI' | 'EN' | 'AR'
+
+const LANG_TO_I18N: Record<Lang, string> = { FI: 'fi', EN: 'en', AR: 'ar' }
+const I18N_TO_LANG: Record<string, Lang> = { fi: 'FI', en: 'EN', ar: 'AR' }
 
 const navLinks = [
   { to: '/', label: 'Home', end: true },
@@ -15,8 +19,13 @@ const navLinks = [
 ]
 
 export default function Header() {
-  const [lang, setLang] = useState<Lang>('EN')
+  const { i18n } = useTranslation()
+  const lang = I18N_TO_LANG[i18n.language] ?? 'EN'
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const setLang = (l: Lang) => {
+    void i18n.changeLanguage(LANG_TO_I18N[l])
+  }
 
   useEffect(() => {
     if (menuOpen) {
