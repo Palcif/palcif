@@ -8,36 +8,10 @@ import blogStudentThumb from '@/assets/design/blog-student-thumb.png'
 import blogTatreezThumb from '@/assets/design/blog-tatreez-thumb.png'
 import heroCollage from '@/assets/design/hero-collage-full.png'
 import oliveSprig from '@/assets/design/olive-sprig-left.png'
+import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import SectionHeader from '@/shared/components/SectionHeader'
-
-const EVENTS = [
-  {
-    month: 'MAY',
-    day: '18',
-    title: 'Nakba Remembrance Gathering',
-    date: 'Sun, May 18, 2025 · 18:00',
-    loc: 'Helsinki · Community Hall',
-    dateTime: '2025-05-18',
-  },
-  {
-    month: 'JUN',
-    day: '07',
-    title: 'Palestinian Embroidery Workshop',
-    date: 'Sat, Jun 7, 2025 · 13:00',
-    loc: 'Espoo · Olohuone',
-    dateTime: '2025-06-07',
-  },
-  {
-    month: 'JUN',
-    day: '21',
-    title: 'Palestinian Film Evening',
-    date: 'Sat, Jun 21, 2025 · 18:00',
-    loc: 'Helsinki · Cinema Orion',
-    dateTime: '2025-06-21',
-  },
-]
 
 const ACTIVITIES = [
   {
@@ -82,6 +56,9 @@ const BLOG_POSTS = [
 ]
 
 export default function Home() {
+  const { data: eventsData } = useEvents()
+  const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 3)
+
   return (
     <>
       {/* ── Hero ── */}
@@ -156,24 +133,36 @@ export default function Home() {
         <div className="content-column">
           <SectionHeader title="Upcoming Events" action="View all events" to="/events" />
           <ul className="event-list">
-            {EVENTS.map((evt) => (
-              <li key={evt.dateTime}>
-                <article>
-                  <NavLink to="/events" className="event-card">
-                    <time className="event-date" dateTime={evt.dateTime}>
-                      <span className="event-month">{evt.month}</span>
-                      <span className="event-day">{evt.day}</span>
-                    </time>
-                    <div className="event-info">
-                      <h4 className="line-clamp-2">{evt.title}</h4>
-                      <p className="event-meta">{evt.date}</p>
-                      <p className="event-loc">{evt.loc}</p>
-                    </div>
-                    <ArrowRight className="event-arrow" />
-                  </NavLink>
-                </article>
-              </li>
-            ))}
+            {upcomingEvents.map((evt) => {
+              const eventdate = evt.eventsFields?.eventdate
+              const date = eventdate ? new Date(eventdate) : null
+              const isoDate = date ? date.toISOString().slice(0, 10) : undefined
+              const month = date
+                ? date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
+                : ''
+              const day = date ? date.toLocaleDateString('en-US', { day: '2-digit' }) : ''
+              return (
+                <li key={evt.id}>
+                  <article>
+                    <NavLink to="/events" className="event-card">
+                      <time className="event-date" dateTime={isoDate}>
+                        <span className="event-month">{month}</span>
+                        <span className="event-day">{day}</span>
+                      </time>
+                      <div className="event-info">
+                        <h4
+                          className="line-clamp-2"
+                          dangerouslySetInnerHTML={{ __html: evt.title ?? '' }}
+                        />
+                        <p className="event-meta">{evt.eventsFields?.eventtime}</p>
+                        <p className="event-loc">{evt.eventsFields?.location}</p>
+                      </div>
+                      <ArrowRight className="event-arrow" />
+                    </NavLink>
+                  </article>
+                </li>
+              )
+            })}
           </ul>
         </div>
 
