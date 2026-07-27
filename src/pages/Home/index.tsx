@@ -1,38 +1,15 @@
 import { NavLink } from 'react-router'
 
-import activitiesCircleThumb from '@/assets/design/activities-circle-thumb.png'
-import activitiesFlagThumb from '@/assets/design/activities-flag-thumb.png'
-import activitiesIftarThumb from '@/assets/design/activities-iftar-thumb.png'
 import blogOliveThumb from '@/assets/design/blog-olive-thumb.png'
 import blogStudentThumb from '@/assets/design/blog-student-thumb.png'
 import blogTatreezThumb from '@/assets/design/blog-tatreez-thumb.png'
 import heroCollage from '@/assets/design/hero-collage-full.png'
 import oliveSprig from '@/assets/design/olive-sprig-left.png'
+import { useActivities } from '@/features/activities/useActivities'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import SectionHeader from '@/shared/components/SectionHeader'
-
-const ACTIVITIES = [
-  {
-    img: activitiesIftarThumb,
-    title: 'Community Iftar Brings Generations Together',
-    date: '2025-05-12',
-    displayDate: '12 May 2025',
-  },
-  {
-    img: activitiesFlagThumb,
-    title: 'Palestinian Flag Day in Helsinki',
-    date: '2025-05-02',
-    displayDate: '2 May 2025',
-  },
-  {
-    img: activitiesCircleThumb,
-    title: 'New Arabic Language Circle Starting in May',
-    date: '2025-04-28',
-    displayDate: '28 Apr 2025',
-  },
-]
 
 const BLOG_POSTS = [
   {
@@ -58,6 +35,8 @@ const BLOG_POSTS = [
 export default function Home() {
   const { data: eventsData } = useEvents()
   const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 3)
+  const { data: activitiesData } = useActivities()
+  const latestActivities = (activitiesData?.activities?.nodes ?? []).slice(0, 3)
 
   return (
     <>
@@ -170,16 +149,24 @@ export default function Home() {
         <div className="content-column">
           <SectionHeader title="Latest Activities" action="View all activities" to="/activities" />
           <ul className="article-list">
-            {ACTIVITIES.map((item) => (
-              <li key={item.date}>
+            {latestActivities.map((item) => (
+              <li key={item.id}>
                 <article>
                   <NavLink to="/activities" className="article-card">
                     <div className="article-thumb">
-                      <img src={item.img} alt="" />
+                      <img
+                        src={item.featuredImage?.node.sourceUrl ?? undefined}
+                        alt={item.featuredImage?.node.altText ?? ''}
+                      />
                     </div>
                     <div className="article-info">
-                      <h4 className="line-clamp-2">{item.title}</h4>
-                      <time dateTime={item.date}>{item.displayDate}</time>
+                      <h4
+                        className="line-clamp-2"
+                        dangerouslySetInnerHTML={{ __html: item.title ?? '' }}
+                      />
+                      <time dateTime={item.date ?? ''}>
+                        {item.date ? new Date(item.date).toLocaleDateString() : ''}
+                      </time>
                     </div>
                   </NavLink>
                 </article>

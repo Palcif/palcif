@@ -1,42 +1,14 @@
-import activitiesCircleThumb from '@/assets/design/activities-circle-thumb.png'
-import activitiesFlagThumb from '@/assets/design/activities-flag-thumb.png'
-import activitiesIftarThumb from '@/assets/design/activities-iftar-thumb.png'
+import { useActivities } from '@/features/activities/useActivities'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
+import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
 import SectionHeader from '@/shared/components/SectionHeader'
-
-const ACTIVITIES = [
-  {
-    img: activitiesIftarThumb,
-    title: 'Community Iftar Brings Generations Together',
-    excerpt:
-      'Families gathered to break fast during Ramadan, sharing dishes, stories, and prayers in a warm evening of togetherness.',
-    date: '2025-05-12',
-    displayDate: '12 May 2025',
-    category: 'Community',
-  },
-  {
-    img: activitiesFlagThumb,
-    title: 'Palestinian Flag Day in Helsinki',
-    excerpt:
-      'Members of the community came together in the city centre to raise the Palestinian flag and celebrate our identity.',
-    date: '2025-05-02',
-    displayDate: '2 May 2025',
-    category: 'Advocacy',
-  },
-  {
-    img: activitiesCircleThumb,
-    title: 'New Arabic Language Circle Starting in May',
-    excerpt:
-      'A friendly weekly circle for all levels to practice Arabic, learn Palestinian dialect, and explore cultural expressions.',
-    date: '2025-04-28',
-    displayDate: '28 Apr 2025',
-    category: 'Culture',
-  },
-]
 
 const CATEGORIES = ['All', 'Community', 'Culture', 'Advocacy', 'Family']
 
 export default function Activities() {
+  const { data, isLoading, isError } = useActivities()
+  const activities = data?.activities?.nodes ?? []
+
   return (
     <>
       {/* ── Page Hero ── */}
@@ -75,20 +47,32 @@ export default function Activities() {
             ))}
           </div>
 
+          {isLoading && <QueryLoading label="activities" />}
+          {isError && <QueryError label="activities" />}
+          {!isLoading && !isError && activities.length === 0 && <QueryEmpty label="activities" />}
+
           <ul className="activity-feed">
-            {ACTIVITIES.map((item) => (
-              <li key={item.date}>
+            {activities.map((item) => (
+              <li key={item.id}>
                 <article className="activity-card">
                   <div className="activity-card-thumb">
-                    <img src={item.img} alt="" loading="lazy" />
+                    <img
+                      src={item.featuredImage?.node.sourceUrl ?? undefined}
+                      alt={item.featuredImage?.node.altText ?? ''}
+                      loading="lazy"
+                    />
                   </div>
                   <div className="activity-card-body">
                     <div className="activity-card-meta">
-                      <span className="activity-category">{item.category}</span>
-                      <time dateTime={item.date}>{item.displayDate}</time>
+                      <span className="activity-category">
+                        {item.activityFields?.category?.[0] ?? ''}
+                      </span>
+                      <time dateTime={item.date ?? ''}>
+                        {item.date ? new Date(item.date).toLocaleDateString() : ''}
+                      </time>
                     </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.excerpt}</p>
+                    <h3 dangerouslySetInnerHTML={{ __html: item.title ?? '' }} />
+                    <p>{item.activityFields?.summary}</p>
                     <a href="#" className="activity-card-link">
                       Read more <ArrowRight />
                     </a>
