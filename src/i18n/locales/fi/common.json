@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "home": "Etusivu",
+    "events": "Tapahtumat",
+    "activities": "Toiminta",
+    "blog": "Blogi",
+    "about": "Meistä",
+    "contact": "Yhteystiedot"
+  },
+  "hero": {
+    "tagline": "Palestiinasta, sydämellä. Suomessa.",
+    "heading": "Juuremme. Kulttuurimme. Yhteisömme.",
+    "description": "Tervetullut paikka palestiinalaisille ja heidän ystävilleen Suomessa – yhdessä, kulttuurimme juhlien.",
+    "cta_join": "Liity yhteisöömme",
+    "cta_events": "Katso tapahtumat"
+  },
+  "footer": {
+    "tagline": "Rakentamassa siltoja Palestiinan ja Suomen välille kulttuurin ja yhteisön kautta.",
+    "newsletter_placeholder": "Sähköpostiosoitteesi",
+    "newsletter_subscribe": "Tilaa",
+    "newsletter_success": "Kiitos! Olet nyt tilannut uutiskirjeemme."
+  }
+}

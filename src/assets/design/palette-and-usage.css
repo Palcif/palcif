@@ -1,0 +1,29 @@
+/* Palestinian Community homepage tokens */
+:root {
+  --limestone: #f3efe7;
+  --surface: #e7e0d3;
+  --ink: #1b1a17;
+  --tatreez-red: #8e2a2b;
+  --olive-green: #153c2e;
+  --soft-gold: #d8c69a;
+}
+
+.tatreez-border {
+  background-image: url('./svg/tatreez-border.svg');
+  background-repeat: repeat-x;
+  background-size: auto 64px;
+  height: 64px;
+}
+
+.keffiyeh-bg {
+  background-image: url('./svg/keffiyeh-pattern.svg');
+  background-size: 240px 120px;
+}
+
+.palestinian-card {
+  background: var(--limestone);
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink), transparent 88%);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgb(27 26 23 / 10%);
+}

@@ -1,0 +1,23 @@
+{
+  "nav": {
+    "home": "Home",
+    "events": "Events",
+    "activities": "Activities",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "tagline": "From Palestine, with heart. In Finland.",
+    "heading": "Our roots. Our culture. Our community.",
+    "description": "A welcoming space for Palestinians and friends in Finland to connect, celebrate our heritage, and build a stronger future together.",
+    "cta_join": "Join Our Community",
+    "cta_events": "Explore Events"
+  },
+  "footer": {
+    "tagline": "Building bridges between Palestine and Finland through culture, community, and shared experiences.",
+    "newsletter_placeholder": "Your email address",
+    "newsletter_subscribe": "Subscribe",
+    "newsletter_success": "Thank you! You are now subscribed to our newsletter."
+  }
+}
