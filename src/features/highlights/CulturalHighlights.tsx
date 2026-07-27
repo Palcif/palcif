@@ -1,8 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router'
 
 import { useHighlights } from '@/features/highlights/useHighlights'
 import { ArrowRight, ChevronLeft, ChevronRight } from '@/shared/components/icons'
+
+// `linkUrl` is an editor-controlled SCF field intended to hold an internal
+// relative path (e.g. "/blog"). Reject anything else — including
+// `javascript:`/`data:` URIs and protocol-relative `//host` values — so an
+// unexpected field value can't become a script-execution or redirect vector.
+function toSafeRelativePath(value: string | null | undefined): string {
+  if (value && value.startsWith('/') && !value.startsWith('//')) {
+    return value
+  }
+  return '/blog'
+}
 
 export default function CulturalHighlights() {
   const { data, isLoading } = useHighlights()
@@ -13,7 +24,7 @@ export default function CulturalHighlights() {
     title: item.title ?? '',
     description: item.highlightFields?.description ?? '',
     tag: item.highlightFields?.tag ?? '',
-    to: item.highlightFields?.linkUrl ?? '',
+    to: toSafeRelativePath(item.highlightFields?.linkUrl),
   }))
 
   const trackRef = useRef<HTMLDivElement>(null)
@@ -21,7 +32,7 @@ export default function CulturalHighlights() {
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
 
-  const updateScrollState = () => {
+  const updateScrollState = useCallback(() => {
     const track = trackRef.current
     if (!track) return
     const { scrollLeft, scrollWidth, clientWidth } = track
@@ -34,7 +45,7 @@ export default function CulturalHighlights() {
     const cardWidth = cards[0].offsetWidth + parseFloat(getComputedStyle(track).gap || '0')
     const newIndex = Math.round(scrollLeft / cardWidth)
     setActiveIndex(Math.max(0, Math.min(newIndex, highlights.length - 1)))
-  }
+  }, [highlights.length])
 
   useEffect(() => {
     const track = trackRef.current
@@ -42,7 +53,7 @@ export default function CulturalHighlights() {
     updateScrollState()
     track.addEventListener('scroll', updateScrollState, { passive: true })
     return () => track.removeEventListener('scroll', updateScrollState)
-  }, [])
+  }, [updateScrollState])
 
   const scrollBy = (direction: -1 | 1) => {
     const track = trackRef.current
