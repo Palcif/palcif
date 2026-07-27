@@ -1,42 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router'
 
-import activitiesIftarThumb from '@/assets/design/activities-iftar-thumb.png'
-import blogOliveThumb from '@/assets/design/blog-olive-thumb.png'
-import blogTatreezThumb from '@/assets/design/blog-tatreez-thumb.png'
+import { useHighlights } from '@/features/highlights/useHighlights'
 import { ArrowRight, ChevronLeft, ChevronRight } from '@/shared/components/icons'
 
-const HIGHLIGHTS = [
-  {
-    id: 'olive-trees',
-    img: blogOliveThumb,
-    imgAlt: 'Olive branches against a sunlit Palestinian landscape',
-    title: 'Olive Trees in Our Culture',
-    description: 'A symbol of resilience, connection, and heritage.',
-    tag: 'Culture',
-    to: '/blog',
-  },
-  {
-    id: 'tatreez',
-    img: blogTatreezThumb,
-    imgAlt: 'Close-up of traditional Palestinian tatreez embroidery',
-    title: 'Tatreez: Stitches of Memory and Identity',
-    description: 'Each stitch tells a story passed down through generations.',
-    tag: 'Story',
-    to: '/blog',
-  },
-  {
-    id: 'maqluba',
-    img: activitiesIftarThumb,
-    imgAlt: 'Community members gathering around a shared Palestinian meal',
-    title: 'Traditional Maqluba Workshop',
-    description: 'Learn, cook, and share flavors from our Palestinian kitchen.',
-    tag: 'Workshop',
-    to: '/events',
-  },
-]
-
 export default function CulturalHighlights() {
+  const { data, isLoading } = useHighlights()
+  const highlights = (data?.highlight?.nodes ?? []).map((item) => ({
+    id: item.id,
+    img: item.featuredImage?.node.sourceUrl ?? undefined,
+    imgAlt: item.featuredImage?.node.altText ?? '',
+    title: item.title ?? '',
+    description: item.highlightFields?.description ?? '',
+    tag: item.highlightFields?.tag ?? '',
+    to: item.highlightFields?.linkUrl ?? '',
+  }))
+
   const trackRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -54,7 +33,7 @@ export default function CulturalHighlights() {
     if (cards.length === 0) return
     const cardWidth = cards[0].offsetWidth + parseFloat(getComputedStyle(track).gap || '0')
     const newIndex = Math.round(scrollLeft / cardWidth)
-    setActiveIndex(Math.max(0, Math.min(newIndex, HIGHLIGHTS.length - 1)))
+    setActiveIndex(Math.max(0, Math.min(newIndex, highlights.length - 1)))
   }
 
   useEffect(() => {
@@ -82,6 +61,8 @@ export default function CulturalHighlights() {
     const cardWidth = cards[0].offsetWidth + parseFloat(getComputedStyle(track).gap || '0')
     track.scrollTo({ left: index * cardWidth, behavior: 'smooth' })
   }
+
+  if (isLoading || highlights.length === 0) return null
 
   return (
     <section className="cultural-highlights" aria-labelledby="highlights-heading">
@@ -115,11 +96,11 @@ export default function CulturalHighlights() {
             aria-roledescription="carousel"
             aria-label="Cultural highlights"
           >
-            {HIGHLIGHTS.map((item, index) => (
+            {highlights.map((item, index) => (
               <article
                 key={item.id}
                 className="highlight-card"
-                aria-label={`${index + 1} of ${HIGHLIGHTS.length}`}
+                aria-label={`${index + 1} of ${highlights.length}`}
                 aria-roledescription="slide"
               >
                 <NavLink
@@ -131,7 +112,10 @@ export default function CulturalHighlights() {
                     <img src={item.img} alt={item.imgAlt} loading="lazy" />
                   </div>
                   <div className="highlight-body">
-                    <h3 id={`highlight-title-${item.id}`}>{item.title}</h3>
+                    <h3
+                      id={`highlight-title-${item.id}`}
+                      dangerouslySetInnerHTML={{ __html: item.title }}
+                    />
                     <p>{item.description}</p>
                     <span className="highlight-tag">{item.tag}</span>
                   </div>
@@ -152,7 +136,7 @@ export default function CulturalHighlights() {
         </div>
 
         <div className="highlights-dots" role="tablist" aria-label="Highlight pages">
-          {HIGHLIGHTS.map((item, index) => (
+          {highlights.map((item, index) => (
             <button
               key={item.id}
               type="button"

@@ -1,0 +1,19 @@
+query Highlights($language: LanguageCodeFilterEnum!) {
+  highlight(first: 12, where: { language: $language }) {
+    nodes {
+      id
+      title
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+      highlightFields {
+        description
+        tag
+        linkUrl: linkurl
+      }
+    }
+  }
+}
