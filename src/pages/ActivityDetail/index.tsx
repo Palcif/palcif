@@ -21,15 +21,7 @@ export default function ActivityDetail() {
         {!isLoading && !isError && !activity && <QueryEmpty label="activity" />}
 
         {activity && (
-          <article className="activity-card">
-            {activity.featuredImage?.node.sourceUrl && (
-              <div className="activity-card-thumb">
-                <img
-                  src={activity.featuredImage.node.sourceUrl}
-                  alt={activity.featuredImage.node.altText ?? ''}
-                />
-              </div>
-            )}
+          <article className="activity-card activity-card--solo">
             <div className="activity-card-body">
               <div className="activity-card-meta">
                 <span className="activity-category">

@@ -21,15 +21,7 @@ export default function BlogPost() {
         {!isLoading && !isError && !post && <QueryEmpty label="blog post" />}
 
         {post && (
-          <article className="blog-featured">
-            {post.featuredImage?.node.sourceUrl && (
-              <div className="blog-featured-image">
-                <img
-                  src={post.featuredImage.node.sourceUrl}
-                  alt={post.featuredImage.node.altText ?? ''}
-                />
-              </div>
-            )}
+          <article className="blog-featured blog-featured--solo">
             <div className="blog-featured-body">
               <div className="blog-meta">
                 <time dateTime={post.date ?? undefined}>

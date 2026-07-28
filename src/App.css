@@ -1408,6 +1408,10 @@
   transform: translateY(-2px);
 }
 
+.activity-card--solo {
+  grid-template-columns: 1fr;
+}
+
 .activity-card-thumb {
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -1645,6 +1649,10 @@
   box-shadow: 0 4px 18px rgba(27, 26, 23, 0.04);
 }
 
+.blog-featured--solo {
+  grid-template-columns: 1fr;
+}
+
 .blog-featured-image {
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -1671,6 +1679,15 @@
   line-height: 1.65;
   color: var(--text-secondary);
   margin-block-end: 18px;
+}
+
+.blog-featured-body img,
+.activity-card-body img,
+.event-details img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  margin-block: 18px;
 }
 
 .blog-grid {
