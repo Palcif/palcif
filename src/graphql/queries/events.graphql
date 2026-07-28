@@ -3,6 +3,7 @@ query Events($language: LanguageCodeFilterEnum!) {
     nodes {
       id
       title
+      slug
       content
       eventsFields {
         eventdate

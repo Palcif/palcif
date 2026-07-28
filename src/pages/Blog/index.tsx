@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router'
+
 import { useBlogPosts } from '@/features/blog/useBlogPosts'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
@@ -75,9 +77,9 @@ export default function Blog() {
                 <div className="blog-byline">
                   <span>By {featuredPost.author?.node.name}</span>
                 </div>
-                <a href={`/blog/${featuredPost.slug}`} className="blog-read-link">
+                <NavLink to={`/blog/${featuredPost.slug}`} className="blog-read-link">
                   Read article <ArrowRight />
-                </a>
+                </NavLink>
               </div>
             </article>
           </div>
@@ -112,9 +114,9 @@ export default function Blog() {
                       <div className="blog-byline">
                         <span>By {post.author?.node.name}</span>
                       </div>
-                      <a href={`/blog/${post.slug}`} className="blog-read-link">
+                      <NavLink to={`/blog/${post.slug}`} className="blog-read-link">
                         Read article <ArrowRight />
-                      </a>
+                      </NavLink>
                     </div>
                   </article>
                 </li>

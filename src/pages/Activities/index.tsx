@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router'
+
 import { useActivities } from '@/features/activities/useActivities'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
@@ -73,9 +75,9 @@ export default function Activities() {
                     </div>
                     <h3 dangerouslySetInnerHTML={{ __html: item.title ?? '' }} />
                     <p>{item.activityFields?.summary}</p>
-                    <a href="#" className="activity-card-link">
+                    <NavLink to={`/activities/${item.slug}`} className="activity-card-link">
                       Read more <ArrowRight />
-                    </a>
+                    </NavLink>
                   </div>
                 </article>
               </li>

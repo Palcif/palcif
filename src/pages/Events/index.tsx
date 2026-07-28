@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router'
+
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import { ArrowRight, FloralOrnament, MapPin } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
@@ -92,9 +94,9 @@ export default function Events() {
                           </span>
                         </div>
                       </div>
-                      <a href="#" className="event-card-link">
+                      <NavLink to={`/events/${evt.slug}`} className="event-card-link">
                         Details <ArrowRight />
-                      </a>
+                      </NavLink>
                     </article>
                   </li>
                 )

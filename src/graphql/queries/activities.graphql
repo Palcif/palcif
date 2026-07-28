@@ -3,6 +3,7 @@ query Activities($language: LanguageCodeFilterEnum!) {
     nodes {
       id
       title
+      slug
       date
       featuredImage {
         node {

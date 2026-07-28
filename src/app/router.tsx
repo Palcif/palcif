@@ -6,8 +6,11 @@ import RootLayout from './RootLayout'
 
 const Home = lazy(() => import('@/pages/Home'))
 const Events = lazy(() => import('@/pages/Events'))
+const EventDetail = lazy(() => import('@/pages/EventDetail'))
 const Activities = lazy(() => import('@/pages/Activities'))
+const ActivityDetail = lazy(() => import('@/pages/ActivityDetail'))
 const Blog = lazy(() => import('@/pages/Blog'))
+const BlogPost = lazy(() => import('@/pages/BlogPost'))
 const About = lazy(() => import('@/pages/About'))
 const Contact = lazy(() => import('@/pages/Contact'))
 
@@ -17,9 +20,12 @@ export const router = createHashRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'events', element: <Events /> },
+      { path: 'events/:slug', element: <EventDetail /> },
       { path: 'activities', element: <Activities /> },
+      { path: 'activities/:slug', element: <ActivityDetail /> },
       { path: 'news', element: <Navigate to="/activities" replace /> },
       { path: 'blog', element: <Blog /> },
+      { path: 'blog/:slug', element: <BlogPost /> },
       { path: 'about', element: <About /> },
       { path: 'contact', element: <Contact /> },
       { path: '*', element: <Home /> },
