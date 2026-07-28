@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router'
 import { useBlogPost } from '@/features/blog/useBlogPost'
 import { ChevronLeft } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
@@ -28,11 +29,14 @@ export default function BlogPost() {
                   {post.date ? new Date(post.date).toLocaleDateString() : ''}
                 </time>
               </div>
-              <h1 id="post-heading" dangerouslySetInnerHTML={{ __html: post.title ?? '' }} />
+              <h1
+                id="post-heading"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.title) }}
+              />
               <div className="blog-byline">
                 <span>By {post.author?.node.name}</span>
               </div>
-              <div dangerouslySetInnerHTML={{ __html: post.content ?? '' }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }} />
             </div>
           </article>
         )}

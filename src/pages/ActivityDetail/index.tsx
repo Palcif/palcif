@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router'
 import { useActivityDetail } from '@/features/activities/useActivityDetail'
 import { ChevronLeft } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function ActivityDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -33,9 +34,9 @@ export default function ActivityDetail() {
               </div>
               <h1
                 id="activity-heading"
-                dangerouslySetInnerHTML={{ __html: activity.title ?? '' }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(activity.title) }}
               />
-              <div dangerouslySetInnerHTML={{ __html: activity.content ?? '' }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(activity.content) }} />
             </div>
           </article>
         )}

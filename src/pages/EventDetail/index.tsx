@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router'
 import { useEventDetail } from '@/features/events/useEventDetail'
 import { ChevronLeft, MapPin } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function EventDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -23,7 +24,10 @@ export default function EventDetail() {
         {event && (
           <article className="event-card-detailed">
             <div className="event-details">
-              <h1 id="event-heading" dangerouslySetInnerHTML={{ __html: event.title ?? '' }} />
+              <h1
+                id="event-heading"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.title) }}
+              />
               <div className="event-meta-row">
                 <span>
                   {event.eventsFields?.eventdate
@@ -37,7 +41,7 @@ export default function EventDetail() {
                   <MapPin /> {event.eventsFields?.location}
                 </span>
               </div>
-              <div dangerouslySetInnerHTML={{ __html: event.content ?? '' }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.content) }} />
             </div>
           </article>
         )}

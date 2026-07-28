@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 
 import { useHighlights } from '@/features/highlights/useHighlights'
 import { ArrowRight, ChevronLeft, ChevronRight } from '@/shared/components/icons'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 // `linkUrl` is an editor-controlled SCF field intended to hold an internal
 // relative path (e.g. "/blog"). Reject anything else — including
@@ -125,7 +126,7 @@ export default function CulturalHighlights() {
                   <div className="highlight-body">
                     <h3
                       id={`highlight-title-${item.id}`}
-                      dangerouslySetInnerHTML={{ __html: item.title }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }}
                     />
                     <p>{item.description}</p>
                     <span className="highlight-tag">{item.tag}</span>

@@ -4,6 +4,7 @@ import { useActivities } from '@/features/activities/useActivities'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
 import SectionHeader from '@/shared/components/SectionHeader'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 const CATEGORIES = ['All', 'Community', 'Culture', 'Advocacy', 'Family']
 
@@ -73,7 +74,7 @@ export default function Activities() {
                         {item.date ? new Date(item.date).toLocaleDateString() : ''}
                       </time>
                     </div>
-                    <h3 dangerouslySetInnerHTML={{ __html: item.title ?? '' }} />
+                    <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }} />
                     <p>{item.activityFields?.summary}</p>
                     <NavLink to={`/activities/${item.slug}`} className="activity-card-link">
                       Read more <ArrowRight />

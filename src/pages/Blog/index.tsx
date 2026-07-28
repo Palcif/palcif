@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 import { useBlogPosts } from '@/features/blog/useBlogPosts'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function Blog() {
   const { data, isLoading, isError } = useBlogPosts()
@@ -72,8 +73,8 @@ export default function Blog() {
                     {featuredPost.date ? new Date(featuredPost.date).toLocaleDateString() : ''}
                   </time>
                 </div>
-                <h2 dangerouslySetInnerHTML={{ __html: featuredPost.title ?? '' }} />
-                <p dangerouslySetInnerHTML={{ __html: featuredPost.excerpt ?? '' }} />
+                <h2 dangerouslySetInnerHTML={{ __html: sanitizeHtml(featuredPost.title) }} />
+                <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(featuredPost.excerpt) }} />
                 <div className="blog-byline">
                   <span>By {featuredPost.author?.node.name}</span>
                 </div>
@@ -109,8 +110,8 @@ export default function Blog() {
                           {post.date ? new Date(post.date).toLocaleDateString() : ''}
                         </time>
                       </div>
-                      <h3 dangerouslySetInnerHTML={{ __html: post.title ?? '' }} />
-                      <p dangerouslySetInnerHTML={{ __html: post.excerpt ?? '' }} />
+                      <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.title) }} />
+                      <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt) }} />
                       <div className="blog-byline">
                         <span>By {post.author?.node.name}</span>
                       </div>

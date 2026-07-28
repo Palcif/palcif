@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import { ArrowRight, FloralOrnament, MapPin } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 function formatEventDate(eventdate: string | null | undefined) {
   const date = eventdate ? new Date(eventdate) : null
@@ -81,10 +82,10 @@ export default function Events() {
                         <span className="event-day">{day}</span>
                       </time>
                       <div className="event-details">
-                        <h3 dangerouslySetInnerHTML={{ __html: evt.title ?? '' }} />
+                        <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }} />
                         <p
                           className="event-description"
-                          dangerouslySetInnerHTML={{ __html: evt.content ?? '' }}
+                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.content) }}
                         />
                         <div className="event-meta-row">
                           <span>{evt.eventsFields?.eventtime}</span>
@@ -124,7 +125,7 @@ export default function Events() {
                         <span className="event-day">{day}</span>
                       </time>
                       <div className="event-info">
-                        <h4 dangerouslySetInnerHTML={{ __html: evt.title ?? '' }} />
+                        <h4 dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }} />
                         <p className="event-loc">{evt.eventsFields?.location}</p>
                       </div>
                       <ArrowRight className="event-arrow" />

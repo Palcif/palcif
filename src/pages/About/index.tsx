@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 import heroCollage from '@/assets/design/hero-collage-full.png'
 import { useAboutPage } from '@/features/page-copy/useAboutPage'
 import { BookOpen, FloralOrnament, Heart, Users } from '@/shared/components/icons'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 const VALUES = [
   {
@@ -63,7 +64,7 @@ export default function About() {
             </div>
             <div className="about-split-body">
               <h2 id="our-story-heading">Our Story</h2>
-              <div dangerouslySetInnerHTML={{ __html: about?.storyBody ?? '' }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(about?.storyBody) }} />
               <NavLink to="/contact" className="btn-primary">
                 Get in Touch
               </NavLink>
