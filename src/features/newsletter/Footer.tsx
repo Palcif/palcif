@@ -18,15 +18,33 @@ const navLinks = [
   { to: '/contact', label: 'Contact', end: false },
 ]
 
+// Social links are editor-controlled SCF URL fields intended to hold
+// external http(s) links. Reject anything else — including `javascript:`
+// URIs — so an unexpected field value can't become a script-execution
+// vector when clicked.
+function toSafeExternalUrl(value: string | null | undefined): string {
+  if (!value) return '#'
+  try {
+    const url = new URL(value)
+    return url.protocol === 'http:' || url.protocol === 'https:' ? value : '#'
+  } catch {
+    return '#'
+  }
+}
+
 export default function Footer() {
   const { data } = useSiteSettings()
   const settings = data?.siteSettings?.siteSettingsFields
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [
-    { href: settings?.socialFacebook ?? '#', label: 'Facebook', icon: SocialFacebook },
-    { href: settings?.socialInstagram ?? '#', label: 'Instagram', icon: SocialInstagram },
-    { href: settings?.socialWhatsapp ?? '#', label: 'WhatsApp', icon: SocialWhatsApp },
+    { href: toSafeExternalUrl(settings?.socialFacebook), label: 'Facebook', icon: SocialFacebook },
+    {
+      href: toSafeExternalUrl(settings?.socialInstagram),
+      label: 'Instagram',
+      icon: SocialInstagram,
+    },
+    { href: toSafeExternalUrl(settings?.socialWhatsapp), label: 'WhatsApp', icon: SocialWhatsApp },
     { href: `mailto:${settings?.email ?? 'info@palcif.fi'}`, label: 'Email', icon: SocialEmail },
   ]
 
