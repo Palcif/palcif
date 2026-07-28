@@ -4,12 +4,6 @@ query ActivityDetail($slug: ID!) {
     title
     content
     date
-    featuredImage {
-      node {
-        sourceUrl
-        altText
-      }
-    }
     activityFields {
       category
       summary

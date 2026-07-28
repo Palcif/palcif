@@ -9,11 +9,5 @@ query BlogPost($slug: ID!) {
         name
       }
     }
-    featuredImage {
-      node {
-        sourceUrl
-        altText
-      }
-    }
   }
 }
