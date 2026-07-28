@@ -8,6 +8,7 @@ import oliveSprig from '@/assets/design/olive-sprig-left.png'
 import { useActivities } from '@/features/activities/useActivities'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
+import { useHomePage } from '@/features/page-copy/useHomePage'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import SectionHeader from '@/shared/components/SectionHeader'
 
@@ -37,6 +38,8 @@ export default function Home() {
   const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 3)
   const { data: activitiesData } = useActivities()
   const latestActivities = (activitiesData?.activities?.nodes ?? []).slice(0, 3)
+  const { data: homeData } = useHomePage()
+  const home = homeData?.page?.homeFields
 
   return (
     <>
@@ -52,14 +55,17 @@ export default function Home() {
               width="88"
               height="340"
             />
-            <p className="hero-tagline">From Palestine, with heart. In Finland.</p>
-            <h1 id="hero-heading">
-              Our roots.
-              <br />
-              Our culture.
-              <br />
-              <span className="accent">Our community.</span>
-            </h1>
+            <p className="hero-tagline">
+              {home?.heroTagline ?? 'From Palestine, with heart. In Finland.'}
+            </p>
+            <h1
+              id="hero-heading"
+              dangerouslySetInnerHTML={{
+                __html:
+                  home?.heroHeading ??
+                  'Our roots.<br />Our culture.<br /><span class="accent">Our community.</span>',
+              }}
+            />
 
             <div className="hero-divider">
               <span className="hero-divider-line" />
@@ -76,8 +82,8 @@ export default function Home() {
             </div>
 
             <p className="hero-description">
-              A welcoming space for Palestinians and friends in Finland to connect, celebrate our
-              heritage, and build a stronger future together.
+              {home?.heroDescription ??
+                'A welcoming space for Palestinians and friends in Finland to connect, celebrate our heritage, and build a stronger future together.'}
             </p>
             <div className="hero-actions">
               <NavLink to="/about" className="btn-primary">

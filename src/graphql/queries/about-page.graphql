@@ -1,0 +1,12 @@
+query AboutPage($slug: ID!) {
+  page(id: $slug, idType: URI) {
+    aboutFields {
+      heroTagline: herotagline
+      heroHeading: heroheading
+      heroDescription: herodescription
+      storyBody: storybody
+      joinHeading: joinheading
+      joinDescription: joindescription
+    }
+  }
+}

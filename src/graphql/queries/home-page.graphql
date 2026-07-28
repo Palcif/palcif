@@ -1,0 +1,9 @@
+query HomePage($slug: ID!) {
+  page(id: $slug, idType: URI) {
+    homeFields {
+      heroTagline: herotagline
+      heroHeading: heroheading
+      heroDescription: herodescription
+    }
+  }
+}

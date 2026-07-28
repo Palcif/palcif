@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router'
 
 import logoUrl from '@/assets/design/logo-header.png'
+import { useSiteSettings } from '@/features/site-settings/useSiteSettings'
 import {
   SocialEmail,
   SocialFacebook,
@@ -17,15 +18,17 @@ const navLinks = [
   { to: '/contact', label: 'Contact', end: false },
 ]
 
-const socialLinks = [
-  { href: '#', label: 'Facebook', icon: SocialFacebook },
-  { href: '#', label: 'Instagram', icon: SocialInstagram },
-  { href: '#', label: 'WhatsApp', icon: SocialWhatsApp },
-  { href: 'mailto:info@palcif.fi', label: 'Email', icon: SocialEmail },
-]
-
 export default function Footer() {
+  const { data } = useSiteSettings()
+  const settings = data?.siteSettings?.siteSettingsFields
   const currentYear = new Date().getFullYear()
+
+  const socialLinks = [
+    { href: settings?.socialFacebook ?? '#', label: 'Facebook', icon: SocialFacebook },
+    { href: settings?.socialInstagram ?? '#', label: 'Instagram', icon: SocialInstagram },
+    { href: settings?.socialWhatsapp ?? '#', label: 'WhatsApp', icon: SocialWhatsApp },
+    { href: `mailto:${settings?.email ?? 'info@palcif.fi'}`, label: 'Email', icon: SocialEmail },
+  ]
 
   return (
     <footer className="site-footer" role="contentinfo" aria-label="Site footer">
@@ -42,9 +45,8 @@ export default function Footer() {
               <img src={logoUrl} alt="Palestinian Community in Finland" width="80" height="60" />
             </NavLink>
             <p className="footer-tagline">
-              Our roots. Our culture. Our community.
-              <br />
-              From Palestine, with heart. In Finland.
+              {settings?.footerTagline ??
+                'Our roots. Our culture. Our community. From Palestine, with heart. In Finland.'}
             </p>
           </div>
 
@@ -67,10 +69,12 @@ export default function Footer() {
           <div className="footer-contact">
             <h4 className="footer-heading">Connect</h4>
             <address className="footer-address">
-              <p>Palestinian Community in Finland ry</p>
-              <p>Helsinki, Finland</p>
+              <p>{settings?.orgName ?? 'Palestinian Community in Finland ry'}</p>
+              <p>{settings?.address ?? 'Helsinki, Finland'}</p>
               <p>
-                <a href="mailto:info@palcif.fi">info@palcif.fi</a>
+                <a href={`mailto:${settings?.email ?? 'info@palcif.fi'}`}>
+                  {settings?.email ?? 'info@palcif.fi'}
+                </a>
               </p>
             </address>
             <div className="footer-social">
@@ -92,7 +96,8 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p className="footer-copyright">
-            &copy; {currentYear} Palestinian Community in Finland. All rights reserved.
+            {settings?.copyrightLine ??
+              `© ${currentYear} Palestinian Community in Finland. All rights reserved.`}
           </p>
           <div className="footer-legal">
             <a href="#" className="footer-link">

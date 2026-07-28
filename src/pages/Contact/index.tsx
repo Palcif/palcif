@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { useContactPage } from '@/features/page-copy/useContactPage'
+import { useSiteSettings } from '@/features/site-settings/useSiteSettings'
 import {
   FloralOrnament,
   Mail,
@@ -19,6 +21,9 @@ const socialLinks = [
 ]
 
 export default function Contact() {
+  const { data: contactData } = useContactPage()
+  const { data: settingsData } = useSiteSettings()
+  const settings = settingsData?.siteSettings?.siteSettingsFields
   const [formState, setFormState] = useState({
     name: '',
     email: '',
@@ -68,17 +73,20 @@ export default function Contact() {
             <div className="contact-info">
               <h2>Get in Touch</h2>
               <p>
-                Whether you want to volunteer, partner with us, or learn more about our community,
-                our team is here to help.
+                {contactData?.page?.contactFields?.contactIntro ??
+                  'Whether you want to volunteer, partner with us, or learn more about our community, our team is here to help.'}
               </p>
 
               <ul className="contact-methods">
                 <li>
-                  <a href="mailto:info@palcif.fi" className="contact-method">
+                  <a
+                    href={`mailto:${settings?.email ?? 'info@palcif.fi'}`}
+                    className="contact-method"
+                  >
                     <span className="contact-method-icon">
                       <Mail />
                     </span>
-                    <span>info@palcif.fi</span>
+                    <span>{settings?.email ?? 'info@palcif.fi'}</span>
                   </a>
                 </li>
                 <li>
@@ -86,7 +94,7 @@ export default function Contact() {
                     <span className="contact-method-icon">
                       <MapPin />
                     </span>
-                    <span>Helsinki, Finland</span>
+                    <span>{settings?.address ?? 'Helsinki, Finland'}</span>
                   </span>
                 </li>
               </ul>
