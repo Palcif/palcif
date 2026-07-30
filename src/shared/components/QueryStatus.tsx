@@ -1,23 +1,28 @@
+import { useTranslation } from 'react-i18next'
+
 export function QueryLoading({ label }: { label: string }) {
+  const { t } = useTranslation()
   return (
     <div className="query-status query-status-loading" role="status">
-      <p>Loading {label}…</p>
+      <p>{t('query.loading', { label })}</p>
     </div>
   )
 }
 
 export function QueryError({ label }: { label: string }) {
+  const { t } = useTranslation()
   return (
     <div className="query-status query-status-error" role="alert">
-      <p>We couldn&apos;t load {label} right now. Please try again later.</p>
+      <p>{t('query.error', { label })}</p>
     </div>
   )
 }
 
 export function QueryEmpty({ label }: { label: string }) {
+  const { t } = useTranslation()
   return (
     <div className="query-status query-status-empty">
-      <p>No {label} yet — check back soon.</p>
+      <p>{t('query.empty', { label })}</p>
     </div>
   )
 }

@@ -8,7 +8,7 @@ import Header from '@/shared/components/Header'
 const RTL_LANGUAGES = ['ar']
 
 export default function RootLayout() {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     document.documentElement.lang = i18n.language
@@ -18,7 +18,7 @@ export default function RootLayout() {
   return (
     <div className="page">
       <a href="#main-content" className="skip-link">
-        Skip to main content
+        {t('common.skipToContent')}
       </a>
       <Header />
       <main id="main-content">

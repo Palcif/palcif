@@ -2093,6 +2093,63 @@
 }
 
 /* ═══════════════════════════════════════════════
+   SKELETON: loading placeholders
+   ═══════════════════════════════════════════════ */
+.skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-warm) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-radius-sm {
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-radius-md {
+  border-radius: var(--radius-md);
+}
+
+.skeleton-radius-lg {
+  border-radius: var(--radius-lg);
+}
+
+.skeleton-fill {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.skeleton-line {
+  margin-block-end: 8px;
+}
+
+.skeleton-line:last-child {
+  margin-block-end: 0;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+    background: var(--surface-warm);
+  }
+}
+
+/* ═══════════════════════════════════════════════
    RESPONSIVE: Pages
    ═══════════════════════════════════════════════ */
 @media (max-width: 1024px) {

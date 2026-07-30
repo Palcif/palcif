@@ -9,19 +9,19 @@ type Lang = 'FI' | 'EN' | 'AR'
 const LANG_TO_I18N: Record<Lang, string> = { FI: 'fi', EN: 'en', AR: 'ar' }
 const I18N_TO_LANG: Record<string, Lang> = { fi: 'FI', en: 'EN', ar: 'AR' }
 
-const navLinks = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/events', label: 'Events', end: false },
-  { to: '/activities', label: 'Activities', end: false },
-  { to: '/blog', label: 'Blog', end: false },
-  { to: '/about', label: 'About', end: false },
-  { to: '/contact', label: 'Contact', end: false },
-]
-
 export default function Header() {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const lang = I18N_TO_LANG[i18n.language] ?? 'EN'
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const navLinks = [
+    { to: '/', label: t('nav.home'), end: true },
+    { to: '/events', label: t('nav.events'), end: false },
+    { to: '/activities', label: t('nav.activities'), end: false },
+    { to: '/blog', label: t('nav.blog'), end: false },
+    { to: '/about', label: t('nav.about'), end: false },
+    { to: '/contact', label: t('nav.contact'), end: false },
+  ]
 
   const setLang = (l: Lang) => {
     void i18n.changeLanguage(LANG_TO_I18N[l])
@@ -41,11 +41,11 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="header-card">
-        <NavLink to="/" className="logo" aria-label="Palestinian Community in Finland — Home">
-          <img src={logoUrl} alt="Palestinian Community in Finland" className="logo-img" />
+        <NavLink to="/" className="logo" aria-label={t('header.homeAriaLabel')}>
+          <img src={logoUrl} alt={t('header.logoAlt')} className="logo-img" />
         </NavLink>
 
-        <nav className="main-nav" aria-label="Main navigation">
+        <nav className="main-nav" aria-label={t('header.mainNavAria')}>
           {navLinks.map(({ to, label, end }) => (
             <NavLink
               key={to}
@@ -58,7 +58,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="lang-switcher" aria-label="Language selector">
+        <div className="lang-switcher" aria-label={t('header.langSelectorAria')}>
           {(['FI', 'EN', 'AR'] as Lang[]).map((l) => (
             <button
               key={l}
@@ -75,7 +75,7 @@ export default function Header() {
         <button
           className={`mobile-menu-btn${menuOpen ? ' open' : ''}`}
           type="button"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={menuOpen ? t('header.menuCloseAria') : t('header.menuOpenAria')}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((prev) => !prev)}
@@ -92,7 +92,7 @@ export default function Header() {
         className={`mobile-menu${menuOpen ? ' open' : ''}`}
         aria-hidden={!menuOpen}
       >
-        <nav className="mobile-nav" aria-label="Mobile navigation">
+        <nav className="mobile-nav" aria-label={t('header.mobileNavAria')}>
           {navLinks.map(({ to, label, end }) => (
             <NavLink
               key={to}
@@ -105,7 +105,7 @@ export default function Header() {
             </NavLink>
           ))}
         </nav>
-        <div className="mobile-lang-switcher" aria-label="Mobile language selector">
+        <div className="mobile-lang-switcher" aria-label={t('header.mobileLangSelectorAria')}>
           {(['FI', 'EN', 'AR'] as Lang[]).map((l) => (
             <button
               key={l}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 import logoUrl from '@/assets/design/logo-header.png'
@@ -10,44 +11,53 @@ import {
 } from '@/shared/components/icons'
 import { toSafeExternalUrl } from '@/shared/utils/url'
 
-const navLinks = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/events', label: 'Events', end: false },
-  { to: '/activities', label: 'Activities', end: false },
-  { to: '/blog', label: 'Blog', end: false },
-  { to: '/about', label: 'About', end: false },
-  { to: '/contact', label: 'Contact', end: false },
-]
-
 export default function Footer() {
+  const { t } = useTranslation()
   const { data } = useSiteSettings()
   const settings = data?.siteSettings?.siteSettingsFields
   const currentYear = new Date().getFullYear()
 
+  const navLinks = [
+    { to: '/', label: t('nav.home'), end: true },
+    { to: '/events', label: t('nav.events'), end: false },
+    { to: '/activities', label: t('nav.activities'), end: false },
+    { to: '/blog', label: t('nav.blog'), end: false },
+    { to: '/about', label: t('nav.about'), end: false },
+    { to: '/contact', label: t('nav.contact'), end: false },
+  ]
+
   const socialLinks = [
-    { href: toSafeExternalUrl(settings?.socialFacebook), label: 'Facebook', icon: SocialFacebook },
+    {
+      href: toSafeExternalUrl(settings?.socialFacebook),
+      label: t('social.facebook'),
+      icon: SocialFacebook,
+    },
     {
       href: toSafeExternalUrl(settings?.socialInstagram),
-      label: 'Instagram',
+      label: t('social.instagram'),
       icon: SocialInstagram,
     },
-    { href: toSafeExternalUrl(settings?.socialWhatsapp), label: 'WhatsApp', icon: SocialWhatsApp },
-    { href: `mailto:${settings?.email ?? 'info@palcif.fi'}`, label: 'Email', icon: SocialEmail },
+    {
+      href: toSafeExternalUrl(settings?.socialWhatsapp),
+      label: t('social.whatsapp'),
+      icon: SocialWhatsApp,
+    },
+    {
+      href: `mailto:${settings?.email ?? 'info@palcif.fi'}`,
+      label: t('social.email'),
+      icon: SocialEmail,
+    },
   ]
 
   return (
-    <footer className="site-footer" role="contentinfo" aria-label="Site footer">
+    <footer className="site-footer" role="contentinfo" aria-label={t('footer.ariaLabel')}>
       <div className="footer-pattern" role="presentation" aria-hidden="true" />
 
       <div className="footer-main">
         <div className="footer-grid">
           <div className="footer-brand">
-            <NavLink
-              to="/"
-              className="footer-logo"
-              aria-label="Palestinian Community in Finland — Home"
-            >
-              <img src={logoUrl} alt="Palestinian Community in Finland" width="80" height="60" />
+            <NavLink to="/" className="footer-logo" aria-label={t('header.homeAriaLabel')}>
+              <img src={logoUrl} alt={t('header.logoAlt')} width="80" height="60" />
             </NavLink>
             <p className="footer-tagline">
               {settings?.footerTagline ??
@@ -56,8 +66,8 @@ export default function Footer() {
           </div>
 
           <div className="footer-nav-group">
-            <h4 className="footer-heading">Explore</h4>
-            <nav className="footer-nav" aria-label="Footer navigation">
+            <h4 className="footer-heading">{t('footer.headingExplore')}</h4>
+            <nav className="footer-nav" aria-label={t('footer.navAriaLabel')}>
               {navLinks.map(({ to, label, end }) => (
                 <NavLink
                   key={to}
@@ -72,7 +82,7 @@ export default function Footer() {
           </div>
 
           <div className="footer-contact">
-            <h4 className="footer-heading">Connect</h4>
+            <h4 className="footer-heading">{t('footer.headingConnect')}</h4>
             <address className="footer-address">
               <p>{settings?.orgName ?? 'Palestinian Community in Finland ry'}</p>
               <p>{settings?.address ?? 'Helsinki, Finland'}</p>
@@ -106,11 +116,11 @@ export default function Footer() {
           </p>
           <div className="footer-legal">
             <a href="#" className="footer-link">
-              Privacy Policy
+              {t('footer.privacyPolicy')}
             </a>
             <span className="footer-legal-divider" aria-hidden="true" />
             <a href="#" className="footer-link">
-              Terms of Use
+              {t('footer.termsOfUse')}
             </a>
           </div>
         </div>

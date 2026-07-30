@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useContactPage } from '@/features/page-copy/useContactPage'
 import { useSiteSettings } from '@/features/site-settings/useSiteSettings'
@@ -12,22 +13,36 @@ import {
   SocialInstagram,
   SocialWhatsApp,
 } from '@/shared/components/icons'
+import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
 import { toSafeExternalUrl } from '@/shared/utils/url'
 
 export default function Contact() {
-  const { data: contactData } = useContactPage()
+  const { t } = useTranslation()
+  const { data: contactData, isLoading: contactLoading } = useContactPage()
   const { data: settingsData } = useSiteSettings()
   const settings = settingsData?.siteSettings?.siteSettingsFields
 
   const socialLinks = [
-    { href: toSafeExternalUrl(settings?.socialFacebook), label: 'Facebook', icon: SocialFacebook },
+    {
+      href: toSafeExternalUrl(settings?.socialFacebook),
+      label: t('social.facebook'),
+      icon: SocialFacebook,
+    },
     {
       href: toSafeExternalUrl(settings?.socialInstagram),
-      label: 'Instagram',
+      label: t('social.instagram'),
       icon: SocialInstagram,
     },
-    { href: toSafeExternalUrl(settings?.socialWhatsapp), label: 'WhatsApp', icon: SocialWhatsApp },
-    { href: `mailto:${settings?.email ?? 'info@palcif.fi'}`, label: 'Email', icon: SocialEmail },
+    {
+      href: toSafeExternalUrl(settings?.socialWhatsapp),
+      label: t('social.whatsapp'),
+      icon: SocialWhatsApp,
+    },
+    {
+      href: `mailto:${settings?.email ?? 'info@palcif.fi'}`,
+      label: t('social.email'),
+      icon: SocialEmail,
+    },
   ]
   const [formState, setFormState] = useState({
     name: '',
@@ -54,32 +69,33 @@ export default function Contact() {
       {/* ── Page Hero ── */}
       <section className="page-hero" aria-labelledby="contact-heading">
         <div className="page-hero-inner">
-          <p className="page-hero-tagline">We would love to hear from you</p>
-          <h1 id="contact-heading">Contact</h1>
+          <p className="page-hero-tagline">{t('pages.contact.tagline')}</p>
+          <h1 id="contact-heading">{t('pages.contact.title')}</h1>
           <div className="page-hero-divider">
             <span className="page-hero-line" />
             <FloralOrnament />
             <span className="page-hero-line" />
           </div>
-          <p className="page-hero-description">
-            Questions, ideas, or just want to say hello? Reach out and we will get back to you as
-            soon as we can.
-          </p>
+          <p className="page-hero-description">{t('pages.contact.description')}</p>
         </div>
       </section>
 
       <div className="tatreez-divider" role="presentation" />
 
       {/* ── Contact Layout ── */}
-      <section className="page-section" aria-label="Contact information and form">
+      <section className="page-section" aria-label={t('pages.contact.formSectionAriaLabel')}>
         <div className="page-section-inner">
           <div className="contact-grid">
             {/* Contact Info */}
             <div className="contact-info">
-              <h2>Get in Touch</h2>
+              <h2>{t('pages.contact.getInTouch')}</h2>
               <p>
-                {contactData?.page?.contactFields?.contactIntro ??
-                  'Whether you want to volunteer, partner with us, or learn more about our community, our team is here to help.'}
+                {contactLoading ? (
+                  <SkeletonLines widths={['100%', '70%']} height={15} />
+                ) : (
+                  (contactData?.page?.contactFields?.contactIntro ??
+                  'Whether you want to volunteer, partner with us, or learn more about our community, our team is here to help.')
+                )}
               </p>
 
               <ul className="contact-methods">
@@ -105,7 +121,7 @@ export default function Contact() {
               </ul>
 
               <div className="contact-social">
-                <h3>Follow Us</h3>
+                <h3>{t('pages.contact.followUs')}</h3>
                 <div className="footer-social">
                   {socialLinks.map(({ href, label, icon: Icon }) => (
                     <a
@@ -127,8 +143,12 @@ export default function Contact() {
             <div className="contact-form-card">
               {submitted ? (
                 <div className="contact-success">
-                  <h3>Thank you, {formState.name || 'friend'}!</h3>
-                  <p>Your message has been sent. We will be in touch soon.</p>
+                  <h3>
+                    {t('pages.contact.successThanks', {
+                      name: formState.name || t('pages.contact.successFallbackName'),
+                    })}
+                  </h3>
+                  <p>{t('pages.contact.successBody')}</p>
                   <button
                     type="button"
                     className="btn-primary"
@@ -137,40 +157,44 @@ export default function Contact() {
                       setFormState({ name: '', email: '', subject: '', message: '' })
                     }}
                   >
-                    Send another message
+                    {t('pages.contact.sendAnother')}
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="contact-form" aria-label="Contact form">
+                <form
+                  onSubmit={handleSubmit}
+                  className="contact-form"
+                  aria-label={t('pages.contact.formAriaLabel')}
+                >
                   <div className="form-row">
                     <div className="form-field">
-                      <label htmlFor="contact-name">Name</label>
+                      <label htmlFor="contact-name">{t('pages.contact.nameLabel')}</label>
                       <input
                         id="contact-name"
                         name="name"
                         type="text"
                         value={formState.name}
                         onChange={handleChange}
-                        placeholder="Your name"
+                        placeholder={t('pages.contact.namePlaceholder')}
                         required
                       />
                     </div>
                     <div className="form-field">
-                      <label htmlFor="contact-email">Email</label>
+                      <label htmlFor="contact-email">{t('pages.contact.emailLabel')}</label>
                       <input
                         id="contact-email"
                         name="email"
                         type="email"
                         value={formState.email}
                         onChange={handleChange}
-                        placeholder="you@example.com"
+                        placeholder={t('pages.contact.emailPlaceholder')}
                         required
                       />
                     </div>
                   </div>
 
                   <div className="form-field">
-                    <label htmlFor="contact-subject">Subject</label>
+                    <label htmlFor="contact-subject">{t('pages.contact.subjectLabel')}</label>
                     <select
                       id="contact-subject"
                       name="subject"
@@ -179,31 +203,35 @@ export default function Contact() {
                       required
                     >
                       <option value="" disabled>
-                        Select a topic
+                        {t('pages.contact.subjectPlaceholder')}
                       </option>
-                      <option value="general">General question</option>
-                      <option value="events">Events & activities</option>
-                      <option value="volunteer">Volunteering</option>
-                      <option value="partnership">Partnership</option>
-                      <option value="other">Other</option>
+                      <option value="general">{t('pages.contact.subjectOptions.general')}</option>
+                      <option value="events">{t('pages.contact.subjectOptions.events')}</option>
+                      <option value="volunteer">
+                        {t('pages.contact.subjectOptions.volunteer')}
+                      </option>
+                      <option value="partnership">
+                        {t('pages.contact.subjectOptions.partnership')}
+                      </option>
+                      <option value="other">{t('pages.contact.subjectOptions.other')}</option>
                     </select>
                   </div>
 
                   <div className="form-field">
-                    <label htmlFor="contact-message">Message</label>
+                    <label htmlFor="contact-message">{t('pages.contact.messageLabel')}</label>
                     <textarea
                       id="contact-message"
                       name="message"
                       value={formState.message}
                       onChange={handleChange}
-                      placeholder="How can we help?"
+                      placeholder={t('pages.contact.messagePlaceholder')}
                       rows={5}
                       required
                     />
                   </div>
 
                   <button type="submit" className="btn-primary btn-full">
-                    Send Message
+                    {t('pages.contact.send')}
                     <Send className="btn-icon" />
                   </button>
                 </form>

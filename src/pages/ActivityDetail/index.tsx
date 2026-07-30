@@ -1,12 +1,16 @@
+import { useTranslation } from 'react-i18next'
 import { NavLink, useParams } from 'react-router'
 
 import { useActivityDetail } from '@/features/activities/useActivityDetail'
 import { ChevronLeft } from '@/shared/components/icons'
-import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
+import { Skeleton } from '@/shared/components/skeletons/Skeleton'
+import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
 import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function ActivityDetail() {
+  const { t } = useTranslation()
   const { slug } = useParams<{ slug: string }>()
   const { data, isLoading, isError } = useActivityDetail(slug ?? '')
   const activity = data?.activity
@@ -15,12 +19,25 @@ export default function ActivityDetail() {
     <section className="page-section" aria-labelledby="activity-heading">
       <div className="page-section-inner">
         <NavLink to="/activities" className="activity-card-link">
-          <ChevronLeft /> Back to Activities
+          <ChevronLeft /> {t('pages.activities.backToActivities')}
         </NavLink>
 
-        {isLoading && <QueryLoading label="activity" />}
-        {isError && <QueryError label="activity" />}
-        {!isLoading && !isError && !activity && <QueryEmpty label="activity" />}
+        {isLoading && (
+          <article
+            className="activity-card activity-card--solo"
+            role="status"
+            aria-live="polite"
+            aria-label={t('query.loading', { label: t('nouns.activity') })}
+          >
+            <div className="activity-card-body" aria-hidden="true">
+              <Skeleton width={90} height={20} radius="md" className="skeleton-line" />
+              <Skeleton width="70%" height={34} className="skeleton-line" />
+              <SkeletonLines widths={['100%', '100%', '90%', '75%']} height={15} />
+            </div>
+          </article>
+        )}
+        {isError && <QueryError label={t('nouns.activity')} />}
+        {!isLoading && !isError && !activity && <QueryEmpty label={t('nouns.activity')} />}
 
         {activity && (
           <article className="activity-card activity-card--solo">

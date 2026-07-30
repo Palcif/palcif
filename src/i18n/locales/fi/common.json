@@ -1,4 +1,7 @@
 {
+  "common": {
+    "skipToContent": "Siirry pääsisältöön"
+  },
   "nav": {
     "home": "Etusivu",
     "events": "Tapahtumat",
@@ -7,17 +10,163 @@
     "about": "Meistä",
     "contact": "Yhteystiedot"
   },
-  "hero": {
-    "tagline": "Palestiinasta, sydämellä. Suomessa.",
-    "heading": "Juuremme. Kulttuurimme. Yhteisömme.",
-    "description": "Tervetullut paikka palestiinalaisille ja heidän ystävilleen Suomessa – yhdessä, kulttuurimme juhlien.",
-    "cta_join": "Liity yhteisöömme",
-    "cta_events": "Katso tapahtumat"
+  "header": {
+    "homeAriaLabel": "Palestiinalaisyhteisö Suomessa — Etusivu",
+    "logoAlt": "Palestiinalaisyhteisö Suomessa",
+    "mainNavAria": "Päävalikko",
+    "mobileNavAria": "Mobiilivalikko",
+    "langSelectorAria": "Kielivalinta",
+    "mobileLangSelectorAria": "Mobiilikielivalinta",
+    "menuOpenAria": "Avaa valikko",
+    "menuCloseAria": "Sulje valikko"
   },
   "footer": {
-    "tagline": "Rakentamassa siltoja Palestiinan ja Suomen välille kulttuurin ja yhteisön kautta.",
-    "newsletter_placeholder": "Sähköpostiosoitteesi",
-    "newsletter_subscribe": "Tilaa",
-    "newsletter_success": "Kiitos! Olet nyt tilannut uutiskirjeemme."
+    "ariaLabel": "Sivuston alatunniste",
+    "headingExplore": "Tutustu",
+    "headingConnect": "Ota yhteyttä",
+    "navAriaLabel": "Alatunnisteen valikko",
+    "privacyPolicy": "Tietosuojaseloste",
+    "termsOfUse": "Käyttöehdot"
+  },
+  "social": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "email": "Sähköposti",
+    "followUs": "Seuraa meitä"
+  },
+  "highlights": {
+    "heading": "Kulttuurikohokohdat",
+    "subheading": "Tutustu tarinoihimme, perinteisiimme ja luoviin ilmaisuihimme.",
+    "viewAll": "Katso kaikki kohokohdat",
+    "carouselAria": "Kulttuurikohokohdat",
+    "prevAria": "Edellinen kohokohta",
+    "nextAria": "Seuraava kohokohta",
+    "dotsAria": "Kohokohtien sivut",
+    "slideAriaLabel": "{{index}} / {{total}}",
+    "goToAria": "Siirry kohokohtaan {{index}}"
+  },
+  "query": {
+    "loading": "Ladataan: {{label}}…",
+    "error": "Emme voineet ladata: {{label}}. Yritä myöhemmin uudelleen.",
+    "empty": "Ei vielä sisältöä: {{label}} — katso pian uudelleen."
+  },
+  "nouns": {
+    "activities": "toiminnot",
+    "activity": "toiminto",
+    "blogPosts": "blogikirjoitukset",
+    "blogPost": "blogikirjoitus",
+    "events": "tapahtumat",
+    "event": "tapahtuma",
+    "highlights": "kohokohdat"
+  },
+  "home": {
+    "ctaJoin": "Liity yhteisöömme",
+    "ctaEvents": "Katso tapahtumat",
+    "heroImageAlt": "Kollaasi Helsingistä, yhteisön kokoontumisesta, tervetuloviestistä ja palestiinalaisista perinnesymboleista",
+    "updatesAriaLabel": "Yhteisön uutiset",
+    "upcomingEvents": "Tulevat tapahtumat",
+    "viewAllEvents": "Katso kaikki tapahtumat",
+    "latestActivities": "Viimeisimmät toiminnot",
+    "viewAllActivities": "Katso kaikki toiminnot",
+    "fromBlog": "Blogista",
+    "viewAllPosts": "Katso kaikki artikkelit"
+  },
+  "pages": {
+    "about": {
+      "imageAlt": "Kollaasi Helsingin nähtävyyksistä, yhteisön kokoontumisista ja palestiinalaisista perinnesymboleista",
+      "storyHeading": "Tarinamme",
+      "getInTouch": "Ota yhteyttä",
+      "valuesHeading": "Mitä me edustamme",
+      "values": {
+        "community": {
+          "title": "Yhteisö ensin",
+          "description": "Luomme tilan, jossa palestiinalaiset Suomessa voivat tavata, tukea toisiaan ja tuntea olonsa kotoisaksi."
+        },
+        "culture": {
+          "title": "Kulttuuri ja perintö",
+          "description": "Dabkesta tatreeziin pidämme palestiinalaiset perinteet elossa ja siirrämme ne seuraavalle sukupolvelle."
+        },
+        "learning": {
+          "title": "Oppiminen ja vuoropuhelu",
+          "description": "Järjestämme kielipiirejä, elokuvailtoja ja keskusteluja, jotka valistavat, inspiroivat ja yhdistävät."
+        }
+      },
+      "exploreEvents": "Katso tapahtumat",
+      "contactUs": "Ota yhteyttä"
+    },
+    "activities": {
+      "tagline": "Mitä teemme yhdessä",
+      "title": "Toiminta",
+      "description": "Kokoontumisia, työpajoja ja yhteisiä hetkiä, jotka pitävät kulttuurimme elossa Suomessa.",
+      "feedAriaLabel": "Viimeisimmät toiminnot",
+      "latestActivities": "Viimeisimmät toiminnot",
+      "viewArchive": "Katso arkisto",
+      "filterAriaLabel": "Suodata toimintoja kategorian mukaan",
+      "categories": {
+        "all": "Kaikki",
+        "community": "Yhteisö",
+        "culture": "Kulttuuri",
+        "advocacy": "Vaikuttaminen",
+        "family": "Perhe"
+      },
+      "readMore": "Lue lisää",
+      "backToActivities": "Takaisin toimintoihin"
+    },
+    "blog": {
+      "tagline": "Tarinoita yhteisöstämme",
+      "title": "Blogi",
+      "description": "Ajatuksia kulttuurista, identiteetistä ja arjesta palestiinalaisilta ja heidän ystäviltään Suomessa.",
+      "loadingAriaLabel": "Ladataan blogikirjoituksia",
+      "errorAriaLabel": "Virhe blogikirjoituksissa",
+      "emptyAriaLabel": "Ei blogikirjoituksia",
+      "featuredAriaLabel": "Nostettu blogikirjoitus",
+      "featuredBadge": "Nostettu",
+      "byAuthor": "Kirjoittanut {{author}}",
+      "readArticle": "Lue artikkeli",
+      "recentPostsHeading": "Viimeisimmät artikkelit",
+      "backToBlog": "Takaisin blogiin"
+    },
+    "contact": {
+      "tagline": "Kuulisimme sinusta mielellämme",
+      "title": "Yhteystiedot",
+      "description": "Kysymyksiä, ideoita tai haluatko vain sanoa hei? Ota yhteyttä, niin vastaamme mahdollisimman pian.",
+      "formSectionAriaLabel": "Yhteystiedot ja lomake",
+      "getInTouch": "Ota yhteyttä",
+      "followUs": "Seuraa meitä",
+      "formAriaLabel": "Yhteydenottolomake",
+      "nameLabel": "Nimi",
+      "namePlaceholder": "Nimesi",
+      "emailLabel": "Sähköposti",
+      "emailPlaceholder": "sinä@esimerkki.com",
+      "subjectLabel": "Aihe",
+      "subjectPlaceholder": "Valitse aihe",
+      "subjectOptions": {
+        "general": "Yleinen kysymys",
+        "events": "Tapahtumat ja toiminta",
+        "volunteer": "Vapaaehtoistyö",
+        "partnership": "Yhteistyö",
+        "other": "Muu"
+      },
+      "messageLabel": "Viesti",
+      "messagePlaceholder": "Miten voimme auttaa?",
+      "send": "Lähetä viesti",
+      "successThanks": "Kiitos, {{name}}!",
+      "successFallbackName": "ystävä",
+      "successBody": "Viestisi on lähetetty. Olemme sinuun yhteydessä pian.",
+      "sendAnother": "Lähetä toinen viesti"
+    },
+    "events": {
+      "tagline": "Merkitse kalenteriin",
+      "title": "Tapahtumat",
+      "description": "Juhli kulttuuria, opi uusia taitoja ja tapaa yhteisö tulevissa kokoontumisissamme ympäri Suomea.",
+      "loadingAriaLabel": "Ladataan tapahtumia",
+      "errorAriaLabel": "Virhe tapahtumissa",
+      "emptyAriaLabel": "Ei tapahtumia",
+      "upcomingHeading": "Tulevat tapahtumat",
+      "pastHeading": "Menneet tapahtumat",
+      "details": "Lisätiedot",
+      "backToEvents": "Takaisin tapahtumiin"
+    }
   }
 }

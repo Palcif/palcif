@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 import { useHighlights } from '@/features/highlights/useHighlights'
 import { ArrowRight, ChevronLeft, ChevronRight } from '@/shared/components/icons'
+import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 import { toSafeRelativePath } from '@/shared/utils/url'
 
 export default function CulturalHighlights() {
+  const { t } = useTranslation()
   const { data, isLoading } = useHighlights()
   const highlights = (data?.highlight?.nodes ?? []).map((item) => ({
     id: item.id,
@@ -64,18 +67,55 @@ export default function CulturalHighlights() {
     track.scrollTo({ left: index * cardWidth, behavior: 'smooth' })
   }
 
-  if (isLoading || highlights.length === 0) return null
+  if (isLoading) {
+    return (
+      <section className="cultural-highlights" aria-labelledby="highlights-heading">
+        <div className="highlights-container">
+          <header className="highlights-header">
+            <div className="highlights-title-group">
+              <h2 id="highlights-heading">{t('highlights.heading')}</h2>
+              <p>{t('highlights.subheading')}</p>
+            </div>
+          </header>
+
+          <div
+            className="highlights-track"
+            role="status"
+            aria-live="polite"
+            aria-label={t('query.loading', { label: t('nouns.highlights') })}
+          >
+            {Array.from({ length: 3 }, (_, index) => (
+              <article key={index} className="highlight-card" aria-hidden="true">
+                <div className="highlight-card-link">
+                  <div className="highlight-media">
+                    <Skeleton className="skeleton-fill" />
+                  </div>
+                  <div className="highlight-body">
+                    <Skeleton width="80%" height={21} className="skeleton-line" />
+                    <Skeleton width="100%" height={14} className="skeleton-line" />
+                    <Skeleton width={70} height={24} radius="md" />
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (highlights.length === 0) return null
 
   return (
     <section className="cultural-highlights" aria-labelledby="highlights-heading">
       <div className="highlights-container">
         <header className="highlights-header">
           <div className="highlights-title-group">
-            <h2 id="highlights-heading">Cultural Highlights</h2>
-            <p>Explore our stories, traditions, and creative expressions.</p>
+            <h2 id="highlights-heading">{t('highlights.heading')}</h2>
+            <p>{t('highlights.subheading')}</p>
           </div>
           <NavLink to="/blog" className="highlights-view-all">
-            View all highlights
+            {t('highlights.viewAll')}
             <ArrowRight />
           </NavLink>
         </header>
@@ -86,7 +126,7 @@ export default function CulturalHighlights() {
             className="highlight-nav highlight-nav-prev"
             onClick={() => scrollBy(-1)}
             disabled={!canScrollLeft}
-            aria-label="Previous highlight"
+            aria-label={t('highlights.prevAria')}
           >
             <ChevronLeft />
           </button>
@@ -96,13 +136,16 @@ export default function CulturalHighlights() {
             className="highlights-track"
             role="region"
             aria-roledescription="carousel"
-            aria-label="Cultural highlights"
+            aria-label={t('highlights.carouselAria')}
           >
             {highlights.map((item, index) => (
               <article
                 key={item.id}
                 className="highlight-card"
-                aria-label={`${index + 1} of ${highlights.length}`}
+                aria-label={t('highlights.slideAriaLabel', {
+                  index: index + 1,
+                  total: highlights.length,
+                })}
                 aria-roledescription="slide"
               >
                 <NavLink
@@ -131,20 +174,20 @@ export default function CulturalHighlights() {
             className="highlight-nav highlight-nav-next"
             onClick={() => scrollBy(1)}
             disabled={!canScrollRight}
-            aria-label="Next highlight"
+            aria-label={t('highlights.nextAria')}
           >
             <ChevronRight />
           </button>
         </div>
 
-        <div className="highlights-dots" role="tablist" aria-label="Highlight pages">
+        <div className="highlights-dots" role="tablist" aria-label={t('highlights.dotsAria')}>
           {highlights.map((item, index) => (
             <button
               key={item.id}
               type="button"
               role="tab"
               aria-selected={activeIndex === index}
-              aria-label={`Go to highlight ${index + 1}`}
+              aria-label={t('highlights.goToAria', { index: index + 1 })}
               className={`highlight-dot${activeIndex === index ? ' is-active' : ''}`}
               onClick={() => goTo(index)}
             />
