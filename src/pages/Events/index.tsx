@@ -3,16 +3,8 @@ import { NavLink } from 'react-router'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import { ArrowRight, FloralOrnament, MapPin } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { formatEventDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
-
-function formatEventDate(eventdate: string | null | undefined) {
-  const date = eventdate ? new Date(eventdate) : null
-  return {
-    month: date ? date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase() : '',
-    day: date ? date.toLocaleDateString('en-US', { day: '2-digit' }) : '',
-    isoDate: date ? date.toISOString().slice(0, 10) : undefined,
-  }
-}
 
 export default function Events() {
   const { data, isLoading, isError } = useEvents()

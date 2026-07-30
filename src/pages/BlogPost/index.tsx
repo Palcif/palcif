@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router'
 import { useBlogPost } from '@/features/blog/useBlogPost'
 import { ChevronLeft } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function BlogPost() {
@@ -25,9 +26,7 @@ export default function BlogPost() {
           <article className="blog-featured blog-featured--solo">
             <div className="blog-featured-body">
               <div className="blog-meta">
-                <time dateTime={post.date ?? undefined}>
-                  {post.date ? new Date(post.date).toLocaleDateString() : ''}
-                </time>
+                <time dateTime={post.date ?? undefined}>{formatDisplayDate(post.date)}</time>
               </div>
               <h1
                 id="post-heading"

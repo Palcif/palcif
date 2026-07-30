@@ -4,6 +4,7 @@ import { useActivities } from '@/features/activities/useActivities'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
 import SectionHeader from '@/shared/components/SectionHeader'
+import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 const CATEGORIES = ['All', 'Community', 'Culture', 'Advocacy', 'Family']
@@ -70,9 +71,7 @@ export default function Activities() {
                       <span className="activity-category">
                         {item.activityFields?.category?.[0] ?? ''}
                       </span>
-                      <time dateTime={item.date ?? ''}>
-                        {item.date ? new Date(item.date).toLocaleDateString() : ''}
-                      </time>
+                      <time dateTime={item.date ?? ''}>{formatDisplayDate(item.date)}</time>
                     </div>
                     <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }} />
                     <p>{item.activityFields?.summary}</p>

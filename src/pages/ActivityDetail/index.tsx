@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router'
 import { useActivityDetail } from '@/features/activities/useActivityDetail'
 import { ChevronLeft } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function ActivityDetail() {
@@ -28,9 +29,7 @@ export default function ActivityDetail() {
                 <span className="activity-category">
                   {activity.activityFields?.category?.[0] ?? ''}
                 </span>
-                <time dateTime={activity.date ?? ''}>
-                  {activity.date ? new Date(activity.date).toLocaleDateString() : ''}
-                </time>
+                <time dateTime={activity.date ?? ''}>{formatDisplayDate(activity.date)}</time>
               </div>
               <h1
                 id="activity-heading"

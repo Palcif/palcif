@@ -3,6 +3,7 @@ import { NavLink, useParams } from 'react-router'
 import { useEventDetail } from '@/features/events/useEventDetail'
 import { ChevronLeft, MapPin } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function EventDetail() {
@@ -29,11 +30,7 @@ export default function EventDetail() {
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.title) }}
               />
               <div className="event-meta-row">
-                <span>
-                  {event.eventsFields?.eventdate
-                    ? new Date(event.eventsFields.eventdate).toLocaleDateString()
-                    : ''}
-                </span>
+                <span>{formatDisplayDate(event.eventsFields?.eventdate)}</span>
                 <span className="event-meta-divider" aria-hidden="true" />
                 <span>{event.eventsFields?.eventtime}</span>
                 <span className="event-meta-divider" aria-hidden="true" />

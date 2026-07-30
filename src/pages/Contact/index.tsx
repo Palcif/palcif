@@ -12,18 +12,23 @@ import {
   SocialInstagram,
   SocialWhatsApp,
 } from '@/shared/components/icons'
-
-const socialLinks = [
-  { href: 'https://www.facebook.com/palcif', label: 'Facebook', icon: SocialFacebook },
-  { href: 'https://www.instagram.com/palcif', label: 'Instagram', icon: SocialInstagram },
-  { href: 'https://wa.me/358401234567', label: 'WhatsApp', icon: SocialWhatsApp },
-  { href: 'mailto:info@palcif.fi', label: 'Email', icon: SocialEmail },
-]
+import { toSafeExternalUrl } from '@/shared/utils/url'
 
 export default function Contact() {
   const { data: contactData } = useContactPage()
   const { data: settingsData } = useSiteSettings()
   const settings = settingsData?.siteSettings?.siteSettingsFields
+
+  const socialLinks = [
+    { href: toSafeExternalUrl(settings?.socialFacebook), label: 'Facebook', icon: SocialFacebook },
+    {
+      href: toSafeExternalUrl(settings?.socialInstagram),
+      label: 'Instagram',
+      icon: SocialInstagram,
+    },
+    { href: toSafeExternalUrl(settings?.socialWhatsapp), label: 'WhatsApp', icon: SocialWhatsApp },
+    { href: `mailto:${settings?.email ?? 'info@palcif.fi'}`, label: 'Email', icon: SocialEmail },
+  ]
   const [formState, setFormState] = useState({
     name: '',
     email: '',

@@ -31,3 +31,7 @@ node_modules
 
 # GraphQL codegen output — regenerate locally with `npm run codegen`
 src/graphql/generated/
+
+# Packaged WordPress plugin artifact — the plugin source lives in the folder;
+# the zip is a build output uploaded to WP directly.
+wordpress-plugins/*.zip

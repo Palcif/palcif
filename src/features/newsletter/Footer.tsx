@@ -8,6 +8,7 @@ import {
   SocialInstagram,
   SocialWhatsApp,
 } from '@/shared/components/icons'
+import { toSafeExternalUrl } from '@/shared/utils/url'
 
 const navLinks = [
   { to: '/', label: 'Home', end: true },
@@ -17,20 +18,6 @@ const navLinks = [
   { to: '/about', label: 'About', end: false },
   { to: '/contact', label: 'Contact', end: false },
 ]
-
-// Social links are editor-controlled SCF URL fields intended to hold
-// external http(s) links. Reject anything else — including `javascript:`
-// URIs — so an unexpected field value can't become a script-execution
-// vector when clicked.
-function toSafeExternalUrl(value: string | null | undefined): string {
-  if (!value) return '#'
-  try {
-    const url = new URL(value)
-    return url.protocol === 'http:' || url.protocol === 'https:' ? value : '#'
-  } catch {
-    return '#'
-  }
-}
 
 export default function Footer() {
   const { data } = useSiteSettings()

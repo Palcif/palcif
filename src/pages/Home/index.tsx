@@ -9,6 +9,7 @@ import CulturalHighlights from '@/features/highlights/CulturalHighlights'
 import { useHomePage } from '@/features/page-copy/useHomePage'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import SectionHeader from '@/shared/components/SectionHeader'
+import { formatDisplayDate, formatEventDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function Home() {
@@ -100,13 +101,7 @@ export default function Home() {
           <SectionHeader title="Upcoming Events" action="View all events" to="/events" />
           <ul className="event-list">
             {upcomingEvents.map((evt) => {
-              const eventdate = evt.eventsFields?.eventdate
-              const date = eventdate ? new Date(eventdate) : null
-              const isoDate = date ? date.toISOString().slice(0, 10) : undefined
-              const month = date
-                ? date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
-                : ''
-              const day = date ? date.toLocaleDateString('en-US', { day: '2-digit' }) : ''
+              const { month, day, isoDate } = formatEventDate(evt.eventsFields?.eventdate)
               return (
                 <li key={evt.id}>
                   <article>
@@ -151,9 +146,7 @@ export default function Home() {
                         className="line-clamp-2"
                         dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }}
                       />
-                      <time dateTime={item.date ?? ''}>
-                        {item.date ? new Date(item.date).toLocaleDateString() : ''}
-                      </time>
+                      <time dateTime={item.date ?? ''}>{formatDisplayDate(item.date)}</time>
                     </div>
                   </NavLink>
                 </article>
@@ -181,9 +174,7 @@ export default function Home() {
                         className="line-clamp-2"
                         dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.title) }}
                       />
-                      <time dateTime={post.date ?? ''}>
-                        {post.date ? new Date(post.date).toLocaleDateString() : ''}
-                      </time>
+                      <time dateTime={post.date ?? ''}>{formatDisplayDate(post.date)}</time>
                     </div>
                   </NavLink>
                 </article>

@@ -3,6 +3,7 @@ import { NavLink } from 'react-router'
 import { useBlogPosts } from '@/features/blog/useBlogPosts'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { QueryEmpty, QueryError, QueryLoading } from '@/shared/components/QueryStatus'
+import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function Blog() {
@@ -70,7 +71,7 @@ export default function Blog() {
                 <div className="blog-meta">
                   <span className="blog-badge">Featured</span>
                   <time dateTime={featuredPost.date ?? undefined}>
-                    {featuredPost.date ? new Date(featuredPost.date).toLocaleDateString() : ''}
+                    {formatDisplayDate(featuredPost.date)}
                   </time>
                 </div>
                 <h2 dangerouslySetInnerHTML={{ __html: sanitizeHtml(featuredPost.title) }} />
@@ -107,7 +108,7 @@ export default function Blog() {
                     <div className="blog-card-body">
                       <div className="blog-meta">
                         <time dateTime={post.date ?? undefined}>
-                          {post.date ? new Date(post.date).toLocaleDateString() : ''}
+                          {formatDisplayDate(post.date)}
                         </time>
                       </div>
                       <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.title) }} />
