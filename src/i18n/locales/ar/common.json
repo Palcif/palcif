@@ -58,7 +58,8 @@
     "blogPost": "مقالة المدونة",
     "events": "الفعاليات",
     "event": "الفعالية",
-    "highlights": "الأبرز"
+    "highlights": "الأبرز",
+    "highlight": "الأبرز"
   },
   "home": {
     "ctaJoin": "انضم إلى مجتمعنا",
@@ -66,6 +67,7 @@
     "heroImageAlt": "صورة مجمّعة لهلسنكي، وتجمع مجتمعي، ورسالة ترحيب، ورموز التراث الفلسطيني",
     "updatesAriaLabel": "مستجدات المجتمع",
     "upcomingEvents": "الفعاليات القادمة",
+    "upcomingEventsSubtitle": "انضم إلينا في تجمعاتنا المجتمعية القادمة.",
     "viewAllEvents": "عرض جميع الفعاليات",
     "latestActivities": "أحدث الأنشطة",
     "viewAllActivities": "عرض جميع الأنشطة",
@@ -165,8 +167,19 @@
       "emptyAriaLabel": "لا توجد فعاليات",
       "upcomingHeading": "الفعاليات القادمة",
       "pastHeading": "الفعاليات السابقة",
+      "noUpcomingEvents": "لا توجد فعاليات قادمة.",
       "details": "التفاصيل",
       "backToEvents": "العودة إلى الفعاليات"
+    },
+    "highlights": {
+      "tagline": "قصص وتقاليد وتعبير إبداعي",
+      "title": "أبرز جوانب ثقافتنا",
+      "description": "استكشف قصصنا وتقاليدنا وأشكال تعبيرنا الإبداعي من الجالية الفلسطينية في فنلندا.",
+      "loadingAriaLabel": "جارٍ تحميل أبرز الجوانب الثقافية",
+      "errorAriaLabel": "خطأ في أبرز الجوانب الثقافية",
+      "emptyAriaLabel": "لا توجد أبرز جوانب ثقافية",
+      "gridAriaLabel": "أبرز الجوانب الثقافية",
+      "backToHighlights": "العودة إلى الأبرز"
     }
   }
 }

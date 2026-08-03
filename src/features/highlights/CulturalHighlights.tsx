@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
@@ -18,7 +18,7 @@ export default function CulturalHighlights() {
     title: item.title ?? '',
     description: item.highlightFields?.description ?? '',
     tag: item.highlightFields?.tag ?? '',
-    to: toSafeRelativePath(item.highlightFields?.linkUrl),
+    to: toSafeRelativePath(item.highlightFields?.linkUrl, `/highlights/${item.slug}`),
   }))
 
   const trackRef = useRef<HTMLDivElement>(null)
@@ -41,13 +41,15 @@ export default function CulturalHighlights() {
     setActiveIndex(Math.max(0, Math.min(newIndex, highlights.length - 1)))
   }, [highlights.length])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const track = trackRef.current
     if (!track) return
     updateScrollState()
     track.addEventListener('scroll', updateScrollState, { passive: true })
     return () => track.removeEventListener('scroll', updateScrollState)
   }, [updateScrollState])
+
+  const hasOverflow = canScrollLeft || canScrollRight
 
   const scrollBy = (direction: -1 | 1) => {
     const track = trackRef.current
@@ -114,26 +116,28 @@ export default function CulturalHighlights() {
             <h2 id="highlights-heading">{t('highlights.heading')}</h2>
             <p>{t('highlights.subheading')}</p>
           </div>
-          <NavLink to="/blog" className="highlights-view-all">
+          <NavLink to="/highlights" className="highlights-view-all">
             {t('highlights.viewAll')}
             <ArrowRight />
           </NavLink>
         </header>
 
-        <div className="highlights-carousel">
-          <button
-            type="button"
-            className="highlight-nav highlight-nav-prev"
-            onClick={() => scrollBy(-1)}
-            disabled={!canScrollLeft}
-            aria-label={t('highlights.prevAria')}
-          >
-            <ChevronLeft />
-          </button>
+        <div className={`highlights-carousel${hasOverflow ? '' : ' highlights-carousel-fit'}`}>
+          {hasOverflow && (
+            <button
+              type="button"
+              className="highlight-nav highlight-nav-prev"
+              onClick={() => scrollBy(-1)}
+              disabled={!canScrollLeft}
+              aria-label={t('highlights.prevAria')}
+            >
+              <ChevronLeft />
+            </button>
+          )}
 
           <div
             ref={trackRef}
-            className="highlights-track"
+            className={`highlights-track${hasOverflow ? '' : ' is-centered'}`}
             role="region"
             aria-roledescription="carousel"
             aria-label={t('highlights.carouselAria')}
@@ -169,30 +173,34 @@ export default function CulturalHighlights() {
             ))}
           </div>
 
-          <button
-            type="button"
-            className="highlight-nav highlight-nav-next"
-            onClick={() => scrollBy(1)}
-            disabled={!canScrollRight}
-            aria-label={t('highlights.nextAria')}
-          >
-            <ChevronRight />
-          </button>
+          {hasOverflow && (
+            <button
+              type="button"
+              className="highlight-nav highlight-nav-next"
+              onClick={() => scrollBy(1)}
+              disabled={!canScrollRight}
+              aria-label={t('highlights.nextAria')}
+            >
+              <ChevronRight />
+            </button>
+          )}
         </div>
 
-        <div className="highlights-dots" role="tablist" aria-label={t('highlights.dotsAria')}>
-          {highlights.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              role="tab"
-              aria-selected={activeIndex === index}
-              aria-label={t('highlights.goToAria', { index: index + 1 })}
-              className={`highlight-dot${activeIndex === index ? ' is-active' : ''}`}
-              onClick={() => goTo(index)}
-            />
-          ))}
-        </div>
+        {hasOverflow && (
+          <div className="highlights-dots" role="tablist" aria-label={t('highlights.dotsAria')}>
+            {highlights.map((item, index) => (
+              <button
+                key={item.id}
+                type="button"
+                role="tab"
+                aria-selected={activeIndex === index}
+                aria-label={t('highlights.goToAria', { index: index + 1 })}
+                className={`highlight-dot${activeIndex === index ? ' is-active' : ''}`}
+                onClick={() => goTo(index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

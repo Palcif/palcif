@@ -5,6 +5,12 @@ query Events($language: LanguageCodeFilterEnum!) {
       title
       slug
       content
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
       eventsFields {
         eventdate
         eventtime

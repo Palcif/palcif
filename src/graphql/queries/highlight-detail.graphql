@@ -1,0 +1,17 @@
+query HighlightDetail($slug: ID!) {
+  highlights(id: $slug, idType: SLUG) {
+    id
+    title
+    featuredImage {
+      node {
+        sourceUrl
+        altText
+      }
+    }
+    highlightFields {
+      description
+      tag
+      linkUrl: linkurl
+    }
+  }
+}

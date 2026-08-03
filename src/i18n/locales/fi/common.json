@@ -58,7 +58,8 @@
     "blogPost": "blogikirjoitus",
     "events": "tapahtumat",
     "event": "tapahtuma",
-    "highlights": "kohokohdat"
+    "highlights": "kohokohdat",
+    "highlight": "kohokohta"
   },
   "home": {
     "ctaJoin": "Liity yhteisöömme",
@@ -66,6 +67,7 @@
     "heroImageAlt": "Kollaasi Helsingistä, yhteisön kokoontumisesta, tervetuloviestistä ja palestiinalaisista perinnesymboleista",
     "updatesAriaLabel": "Yhteisön uutiset",
     "upcomingEvents": "Tulevat tapahtumat",
+    "upcomingEventsSubtitle": "Tule mukaan tuleviin yhteisön tapahtumiin.",
     "viewAllEvents": "Katso kaikki tapahtumat",
     "latestActivities": "Viimeisimmät toiminnot",
     "viewAllActivities": "Katso kaikki toiminnot",
@@ -165,8 +167,19 @@
       "emptyAriaLabel": "Ei tapahtumia",
       "upcomingHeading": "Tulevat tapahtumat",
       "pastHeading": "Menneet tapahtumat",
+      "noUpcomingEvents": "Ei tulevia tapahtumia.",
       "details": "Lisätiedot",
       "backToEvents": "Takaisin tapahtumiin"
+    },
+    "highlights": {
+      "tagline": "Tarinoita, perinteitä ja luovaa ilmaisua",
+      "title": "Kulttuurikohokohdat",
+      "description": "Tutustu palestiinalaisyhteisön tarinoihin, perinteisiin ja luoviin ilmaisuihin Suomessa.",
+      "loadingAriaLabel": "Ladataan kulttuurikohokohtia",
+      "errorAriaLabel": "Virhe kulttuurikohokohdissa",
+      "emptyAriaLabel": "Ei kulttuurikohokohtia",
+      "gridAriaLabel": "Kulttuurikohokohdat",
+      "backToHighlights": "Takaisin kohokohtiin"
     }
   }
 }

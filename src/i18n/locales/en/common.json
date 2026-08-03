@@ -58,7 +58,8 @@
     "blogPost": "blog post",
     "events": "events",
     "event": "event",
-    "highlights": "highlights"
+    "highlights": "highlights",
+    "highlight": "highlight"
   },
   "home": {
     "ctaJoin": "Join Our Community",
@@ -66,6 +67,7 @@
     "heroImageAlt": "Collage of Helsinki, community gathering, welcome message, and Palestinian heritage symbols",
     "updatesAriaLabel": "Community updates",
     "upcomingEvents": "Upcoming Events",
+    "upcomingEventsSubtitle": "Join us at our upcoming community gatherings.",
     "viewAllEvents": "View all events",
     "latestActivities": "Latest Activities",
     "viewAllActivities": "View all activities",
@@ -165,8 +167,19 @@
       "emptyAriaLabel": "No events",
       "upcomingHeading": "Upcoming Events",
       "pastHeading": "Past Events",
+      "noUpcomingEvents": "There are no upcoming events.",
       "details": "Details",
       "backToEvents": "Back to Events"
+    },
+    "highlights": {
+      "tagline": "Stories, traditions, and creative expression",
+      "title": "Cultural Highlights",
+      "description": "Explore our stories, traditions, and creative expressions from the Palestinian community in Finland.",
+      "loadingAriaLabel": "Loading cultural highlights",
+      "errorAriaLabel": "Cultural highlights error",
+      "emptyAriaLabel": "No cultural highlights",
+      "gridAriaLabel": "Cultural highlights",
+      "backToHighlights": "Back to Highlights"
     }
   }
 }

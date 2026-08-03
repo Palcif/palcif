@@ -8,13 +8,16 @@
 /**
  * Accepts an internal relative path (e.g. "/blog"). Rejects everything else —
  * including `javascript:`/`data:` URIs and protocol-relative `//host` values —
- * falling back to `/blog`.
+ * falling back to `fallback`.
  */
-export function toSafeRelativePath(value: string | null | undefined): string {
+export function toSafeRelativePath(
+  value: string | null | undefined,
+  fallback = '/highlights'
+): string {
   if (value && value.startsWith('/') && !value.startsWith('//')) {
     return value
   }
-  return '/blog'
+  return fallback
 }
 
 /**
