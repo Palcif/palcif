@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: PALCIF Headless Lockdown
- * Description: Redirects every WordPress front-end request to the public frontend so WordPress serves only /graphql, /wp-json, and wp-admin. Must-use plugin (wp-content/mu-plugins/) so it cannot be deactivated from the Plugins screen.
+ * Description: Redirects every WordPress front-end request to the public frontend so WordPress serves only /graphql, /wp-json, and wp-admin. Update the PALCIF_FRONTEND_URL constant below when the frontend URL changes (e.g. at production cutover).
  */
 
 if (!defined('ABSPATH')) {
