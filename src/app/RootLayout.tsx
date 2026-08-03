@@ -5,6 +5,7 @@ import { Navigate, Outlet, useLocation, useParams } from 'react-router'
 import Footer from '@/features/newsletter/Footer'
 import { DEFAULT_LANGUAGE, isSupportedLanguage, RTL_LANGUAGES } from '@/i18n/languages'
 import Header from '@/shared/components/Header'
+import { DetailTranslationsProvider } from '@/shared/context/DetailTranslationsContext'
 
 export default function RootLayout() {
   const { t, i18n } = useTranslation()
@@ -34,7 +35,9 @@ export default function RootLayout() {
       <Header />
       <main id="main-content">
         <Suspense fallback={null}>
-          <Outlet />
+          <DetailTranslationsProvider>
+            <Outlet />
+          </DetailTranslationsProvider>
         </Suspense>
       </main>
       <Footer />
