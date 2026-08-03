@@ -1,14 +1,12 @@
 import { useTranslation } from 'react-i18next'
 
-export type WpLanguageCode = 'EN' | 'AR' | 'FI'
+import type { WpLanguageCode } from '@/i18n/languages'
+import { DEFAULT_LANGUAGE, isSupportedLanguage, toWpLanguageCode } from '@/i18n/languages'
 
-const LANGUAGE_MAP: Record<string, WpLanguageCode> = {
-  en: 'EN',
-  ar: 'AR',
-  fi: 'FI',
-}
+export type { WpLanguageCode }
 
 export function useWpLanguage(): WpLanguageCode {
   const { i18n } = useTranslation()
-  return LANGUAGE_MAP[i18n.language] ?? 'EN'
+  const lang = isSupportedLanguage(i18n.language) ? i18n.language : DEFAULT_LANGUAGE
+  return toWpLanguageCode(lang)
 }
