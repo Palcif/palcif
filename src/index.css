@@ -337,7 +337,7 @@ button {
   .site-footer,
   .hero-actions,
   .section-header .text-link,
-  .event-arrow,
+  .home-events-view-all,
   .newsletter-form {
     display: none !important;
   }
@@ -356,7 +356,7 @@ button {
     page-break-inside: avoid;
   }
 
-  .event-card,
+  .event-card-tile,
   .article-card {
     border: 1px solid #ccc !important;
     background: #fff !important;
