@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react'
-import { createHashRouter, Navigate } from 'react-router'
+import { createBrowserRouter, Navigate, useParams } from 'react-router'
 
 import RootLayout from './RootLayout'
 
@@ -16,8 +16,15 @@ const BlogPost = lazy(() => import('@/pages/BlogPost'))
 const About = lazy(() => import('@/pages/About'))
 const Contact = lazy(() => import('@/pages/Contact'))
 
-export const router = createHashRouter([
+function NewsRedirect() {
+  const { lang } = useParams<{ lang: string }>()
+  return <Navigate to={`/${lang}/activities`} replace />
+}
+
+export const router = createBrowserRouter([
+  { path: '/', element: <Navigate to="/en" replace /> },
   {
+    path: ':lang',
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
@@ -27,7 +34,7 @@ export const router = createHashRouter([
       { path: 'activities/:slug', element: <ActivityDetail /> },
       { path: 'highlights', element: <Highlights /> },
       { path: 'highlights/:slug', element: <HighlightDetail /> },
-      { path: 'news', element: <Navigate to="/activities" replace /> },
+      { path: 'news', element: <NewsRedirect /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/:slug', element: <BlogPost /> },
       { path: 'about', element: <About /> },
