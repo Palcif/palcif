@@ -59,15 +59,15 @@ export default function Header() {
         </nav>
 
         <div className="lang-switcher" aria-label={t('header.langSelectorAria')}>
-          {(['FI', 'EN', 'AR'] as Lang[]).map((l) => (
+          {(['FI', 'EN', 'AR'] as Lang[]).map((langOption) => (
             <button
-              key={l}
-              className={`lang-btn${lang === l ? ' active' : ''}`}
+              key={langOption}
+              className={`lang-btn${lang === langOption ? ' active' : ''}`}
               type="button"
-              aria-current={lang === l ? true : undefined}
-              onClick={() => setLang(l)}
+              aria-current={lang === langOption ? true : undefined}
+              onClick={() => setLang(langOption)}
             >
-              {l}
+              {langOption}
             </button>
           ))}
         </div>
@@ -106,15 +106,15 @@ export default function Header() {
           ))}
         </nav>
         <div className="mobile-lang-switcher" aria-label={t('header.mobileLangSelectorAria')}>
-          {(['FI', 'EN', 'AR'] as Lang[]).map((l) => (
+          {(['FI', 'EN', 'AR'] as Lang[]).map((langOption) => (
             <button
-              key={l}
-              className={`lang-btn${lang === l ? ' active' : ''}`}
+              key={langOption}
+              className={`lang-btn${lang === langOption ? ' active' : ''}`}
               type="button"
-              aria-current={lang === l ? true : undefined}
-              onClick={() => setLang(l)}
+              aria-current={lang === langOption ? true : undefined}
+              onClick={() => setLang(langOption)}
             >
-              {l}
+              {langOption}
             </button>
           ))}
         </div>

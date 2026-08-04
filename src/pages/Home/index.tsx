@@ -18,7 +18,7 @@ import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 export default function Home() {
   const { t } = useTranslation()
   const { data: eventsData, isLoading: eventsLoading } = useEvents()
-  const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 3)
+  const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 6)
   const { data: activitiesData, isLoading: activitiesLoading } = useActivities()
   const latestActivities = (activitiesData?.activities?.nodes ?? []).slice(0, 3)
   const { data: blogData, isLoading: blogLoading } = useBlogPosts()
@@ -107,55 +107,6 @@ export default function Home() {
 
       {/* ── Content Grid ── */}
       <section className="content-grid" aria-label={t('home.updatesAriaLabel')}>
-        {/* Upcoming Events */}
-        <div className="content-column">
-          <SectionHeader
-            title={t('home.upcomingEvents')}
-            action={t('home.viewAllEvents')}
-            to="/events"
-          />
-          <ul className="event-list">
-            {eventsLoading
-              ? Array.from({ length: 3 }, (_, index) => (
-                  <li key={index}>
-                    <div className="event-card" aria-hidden="true">
-                      <div className="event-date">
-                        <Skeleton width={24} height={24} />
-                      </div>
-                      <div className="event-info">
-                        <Skeleton width="90%" height={15} className="skeleton-line" />
-                        <SkeletonLines widths={['50%', '65%']} height={12} />
-                      </div>
-                    </div>
-                  </li>
-                ))
-              : upcomingEvents.map((evt) => {
-                  const { month, day, isoDate } = formatEventDate(evt.eventsFields?.eventdate)
-                  return (
-                    <li key={evt.id}>
-                      <article>
-                        <NavLink to="/events" className="event-card">
-                          <time className="event-date" dateTime={isoDate}>
-                            <span className="event-month">{month}</span>
-                            <span className="event-day">{day}</span>
-                          </time>
-                          <div className="event-info">
-                            <h4
-                              className="line-clamp-2"
-                              dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }}
-                            />
-                            <p className="event-meta">{evt.eventsFields?.eventtime}</p>
-                            <p className="event-loc">{evt.eventsFields?.location}</p>
-                          </div>
-                          <ArrowRight className="event-arrow" />
-                        </NavLink>
-                      </article>
-                    </li>
-                  )
-                })}
-          </ul>
-        </div>
-
         {/* Latest Activities */}
         <div className="content-column">
           <SectionHeader
@@ -242,6 +193,74 @@ export default function Home() {
                   </li>
                 ))}
           </ul>
+        </div>
+      </section>
+
+      {/* ── Upcoming Events ── */}
+      <section className="home-events-section" aria-labelledby="home-events-heading">
+        <div className="home-events-container">
+          <header className="home-events-header">
+            <div className="home-events-title-group">
+              <h2 id="home-events-heading">{t('home.upcomingEvents')}</h2>
+              <p>{t('home.upcomingEventsSubtitle')}</p>
+            </div>
+            <NavLink to="/events" className="home-events-view-all">
+              {t('home.viewAllEvents')}
+              <ArrowRight />
+            </NavLink>
+          </header>
+
+          {eventsLoading ? (
+            <ul className="home-events-grid" aria-hidden="true">
+              {Array.from({ length: 6 }, (_, index) => (
+                <li key={index}>
+                  <div className="event-card-tile">
+                    <div className="event-tile-media">
+                      <Skeleton className="skeleton-fill" />
+                    </div>
+                    <div className="event-tile-body">
+                      <Skeleton width="80%" height={18} className="skeleton-line" />
+                      <Skeleton width="60%" height={14} />
+                      <Skeleton width="45%" height={14} />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : upcomingEvents.length > 0 ? (
+            <ul className="home-events-grid">
+              {upcomingEvents.map((evt) => {
+                const { month, day, isoDate } = formatEventDate(evt.eventsFields?.eventdate)
+                const imgUrl = evt.featuredImage?.node.sourceUrl
+                const imgAlt = evt.featuredImage?.node.altText ?? ''
+                return (
+                  <li key={evt.id}>
+                    <article>
+                      <NavLink to={`/events/${evt.slug}`} className="event-card-tile">
+                        <div className="event-tile-media">
+                          {imgUrl && <img src={imgUrl} alt={imgAlt} loading="lazy" />}
+                          <time className="event-tile-date" dateTime={isoDate}>
+                            <span className="event-tile-month">{month}</span>
+                            <span className="event-tile-day">{day}</span>
+                          </time>
+                        </div>
+                        <div className="event-tile-body">
+                          <h4
+                            className="line-clamp-2"
+                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }}
+                          />
+                          <p className="event-tile-meta">{evt.eventsFields?.eventtime}</p>
+                          <p className="event-tile-loc">{evt.eventsFields?.location}</p>
+                        </div>
+                      </NavLink>
+                    </article>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : (
+            <p className="event-empty">{t('pages.events.noUpcomingEvents')}</p>
+          )}
         </div>
       </section>
 
