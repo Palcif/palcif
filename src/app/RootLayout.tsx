@@ -28,19 +28,19 @@ export default function RootLayout() {
   }
 
   return (
-    <div className="page">
-      <a href="#main-content" className="skip-link">
-        {t('common.skipToContent')}
-      </a>
-      <Header />
-      <main id="main-content">
-        <Suspense fallback={null}>
-          <DetailTranslationsProvider>
+    <DetailTranslationsProvider>
+      <div className="page">
+        <a href="#main-content" className="skip-link">
+          {t('common.skipToContent')}
+        </a>
+        <Header />
+        <main id="main-content">
+          <Suspense fallback={null}>
             <Outlet />
-          </DetailTranslationsProvider>
-        </Suspense>
-      </main>
-      <Footer />
-    </div>
+          </Suspense>
+        </main>
+        <Footer />
+      </div>
+    </DetailTranslationsProvider>
   )
 }
