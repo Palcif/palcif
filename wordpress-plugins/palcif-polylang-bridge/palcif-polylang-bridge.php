@@ -28,6 +28,14 @@ add_action('graphql_register_types', function () {
         ],
     ]);
 
+    register_graphql_object_type('PolylangTranslation', [
+        'description' => 'A single-language translation of a Polylang-translated post.',
+        'fields' => [
+            'language' => ['type' => ['non_null' => 'String'], 'description' => 'Polylang language code, e.g. "en".'],
+            'slug' => ['type' => ['non_null' => 'String'], 'description' => 'The translated post\'s slug in that language.'],
+        ],
+    ]);
+
     foreach (get_post_types(['show_in_graphql' => true], 'objects') as $post_type) {
         if (!pll_is_translated_post_type($post_type->name)) {
             continue;
@@ -53,6 +61,24 @@ add_action('graphql_register_types', function () {
                     return null;
                 }
                 return pll_get_post_language($post->ID, 'slug') ?: null;
+            },
+        ]);
+
+        register_graphql_field($graphql_single_name, 'translations', [
+            'type' => ['list_of' => ['non_null' => 'PolylangTranslation']],
+            'description' => 'This post\'s translations in every other Polylang language.',
+            'resolve' => function ($post) {
+                if (!function_exists('pll_get_post_translations') || !isset($post->ID)) {
+                    return [];
+                }
+                $result = [];
+                foreach (pll_get_post_translations($post->ID) as $language => $translated_post_id) {
+                    $translated_post = get_post($translated_post_id);
+                    if ($translated_post) {
+                        $result[] = ['language' => $language, 'slug' => $translated_post->post_name];
+                    }
+                }
+                return $result;
             },
         ]);
     }
