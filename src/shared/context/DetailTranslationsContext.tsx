@@ -1,4 +1,12 @@
-import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useLocation } from 'react-router'
 
 export interface DetailTranslation {
@@ -6,23 +14,29 @@ export interface DetailTranslation {
   slug: string
 }
 
-interface DetailTranslationsValue {
+interface DetailTranslationsState {
+  pathname: string
   translations: DetailTranslation[] | null
-  setTranslations: (translations: DetailTranslation[] | null) => void
+}
+
+interface DetailTranslationsValue {
+  state: DetailTranslationsState | null
+  setTranslations: (pathname: string, translations: DetailTranslation[] | null) => void
 }
 
 const DetailTranslationsContext = createContext<DetailTranslationsValue | null>(null)
 
 export function DetailTranslationsProvider({ children }: { children: ReactNode }) {
-  const [translations, setTranslations] = useState<DetailTranslation[] | null>(null)
-  const location = useLocation()
+  const [state, setState] = useState<DetailTranslationsState | null>(null)
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTranslations(null)
-  }, [location.pathname])
+  const setTranslations = useCallback(
+    (pathname: string, translations: DetailTranslation[] | null) => {
+      setState({ pathname, translations })
+    },
+    []
+  )
 
-  const value = useMemo(() => ({ translations, setTranslations }), [translations])
+  const value = useMemo(() => ({ state, setTranslations }), [state, setTranslations])
 
   return (
     <DetailTranslationsContext.Provider value={value}>
@@ -41,7 +55,9 @@ function useDetailTranslationsContext(): DetailTranslationsValue {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useDetailTranslations(): DetailTranslation[] | null {
-  return useDetailTranslationsContext().translations
+  const { state } = useDetailTranslationsContext()
+  const location = useLocation()
+  return state?.pathname === location.pathname ? state.translations : null
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -49,7 +65,8 @@ export function useSetDetailTranslations(
   translations: DetailTranslation[] | null | undefined
 ): void {
   const { setTranslations } = useDetailTranslationsContext()
+  const location = useLocation()
   useEffect(() => {
-    setTranslations(translations ?? null)
-  }, [translations, setTranslations])
+    setTranslations(location.pathname, translations ?? null)
+  }, [location.pathname, translations, setTranslations])
 }
