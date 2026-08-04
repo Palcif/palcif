@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink, useParams } from 'react-router'
+import { useParams } from 'react-router'
 
 import { useActivityDetail } from '@/features/activities/useActivityDetail'
 import { ChevronLeft } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { useSetDetailTranslations } from '@/shared/context/DetailTranslationsContext'
 import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
@@ -14,13 +16,14 @@ export default function ActivityDetail() {
   const { slug } = useParams<{ slug: string }>()
   const { data, isLoading, isError } = useActivityDetail(slug ?? '')
   const activity = data?.activity
+  useSetDetailTranslations(activity?.translations)
 
   return (
     <section className="page-section" aria-labelledby="activity-heading">
       <div className="page-section-inner">
-        <NavLink to="/activities" className="activity-card-link">
+        <LocalizedNavLink to="/activities" className="activity-card-link">
           <ChevronLeft /> {t('pages.activities.backToActivities')}
-        </NavLink>
+        </LocalizedNavLink>
 
         {isLoading && (
           <article

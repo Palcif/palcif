@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink, useParams } from 'react-router'
+import { useParams } from 'react-router'
 
 import { useHighlightDetail } from '@/features/highlights/useHighlightDetail'
 import { ChevronLeft } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { useSetDetailTranslations } from '@/shared/context/DetailTranslationsContext'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function HighlightDetail() {
@@ -13,13 +15,14 @@ export default function HighlightDetail() {
   const { slug } = useParams<{ slug: string }>()
   const { data, isLoading, isError } = useHighlightDetail(slug ?? '')
   const highlight = data?.highlights
+  useSetDetailTranslations(highlight?.translations)
 
   return (
     <section className="page-section" aria-labelledby="highlight-heading">
       <div className="page-section-inner">
-        <NavLink to="/highlights" className="highlight-detail-link">
+        <LocalizedNavLink to="/highlights" className="highlight-detail-link">
           <ChevronLeft /> {t('pages.highlights.backToHighlights')}
-        </NavLink>
+        </LocalizedNavLink>
 
         {isLoading && (
           <article

@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink, useParams } from 'react-router'
+import { useParams } from 'react-router'
 
 import { useEventDetail } from '@/features/events/useEventDetail'
 import { ChevronLeft, MapPin } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { useSetDetailTranslations } from '@/shared/context/DetailTranslationsContext'
 import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
@@ -14,13 +16,14 @@ export default function EventDetail() {
   const { slug } = useParams<{ slug: string }>()
   const { data, isLoading, isError } = useEventDetail(slug ?? '')
   const event = data?.event
+  useSetDetailTranslations(event?.translations)
 
   return (
     <section className="page-section" aria-labelledby="event-heading">
       <div className="page-section-inner">
-        <NavLink to="/events" className="event-card-link">
+        <LocalizedNavLink to="/events" className="event-card-link">
           <ChevronLeft /> {t('pages.events.backToEvents')}
-        </NavLink>
+        </LocalizedNavLink>
 
         {isLoading && (
           <article
