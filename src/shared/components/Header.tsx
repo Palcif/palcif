@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 
 import logoUrl from '@/assets/design/logo-header.png'
+import { DEFAULT_LANGUAGE, isSupportedLanguage, type Lang } from '@/i18n/languages'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
+import { useDetailTranslations } from '@/shared/context/DetailTranslationsContext'
 
-type Lang = 'FI' | 'EN' | 'AR'
-
-const LANG_TO_I18N: Record<Lang, string> = { FI: 'fi', EN: 'en', AR: 'ar' }
-const I18N_TO_LANG: Record<string, Lang> = { fi: 'FI', en: 'EN', ar: 'AR' }
+const LANGUAGE_SWITCHER_ORDER: Lang[] = ['fi', 'en', 'ar']
 
 export default function Header() {
-  const { t, i18n } = useTranslation()
-  const lang = I18N_TO_LANG[i18n.language] ?? 'EN'
+  const { t } = useTranslation()
+  const { lang: langParam } = useParams<{ lang: string }>()
+  const lang: Lang = isSupportedLanguage(langParam) ? langParam : DEFAULT_LANGUAGE
+  const location = useLocation()
+  const navigate = useNavigate()
+  const translations = useDetailTranslations()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const navLinks = [
@@ -23,8 +27,15 @@ export default function Header() {
     { to: '/contact', label: t('nav.contact'), end: false },
   ]
 
-  const setLang = (l: Lang) => {
-    void i18n.changeLanguage(LANG_TO_I18N[l])
+  const setLang = (target: Lang) => {
+    if (target === lang) return
+    const translated = translations?.find((entry) => entry.language === target)
+    if (translated) {
+      const section = location.pathname.split('/')[2] ?? ''
+      navigate(`/${target}/${section}/${translated.slug}`)
+      return
+    }
+    navigate(location.pathname.replace(/^\/[^/]+/, `/${target}`))
   }
 
   useEffect(() => {
@@ -41,33 +52,33 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="header-card">
-        <NavLink to="/" className="logo" aria-label={t('header.homeAriaLabel')}>
+        <LocalizedNavLink to="/" className="logo" aria-label={t('header.homeAriaLabel')}>
           <img src={logoUrl} alt={t('header.logoAlt')} className="logo-img" />
-        </NavLink>
+        </LocalizedNavLink>
 
         <nav className="main-nav" aria-label={t('header.mainNavAria')}>
           {navLinks.map(({ to, label, end }) => (
-            <NavLink
+            <LocalizedNavLink
               key={to}
               to={to}
               end={end}
               className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
             >
               {label}
-            </NavLink>
+            </LocalizedNavLink>
           ))}
         </nav>
 
         <div className="lang-switcher" aria-label={t('header.langSelectorAria')}>
-          {(['FI', 'EN', 'AR'] as Lang[]).map((langOption) => (
+          {LANGUAGE_SWITCHER_ORDER.map((l) => (
             <button
-              key={langOption}
-              className={`lang-btn${lang === langOption ? ' active' : ''}`}
+              key={l}
+              className={`lang-btn${lang === l ? ' active' : ''}`}
               type="button"
-              aria-current={lang === langOption ? true : undefined}
-              onClick={() => setLang(langOption)}
+              aria-current={lang === l ? true : undefined}
+              onClick={() => setLang(l)}
             >
-              {langOption}
+              {l.toUpperCase()}
             </button>
           ))}
         </div>
@@ -94,7 +105,7 @@ export default function Header() {
       >
         <nav className="mobile-nav" aria-label={t('header.mobileNavAria')}>
           {navLinks.map(({ to, label, end }) => (
-            <NavLink
+            <LocalizedNavLink
               key={to}
               to={to}
               end={end}
@@ -102,19 +113,19 @@ export default function Header() {
               onClick={() => setMenuOpen(false)}
             >
               {label}
-            </NavLink>
+            </LocalizedNavLink>
           ))}
         </nav>
         <div className="mobile-lang-switcher" aria-label={t('header.mobileLangSelectorAria')}>
-          {(['FI', 'EN', 'AR'] as Lang[]).map((langOption) => (
+          {LANGUAGE_SWITCHER_ORDER.map((l) => (
             <button
-              key={langOption}
-              className={`lang-btn${lang === langOption ? ' active' : ''}`}
+              key={l}
+              className={`lang-btn${lang === l ? ' active' : ''}`}
               type="button"
-              aria-current={lang === langOption ? true : undefined}
-              onClick={() => setLang(langOption)}
+              aria-current={lang === l ? true : undefined}
+              onClick={() => setLang(l)}
             >
-              {langOption}
+              {l.toUpperCase()}
             </button>
           ))}
         </div>
