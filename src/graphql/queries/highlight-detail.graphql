@@ -13,5 +13,9 @@ query HighlightDetail($slug: ID!) {
       tag
       linkUrl: linkurl
     }
+    translations {
+      language
+      slug
+    }
   }
 }

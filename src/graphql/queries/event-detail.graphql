@@ -8,5 +8,9 @@ query EventDetail($slug: ID!) {
       eventtime
       location
     }
+    translations {
+      language
+      slug
+    }
   }
 }

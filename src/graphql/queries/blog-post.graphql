@@ -9,5 +9,9 @@ query BlogPost($slug: ID!) {
         name
       }
     }
+    translations {
+      language
+      slug
+    }
   }
 }

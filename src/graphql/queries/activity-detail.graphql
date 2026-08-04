@@ -8,5 +8,9 @@ query ActivityDetail($slug: ID!) {
       category
       summary
     }
+    translations {
+      language
+      slug
+    }
   }
 }
