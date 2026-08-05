@@ -35,6 +35,11 @@ export default function Header() {
       navigate(`/${target}/${section}/${translated.slug}`)
       return
     }
+    const segments = location.pathname.split('/').filter(Boolean)
+    if (segments.length >= 3) {
+      navigate(`/${target}/${segments[1]}`)
+      return
+    }
     navigate(location.pathname.replace(/^\/[^/]+/, `/${target}`))
   }
 
