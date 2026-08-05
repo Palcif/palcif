@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import heroCollage from '@/assets/design/hero-collage-full.png'
 import { useAboutPage } from '@/features/page-copy/useAboutPage'
 import { BookOpen, FloralOrnament, Heart, Users } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
@@ -78,9 +78,9 @@ export default function About() {
               ) : (
                 <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(about?.storyBody) }} />
               )}
-              <NavLink to="/contact" className="btn-primary">
+              <LocalizedNavLink to="/contact" className="btn-primary">
                 {t('pages.about.getInTouch')}
-              </NavLink>
+              </LocalizedNavLink>
             </div>
           </div>
         </div>
@@ -129,12 +129,12 @@ export default function About() {
               )}
             </p>
             <div className="join-cta-actions">
-              <NavLink to="/events" className="btn-primary">
+              <LocalizedNavLink to="/events" className="btn-primary">
                 {t('pages.about.exploreEvents')}
-              </NavLink>
-              <NavLink to="/contact" className="btn-text">
+              </LocalizedNavLink>
+              <LocalizedNavLink to="/contact" className="btn-text">
                 {t('pages.about.contactUs')}
-              </NavLink>
+              </LocalizedNavLink>
             </div>
           </div>
         </div>
