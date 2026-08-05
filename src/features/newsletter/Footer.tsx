@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import logoUrl from '@/assets/design/logo-header.png'
 import { useSiteSettings } from '@/features/site-settings/useSiteSettings'
@@ -9,6 +8,7 @@ import {
   SocialInstagram,
   SocialWhatsApp,
 } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { toSafeExternalUrl } from '@/shared/utils/url'
 
 export default function Footer() {
@@ -56,9 +56,9 @@ export default function Footer() {
       <div className="footer-main">
         <div className="footer-grid">
           <div className="footer-brand">
-            <NavLink to="/" className="footer-logo" aria-label={t('header.homeAriaLabel')}>
+            <LocalizedNavLink to="/" className="footer-logo" aria-label={t('header.homeAriaLabel')}>
               <img src={logoUrl} alt={t('header.logoAlt')} width="80" height="60" />
-            </NavLink>
+            </LocalizedNavLink>
             <p className="footer-tagline">
               {settings?.footerTagline ??
                 'Our roots. Our culture. Our community. From Palestine, with heart. In Finland.'}
@@ -69,14 +69,14 @@ export default function Footer() {
             <h4 className="footer-heading">{t('footer.headingExplore')}</h4>
             <nav className="footer-nav" aria-label={t('footer.navAriaLabel')}>
               {navLinks.map(({ to, label, end }) => (
-                <NavLink
+                <LocalizedNavLink
                   key={to}
                   to={to}
                   end={end}
                   className={({ isActive }) => `footer-link${isActive ? ' active' : ''}`}
                 >
                   {label}
-                </NavLink>
+                </LocalizedNavLink>
               ))}
             </nav>
           </div>

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import { useHighlights } from '@/features/highlights/useHighlights'
 import { FloralOrnament } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
@@ -78,7 +78,7 @@ export default function Highlights() {
               {highlights.map((item) => (
                 <li key={item.id}>
                   <article className="highlight-card">
-                    <NavLink
+                    <LocalizedNavLink
                       to={item.to}
                       className="highlight-card-link"
                       aria-labelledby={`highlights-page-title-${item.id}`}
@@ -94,7 +94,7 @@ export default function Highlights() {
                         <p>{item.description}</p>
                         <span className="highlight-tag">{item.tag}</span>
                       </div>
-                    </NavLink>
+                    </LocalizedNavLink>
                   </article>
                 </li>
               ))}

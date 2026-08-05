@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import { ArrowRight, FloralOrnament, MapPin } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
@@ -109,9 +109,9 @@ export default function Events() {
                           </span>
                         </div>
                       </div>
-                      <NavLink to={`/events/${evt.slug}`} className="event-card-link">
+                      <LocalizedNavLink to={`/events/${evt.slug}`} className="event-card-link">
                         {t('pages.events.details')} <ArrowRight />
-                      </NavLink>
+                      </LocalizedNavLink>
                     </article>
                   </li>
                 )

@@ -1,9 +1,9 @@
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import { useHighlights } from '@/features/highlights/useHighlights'
 import { ArrowRight, ChevronLeft, ChevronRight } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 import { toSafeRelativePath } from '@/shared/utils/url'
@@ -116,10 +116,10 @@ export default function CulturalHighlights() {
             <h2 id="highlights-heading">{t('highlights.heading')}</h2>
             <p>{t('highlights.subheading')}</p>
           </div>
-          <NavLink to="/highlights" className="highlights-view-all">
+          <LocalizedNavLink to="/highlights" className="highlights-view-all">
             {t('highlights.viewAll')}
             <ArrowRight />
-          </NavLink>
+          </LocalizedNavLink>
         </header>
 
         <div className={`highlights-carousel${hasOverflow ? '' : ' highlights-carousel-fit'}`}>
@@ -152,7 +152,7 @@ export default function CulturalHighlights() {
                 })}
                 aria-roledescription="slide"
               >
-                <NavLink
+                <LocalizedNavLink
                   to={item.to}
                   className="highlight-card-link"
                   aria-labelledby={`highlight-title-${item.id}`}
@@ -168,7 +168,7 @@ export default function CulturalHighlights() {
                     <p>{item.description}</p>
                     <span className="highlight-tag">{item.tag}</span>
                   </div>
-                </NavLink>
+                </LocalizedNavLink>
               </article>
             ))}
           </div>

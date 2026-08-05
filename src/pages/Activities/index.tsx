@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import { useActivities } from '@/features/activities/useActivities'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import SectionHeader from '@/shared/components/SectionHeader'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
@@ -116,9 +116,12 @@ export default function Activities() {
                         </div>
                         <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }} />
                         <p>{item.activityFields?.summary}</p>
-                        <NavLink to={`/activities/${item.slug}`} className="activity-card-link">
+                        <LocalizedNavLink
+                          to={`/activities/${item.slug}`}
+                          className="activity-card-link"
+                        >
                           {t('pages.activities.readMore')} <ArrowRight />
-                        </NavLink>
+                        </LocalizedNavLink>
                       </div>
                     </article>
                   </li>

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import { useBlogPosts } from '@/features/blog/useBlogPosts'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
@@ -116,9 +116,9 @@ export default function Blog() {
                     {t('pages.blog.byAuthor', { author: featuredPost.author?.node.name ?? '' })}
                   </span>
                 </div>
-                <NavLink to={`/blog/${featuredPost.slug}`} className="blog-read-link">
+                <LocalizedNavLink to={`/blog/${featuredPost.slug}`} className="blog-read-link">
                   {t('pages.blog.readArticle')} <ArrowRight />
-                </NavLink>
+                </LocalizedNavLink>
               </div>
             </article>
           </div>
@@ -155,9 +155,9 @@ export default function Blog() {
                           {t('pages.blog.byAuthor', { author: post.author?.node.name ?? '' })}
                         </span>
                       </div>
-                      <NavLink to={`/blog/${post.slug}`} className="blog-read-link">
+                      <LocalizedNavLink to={`/blog/${post.slug}`} className="blog-read-link">
                         {t('pages.blog.readArticle')} <ArrowRight />
-                      </NavLink>
+                      </LocalizedNavLink>
                     </div>
                   </article>
                 </li>

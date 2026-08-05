@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 import heroCollage from '@/assets/design/hero-collage-full.png'
 import oliveSprig from '@/assets/design/olive-sprig-left.png'
@@ -9,6 +8,7 @@ import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
 import { useHomePage } from '@/features/page-copy/useHomePage'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import SectionHeader from '@/shared/components/SectionHeader'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
@@ -79,13 +79,13 @@ export default function Home() {
               )}
             </p>
             <div className="hero-actions">
-              <NavLink to="/about" className="btn-primary">
+              <LocalizedNavLink to="/about" className="btn-primary">
                 {t('home.ctaJoin')}
                 <OliveBranch className="btn-icon" />
-              </NavLink>
-              <NavLink to="/events" className="btn-text">
+              </LocalizedNavLink>
+              <LocalizedNavLink to="/events" className="btn-text">
                 {t('home.ctaEvents')} <ArrowRight />
-              </NavLink>
+              </LocalizedNavLink>
             </div>
           </div>
 
@@ -132,7 +132,7 @@ export default function Home() {
               : latestActivities.map((item) => (
                   <li key={item.id}>
                     <article>
-                      <NavLink to="/activities" className="article-card">
+                      <LocalizedNavLink to="/activities" className="article-card">
                         <div className="article-thumb">
                           <img
                             src={item.featuredImage?.node.sourceUrl ?? undefined}
@@ -146,7 +146,7 @@ export default function Home() {
                           />
                           <time dateTime={item.date ?? ''}>{formatDisplayDate(item.date)}</time>
                         </div>
-                      </NavLink>
+                      </LocalizedNavLink>
                     </article>
                   </li>
                 ))}
@@ -174,7 +174,7 @@ export default function Home() {
               : latestPosts.map((post) => (
                   <li key={post.id}>
                     <article>
-                      <NavLink to="/blog" className="article-card">
+                      <LocalizedNavLink to="/blog" className="article-card">
                         <div className="article-thumb">
                           <img
                             src={post.featuredImage?.node.sourceUrl ?? undefined}
@@ -188,7 +188,7 @@ export default function Home() {
                           />
                           <time dateTime={post.date ?? ''}>{formatDisplayDate(post.date)}</time>
                         </div>
-                      </NavLink>
+                      </LocalizedNavLink>
                     </article>
                   </li>
                 ))}
@@ -204,10 +204,10 @@ export default function Home() {
               <h2 id="home-events-heading">{t('home.upcomingEvents')}</h2>
               <p>{t('home.upcomingEventsSubtitle')}</p>
             </div>
-            <NavLink to="/events" className="home-events-view-all">
+            <LocalizedNavLink to="/events" className="home-events-view-all">
               {t('home.viewAllEvents')}
               <ArrowRight />
-            </NavLink>
+            </LocalizedNavLink>
           </header>
 
           {eventsLoading ? (
@@ -236,7 +236,7 @@ export default function Home() {
                 return (
                   <li key={evt.id}>
                     <article>
-                      <NavLink to={`/events/${evt.slug}`} className="event-card-tile">
+                      <LocalizedNavLink to={`/events/${evt.slug}`} className="event-card-tile">
                         <div className="event-tile-media">
                           {imgUrl && <img src={imgUrl} alt={imgAlt} loading="lazy" />}
                           <time className="event-tile-date" dateTime={isoDate}>
@@ -252,7 +252,7 @@ export default function Home() {
                           <p className="event-tile-meta">{evt.eventsFields?.eventtime}</p>
                           <p className="event-tile-loc">{evt.eventsFields?.location}</p>
                         </div>
-                      </NavLink>
+                      </LocalizedNavLink>
                     </article>
                   </li>
                 )
