@@ -106,7 +106,9 @@ add_filter('graphql_post_object_connection_query_args', function ($query_args, $
  * WordPress fetches the raw menu items for that request.
  */
 add_filter('graphql_resolve_field', function ($result, $source, $args, $context, $info) {
-    if (($info->fieldName ?? null) === 'menuItems' && !empty($args['where']['language'])) {
+    $is_root_menu_items_field = ($info->fieldName ?? null) === 'menuItems'
+        && ($info->parentType->name ?? null) === 'RootQuery';
+    if ($is_root_menu_items_field && !empty($args['where']['language'])) {
         $GLOBALS['palcif_requested_menu_language'] = sanitize_key($args['where']['language']);
     }
     return $result;
@@ -114,6 +116,7 @@ add_filter('graphql_resolve_field', function ($result, $source, $args, $context,
 
 add_filter('wp_get_nav_menu_items', function ($items, $menu, $args) {
     $requested_language = $GLOBALS['palcif_requested_menu_language'] ?? null;
+    unset($GLOBALS['palcif_requested_menu_language']);
     if (!$requested_language || !function_exists('pll_get_post_language')) {
         return $items;
     }
