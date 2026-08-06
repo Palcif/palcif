@@ -1,10 +1,15 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-import { DEFAULT_LANGUAGE } from './languages'
+import { DEFAULT_LANGUAGE, isSupportedLanguage } from './languages'
 import arCommon from './locales/ar/common.json'
 import enCommon from './locales/en/common.json'
 import fiCommon from './locales/fi/common.json'
+
+function detectInitialLanguage() {
+  const firstSegment = window.location.pathname.split('/')[1]
+  return isSupportedLanguage(firstSegment) ? firstSegment : DEFAULT_LANGUAGE
+}
 
 void i18n.use(initReactI18next).init({
   resources: {
@@ -12,7 +17,7 @@ void i18n.use(initReactI18next).init({
     fi: { common: fiCommon },
     ar: { common: arCommon },
   },
-  lng: DEFAULT_LANGUAGE,
+  lng: detectInitialLanguage(),
   fallbackLng: DEFAULT_LANGUAGE,
   defaultNS: 'common',
   interpolation: { escapeValue: false },

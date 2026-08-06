@@ -1,10 +1,18 @@
-import { createBrowserRouter, Navigate } from 'react-router'
+/* eslint-disable react-refresh/only-export-components */
+import { createBrowserRouter, Navigate, useLocation } from 'react-router'
+
+import { DEFAULT_LANGUAGE } from '@/i18n/languages'
 
 import { langChildRoutes } from './langRoutes'
 import RootLayout from './RootLayout'
 
+function RootRedirect() {
+  const location = useLocation()
+  return <Navigate to={`/${DEFAULT_LANGUAGE}${location.search}${location.hash}`} replace />
+}
+
 export const router = createBrowserRouter([
-  { path: '/', element: <Navigate to="/en" replace /> },
+  { path: '/', element: <RootRedirect /> },
   {
     path: ':lang',
     element: <RootLayout />,

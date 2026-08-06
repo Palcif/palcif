@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router'
 
 import type { WpLanguageCode } from '@/i18n/languages'
 import { DEFAULT_LANGUAGE, isSupportedLanguage, toWpLanguageCode } from '@/i18n/languages'
@@ -6,7 +6,7 @@ import { DEFAULT_LANGUAGE, isSupportedLanguage, toWpLanguageCode } from '@/i18n/
 export type { WpLanguageCode }
 
 export function useWpLanguage(): WpLanguageCode {
-  const { i18n } = useTranslation()
-  const lang = isSupportedLanguage(i18n.language) ? i18n.language : DEFAULT_LANGUAGE
-  return toWpLanguageCode(lang)
+  const { lang } = useParams<{ lang?: string }>()
+  const resolved = isSupportedLanguage(lang) ? lang : DEFAULT_LANGUAGE
+  return toWpLanguageCode(resolved)
 }

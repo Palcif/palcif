@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Outlet, useLocation, useParams } from 'react-router'
 
@@ -19,7 +19,7 @@ export default function RootLayout() {
     }
   }, [lang, i18n])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.lang = i18n.language
     document.documentElement.dir = RTL_LANGUAGES.includes(i18n.language) ? 'rtl' : 'ltr'
   }, [i18n.language])
@@ -32,8 +32,10 @@ export default function RootLayout() {
     // language prefix at all and the whole path is the real destination; if
     // it isn't, treat it as a bogus lang value and only replace it.
     const target = TOP_LEVEL_SECTIONS.has(lang ?? '')
-      ? `/${DEFAULT_LANGUAGE}${location.pathname}`
-      : location.pathname.replace(/^\/[^/]*/, `/${DEFAULT_LANGUAGE}`)
+      ? `/${DEFAULT_LANGUAGE}${location.pathname}${location.search}${location.hash}`
+      : location.pathname.replace(/^\/[^/]*/, `/${DEFAULT_LANGUAGE}`) +
+        location.search +
+        location.hash
     return <Navigate to={target} replace />
   }
 

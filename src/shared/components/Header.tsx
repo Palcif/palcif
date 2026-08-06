@@ -32,15 +32,15 @@ export default function Header() {
     const translated = translations?.find((entry) => entry.language === target)
     if (translated) {
       const section = location.pathname.split('/')[2] ?? ''
-      navigate(`/${target}/${section}/${translated.slug}`)
+      navigate(`/${target}/${section}/${translated.slug}${location.search}${location.hash}`)
       return
     }
     const segments = location.pathname.split('/').filter(Boolean)
     if (segments.length >= 3) {
-      navigate(`/${target}/${segments[1]}`)
+      navigate(`/${target}/${segments[1]}${location.search}${location.hash}`)
       return
     }
-    navigate(location.pathname.replace(/^\/[^/]+/, `/${target}`))
+    navigate(location.pathname.replace(/^\/[^/]+/, `/${target}`) + location.search + location.hash)
   }
 
   useEffect(() => {
