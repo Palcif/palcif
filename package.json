@@ -10,7 +10,8 @@
     "preview": "npm run build && wrangler dev",
     "typecheck": "tsc -p tsconfig.app.json",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "codegen": "node --env-file-if-exists=.env node_modules/.bin/graphql-codegen --config codegen.ts",
+    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen:schema": "node --env-file-if-exists=.env node_modules/.bin/graphql-codegen --config codegen.schema.ts",
     "prepare": "husky",
     "deploy": "npm run build && wrangler deploy"
   },
