@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Outlet, useLocation, useParams } from 'react-router'
 
+import { TOP_LEVEL_SECTIONS } from '@/app/langRoutes'
 import Footer from '@/features/newsletter/Footer'
 import { DEFAULT_LANGUAGE, isSupportedLanguage, RTL_LANGUAGES } from '@/i18n/languages'
 import Header from '@/shared/components/Header'
@@ -24,7 +25,16 @@ export default function RootLayout() {
   }, [i18n.language])
 
   if (!isSupportedLanguage(lang)) {
-    return <Navigate to={location.pathname.replace(/^\/[^/]*/, `/${DEFAULT_LANGUAGE}`)} replace />
+    // A prefix-less legacy link ("/activities/fun-day") and an invalid
+    // `:lang` value ("/xx/activities") are structurally identical — both are
+    // just path segments — so segment count alone can't tell them apart.
+    // Content can: if the first segment is a real section name, there's no
+    // language prefix at all and the whole path is the real destination; if
+    // it isn't, treat it as a bogus lang value and only replace it.
+    const target = TOP_LEVEL_SECTIONS.has(lang ?? '')
+      ? `/${DEFAULT_LANGUAGE}${location.pathname}`
+      : location.pathname.replace(/^\/[^/]*/, `/${DEFAULT_LANGUAGE}`)
+    return <Navigate to={target} replace />
   }
 
   return (
