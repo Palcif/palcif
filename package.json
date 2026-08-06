@@ -7,11 +7,12 @@
     "dev": "vite",
     "build": "npm run codegen && tsc -b && vite build",
     "lint": "eslint . --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "npm run build && wrangler dev",
     "typecheck": "tsc -p tsconfig.app.json",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "codegen": "node --env-file-if-exists=.env node_modules/.bin/graphql-codegen --config codegen.ts",
     "prepare": "husky"
+    "deploy": "npm run build && wrangler deploy"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
@@ -38,6 +39,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.47.0",
     "@eslint/js": "^10.0.1",
     "@graphql-codegen/cli": "^7.1.3",
     "@graphql-codegen/client-preset": "^6.0.1",
@@ -56,6 +58,7 @@
     "prettier": "^3.8.4",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "wrangler": "^4.114.0"
   }
 }
