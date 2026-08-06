@@ -1,4 +1,7 @@
 {
+  "common": {
+    "skipToContent": "Skip to main content"
+  },
   "nav": {
     "home": "Home",
     "events": "Events",
@@ -7,17 +10,176 @@
     "about": "About",
     "contact": "Contact"
   },
-  "hero": {
-    "tagline": "From Palestine, with heart. In Finland.",
-    "heading": "Our roots. Our culture. Our community.",
-    "description": "A welcoming space for Palestinians and friends in Finland to connect, celebrate our heritage, and build a stronger future together.",
-    "cta_join": "Join Our Community",
-    "cta_events": "Explore Events"
+  "header": {
+    "homeAriaLabel": "Palestinian Community in Finland — Home",
+    "logoAlt": "Palestinian Community in Finland",
+    "mainNavAria": "Main navigation",
+    "mobileNavAria": "Mobile navigation",
+    "langSelectorAria": "Language selector",
+    "mobileLangSelectorAria": "Mobile language selector",
+    "menuOpenAria": "Open menu",
+    "menuCloseAria": "Close menu"
   },
   "footer": {
-    "tagline": "Building bridges between Palestine and Finland through culture, community, and shared experiences.",
-    "newsletter_placeholder": "Your email address",
-    "newsletter_subscribe": "Subscribe",
-    "newsletter_success": "Thank you! You are now subscribed to our newsletter."
+    "ariaLabel": "Site footer",
+    "headingExplore": "Explore",
+    "headingConnect": "Connect",
+    "navAriaLabel": "Footer navigation",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use"
+  },
+  "social": {
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "followUs": "Follow Us"
+  },
+  "highlights": {
+    "heading": "Cultural Highlights",
+    "subheading": "Explore our stories, traditions, and creative expressions.",
+    "viewAll": "View all highlights",
+    "carouselAria": "Cultural highlights",
+    "prevAria": "Previous highlight",
+    "nextAria": "Next highlight",
+    "dotsAria": "Highlight pages",
+    "slideAriaLabel": "{{index}} of {{total}}",
+    "goToAria": "Go to highlight {{index}}"
+  },
+  "query": {
+    "loading": "Loading {{label}}…",
+    "error": "We couldn't load {{label}} right now. Please try again later.",
+    "empty": "No {{label}} yet — check back soon."
+  },
+  "nouns": {
+    "activities": "activities",
+    "activity": "activity",
+    "blogPosts": "blog posts",
+    "blogPost": "blog post",
+    "events": "events",
+    "event": "event",
+    "highlights": "highlights",
+    "highlight": "highlight"
+  },
+  "home": {
+    "ctaJoin": "Join Our Community",
+    "ctaEvents": "Explore Events",
+    "heroImageAlt": "Collage of Helsinki, community gathering, welcome message, and Palestinian heritage symbols",
+    "updatesAriaLabel": "Community updates",
+    "upcomingEvents": "Upcoming Events",
+    "upcomingEventsSubtitle": "Join us at our upcoming community gatherings.",
+    "viewAllEvents": "View all events",
+    "latestActivities": "Latest Activities",
+    "viewAllActivities": "View all activities",
+    "fromBlog": "From the Blog",
+    "viewAllPosts": "View all posts"
+  },
+  "pages": {
+    "about": {
+      "imageAlt": "Collage of Helsinki landmarks, community gatherings, and Palestinian heritage symbols",
+      "storyHeading": "Our Story",
+      "getInTouch": "Get in Touch",
+      "valuesHeading": "What We Stand For",
+      "values": {
+        "community": {
+          "title": "Community First",
+          "description": "We create space for Palestinians in Finland to meet, support one another, and feel at home."
+        },
+        "culture": {
+          "title": "Culture & Heritage",
+          "description": "From dabke to tatreez, we keep Palestinian traditions alive and pass them to the next generation."
+        },
+        "learning": {
+          "title": "Learning & Dialogue",
+          "description": "We host language circles, film nights, and discussions that inform, inspire, and connect."
+        }
+      },
+      "exploreEvents": "Explore Events",
+      "contactUs": "Contact Us"
+    },
+    "activities": {
+      "tagline": "What we do together",
+      "title": "Activities",
+      "description": "Gatherings, workshops, and community moments that keep our culture alive in Finland.",
+      "feedAriaLabel": "Latest activities",
+      "latestActivities": "Latest Activities",
+      "viewArchive": "View archive",
+      "filterAriaLabel": "Filter activities by category",
+      "categories": {
+        "all": "All",
+        "community": "Community",
+        "culture": "Culture",
+        "advocacy": "Advocacy",
+        "family": "Family"
+      },
+      "readMore": "Read more",
+      "backToActivities": "Back to Activities"
+    },
+    "blog": {
+      "tagline": "Stories from our community",
+      "title": "Blog",
+      "description": "Reflections on culture, identity, and everyday life from Palestinians and friends in Finland.",
+      "loadingAriaLabel": "Loading blog posts",
+      "errorAriaLabel": "Blog posts error",
+      "emptyAriaLabel": "No blog posts",
+      "featuredAriaLabel": "Featured blog post",
+      "featuredBadge": "Featured",
+      "byAuthor": "By {{author}}",
+      "readArticle": "Read article",
+      "recentPostsHeading": "Recent Posts",
+      "backToBlog": "Back to Blog"
+    },
+    "contact": {
+      "tagline": "We would love to hear from you",
+      "title": "Contact",
+      "description": "Questions, ideas, or just want to say hello? Reach out and we will get back to you as soon as we can.",
+      "formSectionAriaLabel": "Contact information and form",
+      "getInTouch": "Get in Touch",
+      "followUs": "Follow Us",
+      "formAriaLabel": "Contact form",
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "Select a topic",
+      "subjectOptions": {
+        "general": "General question",
+        "events": "Events & activities",
+        "volunteer": "Volunteering",
+        "partnership": "Partnership",
+        "other": "Other"
+      },
+      "messageLabel": "Message",
+      "messagePlaceholder": "How can we help?",
+      "send": "Send Message",
+      "successThanks": "Thank you, {{name}}!",
+      "successFallbackName": "friend",
+      "successBody": "Your message has been sent. We will be in touch soon.",
+      "sendAnother": "Send another message"
+    },
+    "events": {
+      "tagline": "Mark your calendar",
+      "title": "Events",
+      "description": "Celebrate culture, learn new skills, and meet the community at our upcoming gatherings across Finland.",
+      "loadingAriaLabel": "Loading events",
+      "errorAriaLabel": "Events error",
+      "emptyAriaLabel": "No events",
+      "upcomingHeading": "Upcoming Events",
+      "pastHeading": "Past Events",
+      "noUpcomingEvents": "There are no upcoming events.",
+      "details": "Details",
+      "backToEvents": "Back to Events"
+    },
+    "highlights": {
+      "tagline": "Stories, traditions, and creative expression",
+      "title": "Cultural Highlights",
+      "description": "Explore our stories, traditions, and creative expressions from the Palestinian community in Finland.",
+      "loadingAriaLabel": "Loading cultural highlights",
+      "errorAriaLabel": "Cultural highlights error",
+      "emptyAriaLabel": "No cultural highlights",
+      "gridAriaLabel": "Cultural highlights",
+      "backToHighlights": "Back to Highlights"
+    }
   }
 }

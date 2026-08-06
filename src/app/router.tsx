@@ -1,28 +1,21 @@
 /* eslint-disable react-refresh/only-export-components */
-import { lazy } from 'react'
-import { createHashRouter, Navigate } from 'react-router'
+import { createBrowserRouter, Navigate, useLocation } from 'react-router'
 
+import { DEFAULT_LANGUAGE } from '@/i18n/languages'
+
+import { langChildRoutes } from './langRoutes'
 import RootLayout from './RootLayout'
 
-const Home = lazy(() => import('@/pages/Home'))
-const Events = lazy(() => import('@/pages/Events'))
-const Activities = lazy(() => import('@/pages/Activities'))
-const Blog = lazy(() => import('@/pages/Blog'))
-const About = lazy(() => import('@/pages/About'))
-const Contact = lazy(() => import('@/pages/Contact'))
+function RootRedirect() {
+  const location = useLocation()
+  return <Navigate to={`/${DEFAULT_LANGUAGE}${location.search}${location.hash}`} replace />
+}
 
-export const router = createHashRouter([
+export const router = createBrowserRouter([
+  { path: '/', element: <RootRedirect /> },
   {
+    path: ':lang',
     element: <RootLayout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: 'events', element: <Events /> },
-      { path: 'activities', element: <Activities /> },
-      { path: 'news', element: <Navigate to="/activities" replace /> },
-      { path: 'blog', element: <Blog /> },
-      { path: 'about', element: <About /> },
-      { path: 'contact', element: <Contact /> },
-      { path: '*', element: <Home /> },
-    ],
+    children: langChildRoutes,
   },
 ])

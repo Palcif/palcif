@@ -37,3 +37,6 @@ src/graphql/generated/
 .dev.vars*
 !.dev.vars.example
 !.env.example
+# Packaged WordPress plugin artifact — the plugin source lives in the folder;
+# the zip is a build output uploaded to WP directly.
+wordpress-plugins/*.zip

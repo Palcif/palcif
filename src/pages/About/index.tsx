@@ -1,45 +1,63 @@
-import { NavLink } from 'react-router'
+import { useTranslation } from 'react-i18next'
 
 import heroCollage from '@/assets/design/hero-collage-full.png'
+import { useAboutPage } from '@/features/page-copy/useAboutPage'
 import { BookOpen, FloralOrnament, Heart, Users } from '@/shared/components/icons'
-
-const VALUES = [
-  {
-    icon: Users,
-    title: 'Community First',
-    description:
-      'We create space for Palestinians in Finland to meet, support one another, and feel at home.',
-  },
-  {
-    icon: Heart,
-    title: 'Culture & Heritage',
-    description:
-      'From dabke to tatreez, we keep Palestinian traditions alive and pass them to the next generation.',
-  },
-  {
-    icon: BookOpen,
-    title: 'Learning & Dialogue',
-    description:
-      'We host language circles, film nights, and discussions that inform, inspire, and connect.',
-  },
-]
+import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
+import { Skeleton } from '@/shared/components/skeletons/Skeleton'
+import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function About() {
+  const { t } = useTranslation()
+  const { data, isLoading } = useAboutPage()
+  const about = data?.page?.aboutFields
+
+  const VALUES = [
+    {
+      icon: Users,
+      title: t('pages.about.values.community.title'),
+      description: t('pages.about.values.community.description'),
+    },
+    {
+      icon: Heart,
+      title: t('pages.about.values.culture.title'),
+      description: t('pages.about.values.culture.description'),
+    },
+    {
+      icon: BookOpen,
+      title: t('pages.about.values.learning.title'),
+      description: t('pages.about.values.learning.description'),
+    },
+  ]
+
   return (
     <>
       {/* ── Page Hero ── */}
       <section className="page-hero" aria-labelledby="about-heading">
         <div className="page-hero-inner">
-          <p className="page-hero-tagline">Who we are</p>
-          <h1 id="about-heading">About Us</h1>
+          <p className="page-hero-tagline">
+            {isLoading ? (
+              <Skeleton width={100} height={14} />
+            ) : (
+              (about?.heroTagline ?? 'Who we are')
+            )}
+          </p>
+          <h1 id="about-heading">
+            {isLoading ? <Skeleton width="60%" height={34} /> : (about?.heroHeading ?? 'About Us')}
+          </h1>
           <div className="page-hero-divider">
             <span className="page-hero-line" />
             <FloralOrnament />
             <span className="page-hero-line" />
           </div>
           <p className="page-hero-description">
-            A volunteer-led community rooted in Palestinian identity and open to everyone who shares
-            our values of dignity, welcome, and belonging.
+            {isLoading ? (
+              <SkeletonLines widths={['90%', '70%']} height={15} />
+            ) : (
+              (about?.heroDescription ??
+              'A volunteer-led community rooted in Palestinian identity and open to everyone who shares our values of dignity, welcome, and belonging.')
+            )}
           </p>
         </div>
       </section>
@@ -51,31 +69,18 @@ export default function About() {
         <div className="page-section-inner">
           <div className="about-split">
             <div className="about-split-image">
-              <img
-                src={heroCollage}
-                alt="Collage of Helsinki landmarks, community gatherings, and Palestinian heritage symbols"
-                loading="lazy"
-              />
+              <img src={heroCollage} alt={t('pages.about.imageAlt')} loading="lazy" />
             </div>
             <div className="about-split-body">
-              <h2 id="our-story-heading">Our Story</h2>
-              <p>
-                The Palestinian Community in Finland was founded by families, students, and
-                professionals who wanted a place to gather, celebrate, and support one another far
-                from home.
-              </p>
-              <p>
-                Over the years, we have grown into a welcoming network that organises cultural
-                events, advocacy gatherings, language circles, and social activities across
-                Helsinki, Espoo, and beyond.
-              </p>
-              <p>
-                Whether you are newly arrived, Finnish-born, or simply a friend of Palestine, you
-                are welcome here.
-              </p>
-              <NavLink to="/contact" className="btn-primary">
-                Get in Touch
-              </NavLink>
+              <h2 id="our-story-heading">{t('pages.about.storyHeading')}</h2>
+              {isLoading ? (
+                <SkeletonLines widths={['100%', '100%', '80%', '90%']} height={15} />
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(about?.storyBody) }} />
+              )}
+              <LocalizedNavLink to="/contact" className="btn-primary">
+                {t('pages.about.getInTouch')}
+              </LocalizedNavLink>
             </div>
           </div>
         </div>
@@ -85,7 +90,7 @@ export default function About() {
       <section className="page-section page-section-muted" aria-labelledby="values-heading">
         <div className="page-section-inner">
           <h2 id="values-heading" className="page-section-title">
-            What We Stand For
+            {t('pages.about.valuesHeading')}
           </h2>
 
           <ul className="value-grid">
@@ -108,15 +113,28 @@ export default function About() {
       <section className="page-section" aria-labelledby="join-heading">
         <div className="page-section-inner">
           <div className="join-cta">
-            <h2 id="join-heading">Be Part of Our Community</h2>
-            <p>Join activities, attend events, or simply say hello. We would love to meet you.</p>
+            <h2 id="join-heading">
+              {isLoading ? (
+                <Skeleton width="55%" height={28} />
+              ) : (
+                (about?.joinHeading ?? 'Be Part of Our Community')
+              )}
+            </h2>
+            <p>
+              {isLoading ? (
+                <SkeletonLines widths={['100%', '60%']} height={15} />
+              ) : (
+                (about?.joinDescription ??
+                'Join activities, attend events, or simply say hello. We would love to meet you.')
+              )}
+            </p>
             <div className="join-cta-actions">
-              <NavLink to="/events" className="btn-primary">
-                Explore Events
-              </NavLink>
-              <NavLink to="/contact" className="btn-text">
-                Contact Us
-              </NavLink>
+              <LocalizedNavLink to="/events" className="btn-primary">
+                {t('pages.about.exploreEvents')}
+              </LocalizedNavLink>
+              <LocalizedNavLink to="/contact" className="btn-text">
+                {t('pages.about.contactUs')}
+              </LocalizedNavLink>
             </div>
           </div>
         </div>

@@ -1,0 +1,16 @@
+query ActivityDetail($slug: ID!) {
+  activity(id: $slug, idType: SLUG) {
+    id
+    title
+    content
+    date
+    activityFields {
+      category
+      summary
+    }
+    translations {
+      language
+      slug
+    }
+  }
+}

@@ -1,0 +1,14 @@
+query SiteSettings {
+  siteSettings {
+    siteSettingsFields {
+      orgName: orgname
+      address
+      email
+      socialFacebook: socialfacebook
+      socialInstagram: socialinstagram
+      socialWhatsapp: socialwhatsapp
+      footerTagline: footertagline
+      copyrightLine: copyrightline
+    }
+  }
+}

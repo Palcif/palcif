@@ -1,0 +1,21 @@
+query Events($language: LanguageCodeFilterEnum!) {
+  events(first: 50, where: { language: $language }) {
+    nodes {
+      id
+      title
+      slug
+      content
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+      eventsFields {
+        eventdate
+        eventtime
+        location
+      }
+    }
+  }
+}

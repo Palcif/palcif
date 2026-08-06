@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run codegen && tsc -b && vite build",
     "lint": "eslint . --max-warnings 0",
     "preview": "npm run build && wrangler dev",
     "typecheck": "tsc -p tsconfig.app.json",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "codegen": "graphql-codegen --config codegen.ts",
-    "prepare": "husky",
+    "codegen": "node --env-file-if-exists=.env node_modules/.bin/graphql-codegen --config codegen.ts",
+    "prepare": "husky"
     "deploy": "npm run build && wrangler deploy"
   },
   "lint-staged": {
@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.101.0",
+    "@types/dompurify": "^3.0.5",
+    "dompurify": "^3.4.12",
     "graphql": "^16.14.2",
     "graphql-request": "^7.4.0",
     "i18next": "^26.3.1",

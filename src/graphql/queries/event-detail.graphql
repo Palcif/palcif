@@ -1,0 +1,16 @@
+query EventDetail($slug: ID!) {
+  event(id: $slug, idType: SLUG) {
+    id
+    title
+    content
+    eventsFields {
+      eventdate
+      eventtime
+      location
+    }
+    translations {
+      language
+      slug
+    }
+  }
+}

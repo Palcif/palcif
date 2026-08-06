@@ -1,4 +1,7 @@
 {
+  "common": {
+    "skipToContent": "الانتقال إلى المحتوى الرئيسي"
+  },
   "nav": {
     "home": "الرئيسية",
     "events": "الفعاليات",
@@ -7,17 +10,176 @@
     "about": "من نحن",
     "contact": "اتصل بنا"
   },
-  "hero": {
-    "tagline": "من فلسطين، بكل المحبة. في فنلندا.",
-    "heading": "جذورنا. ثقافتنا. مجتمعنا.",
-    "description": "فضاء مرحب للفلسطينيين وأصدقائهم في فنلندا للتواصل والاحتفاء بتراثنا وبناء مستقبل أفضل معاً.",
-    "cta_join": "انضم إلى مجتمعنا",
-    "cta_events": "استكشف الفعاليات"
+  "header": {
+    "homeAriaLabel": "الجالية الفلسطينية في فنلندا — الرئيسية",
+    "logoAlt": "الجالية الفلسطينية في فنلندا",
+    "mainNavAria": "التنقل الرئيسي",
+    "mobileNavAria": "قائمة الجوال",
+    "langSelectorAria": "اختيار اللغة",
+    "mobileLangSelectorAria": "اختيار اللغة للجوال",
+    "menuOpenAria": "فتح القائمة",
+    "menuCloseAria": "إغلاق القائمة"
   },
   "footer": {
-    "tagline": "نبني جسوراً بين فلسطين وفنلندا من خلال الثقافة والمجتمع والتجارب المشتركة.",
-    "newsletter_placeholder": "عنوان بريدك الإلكتروني",
-    "newsletter_subscribe": "اشترك",
-    "newsletter_success": "شكراً! لقد اشتركت في نشرتنا الإخبارية."
+    "ariaLabel": "تذييل الموقع",
+    "headingExplore": "استكشف",
+    "headingConnect": "تواصل",
+    "navAriaLabel": "روابط التذييل",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsOfUse": "شروط الاستخدام"
+  },
+  "social": {
+    "facebook": "فيسبوك",
+    "instagram": "إنستغرام",
+    "whatsapp": "واتساب",
+    "email": "البريد الإلكتروني",
+    "followUs": "تابعنا"
+  },
+  "highlights": {
+    "heading": "أبرز جوانب ثقافتنا",
+    "subheading": "استكشف قصصنا وتقاليدنا وأشكال تعبيرنا الإبداعي.",
+    "viewAll": "عرض جميع الأبرز",
+    "carouselAria": "أبرز جوانب ثقافتنا",
+    "prevAria": "السابق",
+    "nextAria": "التالي",
+    "dotsAria": "صفحات الأبرز",
+    "slideAriaLabel": "{{index}} من {{total}}",
+    "goToAria": "الانتقال إلى العنصر {{index}}"
+  },
+  "query": {
+    "loading": "جارٍ تحميل {{label}}…",
+    "error": "تعذّر تحميل {{label}} الآن. يرجى المحاولة لاحقاً.",
+    "empty": "لا يوجد {{label}} بعد — تحقق مرة أخرى قريباً."
+  },
+  "nouns": {
+    "activities": "الأنشطة",
+    "activity": "النشاط",
+    "blogPosts": "مقالات المدونة",
+    "blogPost": "مقالة المدونة",
+    "events": "الفعاليات",
+    "event": "الفعالية",
+    "highlights": "الأبرز",
+    "highlight": "الأبرز"
+  },
+  "home": {
+    "ctaJoin": "انضم إلى مجتمعنا",
+    "ctaEvents": "استكشف الفعاليات",
+    "heroImageAlt": "صورة مجمّعة لهلسنكي، وتجمع مجتمعي، ورسالة ترحيب، ورموز التراث الفلسطيني",
+    "updatesAriaLabel": "مستجدات المجتمع",
+    "upcomingEvents": "الفعاليات القادمة",
+    "upcomingEventsSubtitle": "انضم إلينا في تجمعاتنا المجتمعية القادمة.",
+    "viewAllEvents": "عرض جميع الفعاليات",
+    "latestActivities": "أحدث الأنشطة",
+    "viewAllActivities": "عرض جميع الأنشطة",
+    "fromBlog": "من المدونة",
+    "viewAllPosts": "عرض جميع المقالات"
+  },
+  "pages": {
+    "about": {
+      "imageAlt": "صورة مجمّعة لمعالم هلسنكي وتجمعات المجتمع ورموز التراث الفلسطيني",
+      "storyHeading": "قصتنا",
+      "getInTouch": "تواصل معنا",
+      "valuesHeading": "قيمنا",
+      "values": {
+        "community": {
+          "title": "المجتمع أولاً",
+          "description": "نخلق مساحة يلتقي فيها الفلسطينيون في فنلندا ويدعم بعضهم بعضاً ويشعرون فيها بالانتماء."
+        },
+        "culture": {
+          "title": "الثقافة والتراث",
+          "description": "من الدبكة إلى التطريز، نحافظ على التقاليد الفلسطينية حية وننقلها إلى الجيل القادم."
+        },
+        "learning": {
+          "title": "التعلّم والحوار",
+          "description": "ننظم حلقات لغوية وأمسيات أفلام ونقاشات تثقّف وتلهم وتقرّب بيننا."
+        }
+      },
+      "exploreEvents": "استكشف الفعاليات",
+      "contactUs": "اتصل بنا"
+    },
+    "activities": {
+      "tagline": "ما نقوم به معاً",
+      "title": "الأنشطة",
+      "description": "تجمعات وورش عمل ولحظات مجتمعية تُبقي ثقافتنا حية في فنلندا.",
+      "feedAriaLabel": "أحدث الأنشطة",
+      "latestActivities": "أحدث الأنشطة",
+      "viewArchive": "عرض الأرشيف",
+      "filterAriaLabel": "تصفية الأنشطة حسب الفئة",
+      "categories": {
+        "all": "الكل",
+        "community": "مجتمع",
+        "culture": "ثقافة",
+        "advocacy": "مناصرة",
+        "family": "عائلة"
+      },
+      "readMore": "اقرأ المزيد",
+      "backToActivities": "العودة إلى الأنشطة"
+    },
+    "blog": {
+      "tagline": "قصص من مجتمعنا",
+      "title": "المدونة",
+      "description": "تأملات حول الثقافة والهوية والحياة اليومية للفلسطينيين وأصدقائهم في فنلندا.",
+      "loadingAriaLabel": "جارٍ تحميل مقالات المدونة",
+      "errorAriaLabel": "خطأ في مقالات المدونة",
+      "emptyAriaLabel": "لا توجد مقالات مدونة",
+      "featuredAriaLabel": "مقالة مميزة",
+      "featuredBadge": "مميز",
+      "byAuthor": "بقلم {{author}}",
+      "readArticle": "اقرأ المقالة",
+      "recentPostsHeading": "أحدث المقالات",
+      "backToBlog": "العودة إلى المدونة"
+    },
+    "contact": {
+      "tagline": "يسعدنا التواصل معك",
+      "title": "اتصل بنا",
+      "description": "أسئلة، أفكار، أو تريد فقط أن تقول مرحباً؟ تواصل معنا وسنرد عليك في أقرب وقت ممكن.",
+      "formSectionAriaLabel": "معلومات التواصل والنموذج",
+      "getInTouch": "تواصل معنا",
+      "followUs": "تابعنا",
+      "formAriaLabel": "نموذج التواصل",
+      "nameLabel": "الاسم",
+      "namePlaceholder": "اسمك",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "subjectLabel": "الموضوع",
+      "subjectPlaceholder": "اختر موضوعاً",
+      "subjectOptions": {
+        "general": "سؤال عام",
+        "events": "الفعاليات والأنشطة",
+        "volunteer": "التطوع",
+        "partnership": "الشراكة",
+        "other": "أخرى"
+      },
+      "messageLabel": "الرسالة",
+      "messagePlaceholder": "كيف يمكننا المساعدة؟",
+      "send": "إرسال الرسالة",
+      "successThanks": "شكراً لك، {{name}}!",
+      "successFallbackName": "صديقنا",
+      "successBody": "تم إرسال رسالتك. سنتواصل معك قريباً.",
+      "sendAnother": "إرسال رسالة أخرى"
+    },
+    "events": {
+      "tagline": "احجز موعدك",
+      "title": "الفعاليات",
+      "description": "احتفل بالثقافة، تعلّم مهارات جديدة، والتقِ بالمجتمع في تجمعاتنا القادمة في جميع أنحاء فنلندا.",
+      "loadingAriaLabel": "جارٍ تحميل الفعاليات",
+      "errorAriaLabel": "خطأ في الفعاليات",
+      "emptyAriaLabel": "لا توجد فعاليات",
+      "upcomingHeading": "الفعاليات القادمة",
+      "pastHeading": "الفعاليات السابقة",
+      "noUpcomingEvents": "لا توجد فعاليات قادمة.",
+      "details": "التفاصيل",
+      "backToEvents": "العودة إلى الفعاليات"
+    },
+    "highlights": {
+      "tagline": "قصص وتقاليد وتعبير إبداعي",
+      "title": "أبرز جوانب ثقافتنا",
+      "description": "استكشف قصصنا وتقاليدنا وأشكال تعبيرنا الإبداعي من الجالية الفلسطينية في فنلندا.",
+      "loadingAriaLabel": "جارٍ تحميل أبرز الجوانب الثقافية",
+      "errorAriaLabel": "خطأ في أبرز الجوانب الثقافية",
+      "emptyAriaLabel": "لا توجد أبرز جوانب ثقافية",
+      "gridAriaLabel": "أبرز الجوانب الثقافية",
+      "backToHighlights": "العودة إلى الأبرز"
+    }
   }
 }

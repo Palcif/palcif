@@ -1,6 +1,5 @@
-import { NavLink } from 'react-router'
-
 import { ArrowRight } from './icons'
+import { LocalizedNavLink } from './LocalizedLink'
 
 interface SectionHeaderProps {
   title: string
@@ -13,9 +12,9 @@ export default function SectionHeader({ title, action, to }: SectionHeaderProps)
     <div className="section-header">
       <h3>{title}</h3>
       {to ? (
-        <NavLink to={to} className="text-link">
+        <LocalizedNavLink to={to} className="text-link">
           {action} <ArrowRight />
-        </NavLink>
+        </LocalizedNavLink>
       ) : (
         <span className="text-link" aria-disabled="true">
           {action} <ArrowRight />
