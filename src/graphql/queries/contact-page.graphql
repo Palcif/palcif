@@ -1,7 +1,0 @@
-query ContactPage($slug: ID!) {
-  page(id: $slug, idType: URI) {
-    contactFields {
-      contactIntro: contactintro
-    }
-  }
-}

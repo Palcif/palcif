@@ -1,19 +1,26 @@
 /* eslint-disable react-refresh/only-export-components */
+import type { ComponentType } from 'react'
 import { lazy } from 'react'
 import type { RouteObject } from 'react-router'
 import { Navigate, useParams } from 'react-router'
+
+import { SECTIONS } from '@/features/posts/sections'
 
 const Home = lazy(() => import('@/pages/Home'))
 const Events = lazy(() => import('@/pages/Events'))
 const EventDetail = lazy(() => import('@/pages/EventDetail'))
 const Activities = lazy(() => import('@/pages/Activities'))
-const ActivityDetail = lazy(() => import('@/pages/ActivityDetail'))
 const Highlights = lazy(() => import('@/pages/Highlights'))
-const HighlightDetail = lazy(() => import('@/pages/HighlightDetail'))
 const Blog = lazy(() => import('@/pages/Blog'))
-const BlogPost = lazy(() => import('@/pages/BlogPost'))
+const PostDetail = lazy(() => import('@/pages/PostDetail'))
 const About = lazy(() => import('@/pages/About'))
 const Contact = lazy(() => import('@/pages/Contact'))
+
+const SECTION_LIST_PAGES: Record<string, ComponentType> = {
+  blog: Blog,
+  highlights: Highlights,
+  activities: Activities,
+}
 
 function NewsRedirect() {
   const { lang } = useParams<{ lang: string }>()
@@ -28,13 +35,14 @@ export const langChildRoutes: RouteObject[] = [
   { index: true, element: <Home /> },
   { path: 'events', element: <Events /> },
   { path: 'events/:slug', element: <EventDetail /> },
-  { path: 'activities', element: <Activities /> },
-  { path: 'activities/:slug', element: <ActivityDetail /> },
-  { path: 'highlights', element: <Highlights /> },
-  { path: 'highlights/:slug', element: <HighlightDetail /> },
+  ...SECTIONS.flatMap((section) => {
+    const ListPage = SECTION_LIST_PAGES[section.path]
+    return [
+      { path: section.path, element: <ListPage /> },
+      { path: `${section.path}/:slug`, element: <PostDetail /> },
+    ]
+  }),
   { path: 'news', element: <NewsRedirect /> },
-  { path: 'blog', element: <Blog /> },
-  { path: 'blog/:slug', element: <BlogPost /> },
   { path: 'about', element: <About /> },
   { path: 'contact', element: <Contact /> },
   { path: '*', element: <Home /> },

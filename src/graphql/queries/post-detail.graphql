@@ -1,4 +1,4 @@
-query BlogPost($slug: ID!) {
+query PostDetail($slug: ID!) {
   post(id: $slug, idType: SLUG) {
     id
     title
@@ -6,6 +6,11 @@ query BlogPost($slug: ID!) {
     date
     author {
       node {
+        name
+      }
+    }
+    tags {
+      nodes {
         name
       }
     }
