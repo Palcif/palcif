@@ -1,0 +1,78 @@
+/* ═════ Post Detail Page ═════
+   Shared detail view for Blog, Highlights, and Activities posts. */
+.post-detail-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-block-end: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent-olive);
+  transition: gap var(--transition-fast);
+  width: fit-content;
+}
+
+.post-detail-back-link:hover {
+  gap: 12px;
+}
+
+.post-detail {
+  display: grid;
+  gap: 24px;
+  padding: 32px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  box-shadow: 0 4px 18px rgba(27, 26, 23, 0.04);
+}
+
+.post-detail-image {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--surface);
+}
+
+.post-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-detail-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.post-detail-tag {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-burgundy);
+  background: var(--accent-burgundy-subtle);
+  border-radius: 999px;
+}
+
+.post-detail-body h1 {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-block: 14px;
+}
+
+.post-detail-byline {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-block-end: 16px;
+}
+
+@media (max-width: 760px) {
+  .post-detail {
+    padding: 20px;
+  }
+}

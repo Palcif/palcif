@@ -1,0 +1,119 @@
+/* ═════ Activities Page ═════ */
+.activity-feed {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activity-card {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.activity-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+}
+
+.activity-card-thumb {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--surface);
+  aspect-ratio: 16 / 10;
+}
+
+.activity-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.activity-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.activity-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block-end: 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.activity-category {
+  padding: 4px 10px;
+  font-weight: 600;
+  color: var(--accent-burgundy);
+  background: var(--accent-burgundy-subtle);
+  border-radius: 999px;
+}
+
+.activity-card-body h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-block-end: 10px;
+}
+
+.activity-card-body p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-block-end: 16px;
+}
+
+.activity-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent-olive);
+  transition: gap var(--transition-fast);
+  width: fit-content;
+}
+
+.activity-card-link:hover {
+  gap: 12px;
+}
+
+.activity-card-link svg {
+  transition: transform var(--transition-fast);
+}
+
+.activity-card-link:hover svg {
+  transform: translateX(3px);
+}
+
+@media (max-width: 1024px) {
+  .activity-card {
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 760px) {
+  .activity-card {
+    grid-template-columns: 1fr;
+  }
+
+  .activity-card-thumb {
+    aspect-ratio: 16 / 9;
+  }
+}

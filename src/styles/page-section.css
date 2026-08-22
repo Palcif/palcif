@@ -1,0 +1,28 @@
+/* ═════ Page Section (Shared) ═════ */
+.page-section {
+  padding: 48px 24px 64px;
+}
+
+.page-section-muted {
+  background: var(--bg-elevated);
+}
+
+.page-section-inner {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.page-section-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-block-end: 28px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .page-section {
+    padding: 36px 16px 48px;
+  }
+}

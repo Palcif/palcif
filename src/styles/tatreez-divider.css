@@ -1,0 +1,16 @@
+/* ═════ Tatreez Divider ═════ */
+.tatreez-divider {
+  width: 100%;
+  height: 64px;
+  background-image: url('@/assets/design/tatreez-main-border.png');
+  background-repeat: repeat-x;
+  background-size: auto 64px;
+  background-position: center;
+}
+
+@media (max-width: 760px) {
+  .tatreez-divider {
+    height: 52px;
+    background-size: auto 52px;
+  }
+}

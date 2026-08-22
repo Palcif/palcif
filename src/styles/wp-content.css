@@ -1,0 +1,255 @@
+/* ═════ WordPress Block Content ═════
+   Renders `page.content` / `post.content` — sanitized HTML authored in the
+   WordPress block editor. Unlike the rest of the site, its structure isn't
+   known ahead of time, so these rules style common block markup generically
+   rather than bespoke per-page classes. */
+.page-content {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.page-content > * + * {
+  margin-block-start: 16px;
+}
+
+.page-content h1,
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.page-content h1 {
+  font-size: 32px;
+}
+.page-content h2 {
+  font-size: 26px;
+}
+.page-content h3 {
+  font-size: 21px;
+}
+.page-content h4 {
+  font-size: 17px;
+}
+
+.page-content ul,
+.page-content ol {
+  padding-inline-start: 22px;
+}
+
+.page-content li + li {
+  margin-block-start: 6px;
+}
+
+.page-content a {
+  color: var(--accent-olive);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.page-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+.page-content blockquote,
+.page-content .wp-block-quote {
+  padding-inline-start: 20px;
+  border-inline-start: 3px solid var(--accent-burgundy);
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+.page-content .wp-block-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+  gap: 16px;
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.page-content .wp-block-gallery.columns-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.page-content .wp-block-gallery.columns-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.page-content .wp-block-gallery.columns-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.page-content .wp-block-gallery.columns-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.page-content .wp-block-gallery.columns-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.page-content .wp-block-gallery .wp-block-image {
+  margin: 0;
+}
+
+.page-content .wp-block-gallery.is-cropped .wp-block-image {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.page-content .wp-block-gallery.is-cropped .wp-block-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .page-content .wp-block-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.page-content .wp-block-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.page-content .wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  background: var(--accent-burgundy);
+  color: var(--text-on-dark);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+
+.page-content .wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/*
+ * WordPress themes define --wp--preset--spacing--* on the site's own
+ * <html>, which headless content loses since we only fetch post_content.
+ * Approximate the default WP spacing scale so padding/margin authored
+ * against those tokens don't collapse to 0 instead of just looking
+ * slightly different from the source theme.
+ */
+.page-content {
+  --wp--preset--spacing--20: 8px;
+  --wp--preset--spacing--30: 12px;
+  --wp--preset--spacing--40: 16px;
+  --wp--preset--spacing--50: 24px;
+  --wp--preset--spacing--60: 32px;
+  --wp--preset--spacing--70: 48px;
+  --wp--preset--spacing--80: 64px;
+}
+
+.page-content .wp-block-group {
+  margin-block: 16px;
+}
+
+.page-content .wp-block-group.is-layout-flex {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.page-content .wp-block-group.is-layout-flex.is-nowrap {
+  flex-wrap: nowrap;
+}
+
+.page-content .wp-block-group.is-layout-flex.is-vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.page-content .wp-block-group.is-layout-flex.is-content-justification-center,
+.page-content .wp-block-buttons.is-content-justification-center {
+  justify-content: center;
+}
+
+.page-content .wp-block-group.is-layout-flex.is-content-justification-left,
+.page-content .wp-block-buttons.is-content-justification-left {
+  justify-content: flex-start;
+}
+
+.page-content .wp-block-group.is-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.page-content .wp-block-group > * + *,
+.page-content .wp-block-column > * + * {
+  margin-block-start: 12px;
+}
+
+/*
+ * alignwide/alignfull normally break content out to the theme's wide or
+ * full viewport width. Our post card is a contained, rounded, bordered
+ * surface (see .post-detail), so a true edge-to-edge breakout would clip
+ * against those rounded corners — instead let full/wide sections fill the
+ * available card width like everything else.
+ */
+.page-content .alignwide,
+.page-content .alignfull {
+  width: 100%;
+}
+
+.page-content .wp-block-cover {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  border-radius: var(--radius-lg);
+}
+
+.page-content .wp-block-cover__video-background,
+.page-content .wp-block-cover__image-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.page-content .wp-block-cover__background {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.page-content .wp-block-cover__background.has-background-dim {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.page-content .wp-block-cover__inner-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 32px;
+  color: #fff;
+}
+
+/*
+ * .page-content h1-h4 hardcode a dark color for readability on the site's
+ * normal cream background, which otherwise beats the white set above —
+ * directly-styled elements win over inherited color regardless of where
+ * it was set. Cover blocks are always shown over a dimmed image/video, so
+ * headings there need to stay white instead.
+ */
+.page-content .wp-block-cover__inner-container h1,
+.page-content .wp-block-cover__inner-container h2,
+.page-content .wp-block-cover__inner-container h3,
+.page-content .wp-block-cover__inner-container h4 {
+  color: inherit;
+}

@@ -1,0 +1,97 @@
+/* ═════ Buttons & Arrow Links ═════
+   Shared across Home, About, Contact, and the page-section CTA pattern. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: var(--accent-burgundy);
+  color: var(--text-on-dark);
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-soft);
+  min-height: 48px;
+}
+
+.btn-primary:hover {
+  background: var(--accent-burgundy-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-primary:active {
+  background: var(--accent-burgundy-active);
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent-olive);
+  transition:
+    color var(--transition-fast),
+    gap var(--transition-fast);
+  min-height: 44px;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-text:hover {
+  color: var(--accent-olive-hover);
+  gap: 12px;
+}
+
+.btn-text svg {
+  transition: transform var(--transition-fast);
+}
+
+.btn-text:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition:
+    color var(--transition-fast),
+    gap var(--transition-fast);
+  white-space: nowrap;
+  min-height: 36px;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.text-link:hover {
+  color: var(--accent-olive);
+  gap: 10px;
+}
+
+.text-link svg {
+  transition: transform var(--transition-fast);
+}
+
+.text-link:hover svg {
+  transform: translateX(3px);
+}

@@ -1,0 +1,28 @@
+/* ═════ Skip Link ═════ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 12px 24px;
+  background: var(--accent-burgundy);
+  color: var(--text-on-dark);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
+/* ═════ Page Shell ═════ */
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
