@@ -1,0 +1,11 @@
+query SectionPostsSignal($language: LanguageCodeFilterEnum!, $category: String!) {
+  posts(
+    first: 1
+    where: { language: $language, categoryName: $category, orderby: { field: MODIFIED, order: DESC } }
+  ) {
+    nodes {
+      id
+      modified
+    }
+  }
+}

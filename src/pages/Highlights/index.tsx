@@ -1,24 +1,23 @@
 import { useTranslation } from 'react-i18next'
 
-import { useHighlights } from '@/features/highlights/useHighlights'
+import { useSectionPosts } from '@/features/posts/useSectionPosts'
 import { FloralOrnament } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
-import { toSafeRelativePath } from '@/shared/utils/url'
 
 export default function Highlights() {
   const { t } = useTranslation()
-  const { data, isLoading, isError } = useHighlights()
-  const highlights = (data?.highlight?.nodes ?? []).map((item) => ({
+  const { data, isLoading, isError } = useSectionPosts('highlights')
+  const highlights = (data?.posts?.nodes ?? []).map((item) => ({
     id: item.id,
     img: item.featuredImage?.node.sourceUrl ?? undefined,
     imgAlt: item.featuredImage?.node.altText ?? '',
     title: item.title ?? '',
-    description: item.highlightFields?.description ?? '',
-    tag: item.highlightFields?.tag ?? '',
-    to: toSafeRelativePath(item.highlightFields?.linkUrl, `/highlights/${item.slug}`),
+    excerpt: item.excerpt ?? '',
+    tag: item.tags?.nodes[0]?.name ?? '',
+    to: `/highlights/${item.slug}`,
   }))
 
   return (
@@ -91,8 +90,8 @@ export default function Highlights() {
                           id={`highlights-page-title-${item.id}`}
                           dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }}
                         />
-                        <p>{item.description}</p>
-                        <span className="highlight-tag">{item.tag}</span>
+                        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.excerpt) }} />
+                        {item.tag && <span className="highlight-tag">{item.tag}</span>}
                       </div>
                     </LocalizedNavLink>
                   </article>

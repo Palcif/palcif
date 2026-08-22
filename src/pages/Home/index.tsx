@@ -2,11 +2,10 @@ import { useTranslation } from 'react-i18next'
 
 import heroCollage from '@/assets/design/hero-collage-full.png'
 import oliveSprig from '@/assets/design/olive-sprig-left.png'
-import { useActivities } from '@/features/activities/useActivities'
-import { useBlogPosts } from '@/features/blog/useBlogPosts'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
-import { useHomePage } from '@/features/page-copy/useHomePage'
+import { usePage } from '@/features/pages/usePage'
+import { useSectionPosts } from '@/features/posts/useSectionPosts'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import SectionHeader from '@/shared/components/SectionHeader'
@@ -19,12 +18,12 @@ export default function Home() {
   const { t } = useTranslation()
   const { data: eventsData, isLoading: eventsLoading } = useEvents()
   const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 6)
-  const { data: activitiesData, isLoading: activitiesLoading } = useActivities()
-  const latestActivities = (activitiesData?.activities?.nodes ?? []).slice(0, 3)
-  const { data: blogData, isLoading: blogLoading } = useBlogPosts()
+  const { data: activitiesData, isLoading: activitiesLoading } = useSectionPosts('activities')
+  const latestActivities = (activitiesData?.posts?.nodes ?? []).slice(0, 3)
+  const { data: blogData, isLoading: blogLoading } = useSectionPosts('blog')
   const latestPosts = (blogData?.posts?.nodes ?? []).slice(0, 3)
-  const { data: homeData, isLoading: homeLoading } = useHomePage()
-  const home = homeData?.page?.homeFields
+  const { data: homeData, isLoading: homeLoading } = usePage('home')
+  const home = homeData?.pages?.nodes[0]
 
   return (
     <>
@@ -40,20 +39,18 @@ export default function Home() {
               width="88"
               height="340"
             />
-            <p className="hero-tagline">
-              {homeLoading ? <Skeleton width={140} height={14} /> : (home?.heroTagline ?? '')}
-            </p>
             {homeLoading ? (
-              <h1 id="hero-heading">
+              <div className="hero-copy-skeleton" aria-hidden="true">
+                <Skeleton width={140} height={14} />
                 <Skeleton width="90%" height={38} className="skeleton-line" />
                 <Skeleton width="65%" height={38} className="skeleton-line" />
-              </h1>
+                <SkeletonLines widths={['100%', '80%']} height={15} />
+              </div>
             ) : (
-              <h1
+              <div
                 id="hero-heading"
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHtml(home?.heroHeading ?? ''),
-                }}
+                className="page-content hero-copy"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(home?.content) }}
               />
             )}
 
@@ -71,13 +68,6 @@ export default function Home() {
               <span className="hero-divider-line" />
             </div>
 
-            <p className="hero-description">
-              {homeLoading ? (
-                <SkeletonLines widths={['100%', '80%']} height={15} />
-              ) : (
-                (home?.heroDescription ?? '')
-              )}
-            </p>
             <div className="hero-actions">
               <LocalizedNavLink to="/about" className="btn-primary">
                 {t('home.ctaJoin')}
@@ -215,14 +205,7 @@ export default function Home() {
               {Array.from({ length: 6 }, (_, index) => (
                 <li key={index}>
                   <div className="event-card-tile">
-                    <div className="event-tile-media">
-                      <Skeleton className="skeleton-fill" />
-                    </div>
-                    <div className="event-tile-body">
-                      <Skeleton width="80%" height={18} className="skeleton-line" />
-                      <Skeleton width="60%" height={14} />
-                      <Skeleton width="45%" height={14} />
-                    </div>
+                    <Skeleton className="skeleton-fill" />
                   </div>
                 </li>
               ))}
@@ -233,25 +216,36 @@ export default function Home() {
                 const { month, day, isoDate } = formatEventDate(evt.eventsFields?.eventdate)
                 const imgUrl = evt.featuredImage?.node.sourceUrl
                 const imgAlt = evt.featuredImage?.node.altText ?? ''
+                const eventTime = evt.eventsFields?.eventtime?.trim()
+                const eventLocation = evt.eventsFields?.location?.trim()
+                const hasOverlayContent = Boolean(eventTime || eventLocation || isoDate)
                 return (
                   <li key={evt.id}>
                     <article>
                       <LocalizedNavLink to={`/events/${evt.slug}`} className="event-card-tile">
-                        <div className="event-tile-media">
-                          {imgUrl && <img src={imgUrl} alt={imgAlt} loading="lazy" />}
-                          <time className="event-tile-date" dateTime={isoDate}>
-                            <span className="event-tile-month">{month}</span>
-                            <span className="event-tile-day">{day}</span>
-                          </time>
-                        </div>
-                        <div className="event-tile-body">
-                          <h4
-                            className="line-clamp-2"
-                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }}
+                        {imgUrl && (
+                          <img
+                            src={imgUrl}
+                            alt={imgAlt}
+                            className="event-tile-background-image"
+                            loading="lazy"
                           />
-                          <p className="event-tile-meta">{evt.eventsFields?.eventtime}</p>
-                          <p className="event-tile-loc">{evt.eventsFields?.location}</p>
-                        </div>
+                        )}
+                        {hasOverlayContent && (
+                          <div className="event-tile-overlay">
+                            {isoDate && (
+                              <time className="event-tile-date" dateTime={isoDate}>
+                                <span className="event-tile-month">{month}</span>
+                                <span className="event-tile-day">{day}</span>
+                              </time>
+                            )}
+                            {(eventTime || eventLocation) && (
+                              <p className="event-tile-meta-line">
+                                {[eventTime, eventLocation].filter(Boolean).join(' · ')}
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </LocalizedNavLink>
                     </article>
                   </li>

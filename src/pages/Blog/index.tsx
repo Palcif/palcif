@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { useBlogPosts } from '@/features/blog/useBlogPosts'
+import { useSectionPosts } from '@/features/posts/useSectionPosts'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
@@ -11,7 +11,7 @@ import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function Blog() {
   const { t } = useTranslation()
-  const { data, isLoading, isError } = useBlogPosts()
+  const { data, isLoading, isError } = useSectionPosts('blog')
   const posts = data?.posts?.nodes ?? []
   const [featuredPost, ...recentPosts] = posts
 
