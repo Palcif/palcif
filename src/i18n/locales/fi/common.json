@@ -1,6 +1,7 @@
 {
   "common": {
-    "skipToContent": "Siirry pääsisältöön"
+    "skipToContent": "Siirry pääsisältöön",
+    "backToTop": "Takaisin ylös"
   },
   "nav": {
     "home": "Etusivu",
@@ -76,26 +77,8 @@
   },
   "pages": {
     "about": {
-      "imageAlt": "Kollaasi Helsingin nähtävyyksistä, yhteisön kokoontumisista ja palestiinalaisista perinnesymboleista",
-      "storyHeading": "Tarinamme",
-      "getInTouch": "Ota yhteyttä",
-      "valuesHeading": "Mitä me edustamme",
-      "values": {
-        "community": {
-          "title": "Yhteisö ensin",
-          "description": "Luomme tilan, jossa palestiinalaiset Suomessa voivat tavata, tukea toisiaan ja tuntea olonsa kotoisaksi."
-        },
-        "culture": {
-          "title": "Kulttuuri ja perintö",
-          "description": "Dabkesta tatreeziin pidämme palestiinalaiset perinteet elossa ja siirrämme ne seuraavalle sukupolvelle."
-        },
-        "learning": {
-          "title": "Oppiminen ja vuoropuhelu",
-          "description": "Järjestämme kielipiirejä, elokuvailtoja ja keskusteluja, jotka valistavat, inspiroivat ja yhdistävät."
-        }
-      },
-      "exploreEvents": "Katso tapahtumat",
-      "contactUs": "Ota yhteyttä"
+      "title": "Meistä",
+      "getInTouch": "Ota yhteyttä"
     },
     "activities": {
       "tagline": "Mitä teemme yhdessä",
@@ -104,14 +87,6 @@
       "feedAriaLabel": "Viimeisimmät toiminnot",
       "latestActivities": "Viimeisimmät toiminnot",
       "viewArchive": "Katso arkisto",
-      "filterAriaLabel": "Suodata toimintoja kategorian mukaan",
-      "categories": {
-        "all": "Kaikki",
-        "community": "Yhteisö",
-        "culture": "Kulttuuri",
-        "advocacy": "Vaikuttaminen",
-        "family": "Perhe"
-      },
       "readMore": "Lue lisää",
       "backToActivities": "Takaisin toimintoihin"
     },
@@ -150,6 +125,10 @@
         "partnership": "Yhteistyö",
         "other": "Muu"
       },
+      "errorRequired": "Tämä kenttä on pakollinen.",
+      "errorEmailInvalid": "Anna kelvollinen sähköpostiosoite.",
+      "sending": "Lähetetään…",
+      "sendError": "Viestin lähettämisessä tapahtui virhe. Yritä uudelleen tai lähetä meille sähköpostia suoraan.",
       "messageLabel": "Viesti",
       "messagePlaceholder": "Miten voimme auttaa?",
       "send": "Lähetä viesti",
@@ -181,5 +160,8 @@
       "gridAriaLabel": "Kulttuurikohokohdat",
       "backToHighlights": "Takaisin kohokohtiin"
     }
+  },
+  "post": {
+    "byAuthor": "Kirjoittanut {{author}}"
   }
 }
