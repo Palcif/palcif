@@ -45,6 +45,14 @@ export default function EventDetail() {
         {event && (
           <article className="event-card-detailed">
             <div className="event-details">
+              {event.featuredImage?.node.sourceUrl && (
+                <img
+                  src={event.featuredImage.node.sourceUrl}
+                  alt={event.featuredImage.node.altText ?? ''}
+                  className="event-detail-hero-image"
+                  loading="lazy"
+                />
+              )}
               <h1
                 id="event-heading"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.title) }}
