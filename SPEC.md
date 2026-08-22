@@ -1,7 +1,6 @@
-# Headless data-layer refactor
+# Back-to-top and scroll-reset UI
 
 ## What changed
-
 Replaces per-page-type GraphQL hooks and queries with a generic content model backed by the new `palcif-content-sections` WordPress plugin (see `chore/wordpress-plugins`):
 
 - **New hooks**: `usePage` (generic WP `page` post type — About, Contact, Home), `usePost` (single native post, e.g. a blog/highlight/activity detail page), `useSectionPosts` (posts filtered by one of the three section categories).
@@ -22,10 +21,16 @@ Replaces per-page-type GraphQL hooks and queries with a generic content model ba
 - Added `palcif-content-sections`: unifies Highlights and Activities into native WordPress posts differentiated by category, matching how Blog already works. Keeps the `category` taxonomy shared across languages (untranslated in Polylang) so one category slug (`blog`/`highlights`/`activities`) filters posts in every language, and seeds those three categories on activation. This is the backend counterpart to the frontend's generic `usePage`/`usePost`/`useSectionPosts` data layer, which now reads all three sections through one shape instead of three bespoke post types.
 - Added `palcif-polylang-unique-slugs`: scopes WordPress's slug-uniqueness check to each Polylang language, so a translated post can keep the same natural slug as its source post instead of WordPress silently appending a `-2` suffix.
 - Removed `palcif-headless-lockdown.php`: previously redirected all WordPress front-end requests to the public frontend URL, restricting WordPress to serving `/graphql`, `/wp-json`, and `wp-admin` only. No longer needed for this deployment.
+- Added `ScrollToTop`: resets scroll position to the top on every route change (React Router doesn't do this on its own), using `behavior: 'instant'` so it isn't a visible animated scroll.
+- Added `BackToTopButton`: a floating button that appears after scrolling 480px down and smooth-scrolls back to the top on click.
+- Wired both into `RootLayout.tsx`.
+- Added the `ArrowUp` icon used by `BackToTopButton`.
 
 ## Why
-
 The three content types (activities, highlights, blog posts) were previously three separate WP post types, each with its own hook, query, and near-duplicate list/detail page. The new `palcif-content-sections` plugin unifies them into native posts differentiated by category, so the frontend can read all three through one generic shape instead of maintaining three parallel implementations that only differed in which category they filtered by.
 These are WordPress-side changes independent of the frontend build — no TypeScript/React code is touched — so they can be reviewed and deployed on their own.
 These were already dead code on `main` before any of the other changes in this pass — none of the current pages or components import them. Removing them here keeps the dependency graph and bundle honest, independent of the data-layer/CSS/UI work happening elsewhere.
 Bundled as the "everything else" config/infra layer. Note the locale key additions/removals line up with the `refactor/headless-data-layer` and `feat/back-to-top-ui` branches — merge order matters for translated copy to fully match, though nothing here breaks the TypeScript build on its own.
+Small, self-contained navigation affordance — doesn't touch data fetching, routing structure, or styling architecture, so it ships independently of the rest of this pass. (Its `common.backToTop` translation key lives in `chore/config-and-i18n`.)
+
+
