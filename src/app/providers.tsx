@@ -12,7 +12,9 @@ const queryClient = new QueryClient({
       // Serve cached data instantly for this long, then treat it as stale.
       // Stale queries still refetch in the background on remount/refocus/reconnect,
       // so content changes on the WordPress side show up without a hard reload.
-      staleTime: 5 * 60 * 1000,
+      // Kept short since there's no longer a Cloudflare purge on post save —
+      // this is what bounds how long an edit takes to appear on refocus/reconnect.
+      staleTime: 60 * 1000,
       gcTime: 30 * 60 * 1000,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
