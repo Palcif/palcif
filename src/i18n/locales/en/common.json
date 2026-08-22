@@ -1,6 +1,7 @@
 {
   "common": {
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "backToTop": "Back to top"
   },
   "nav": {
     "home": "Home",
@@ -76,26 +77,8 @@
   },
   "pages": {
     "about": {
-      "imageAlt": "Collage of Helsinki landmarks, community gatherings, and Palestinian heritage symbols",
-      "storyHeading": "Our Story",
-      "getInTouch": "Get in Touch",
-      "valuesHeading": "What We Stand For",
-      "values": {
-        "community": {
-          "title": "Community First",
-          "description": "We create space for Palestinians in Finland to meet, support one another, and feel at home."
-        },
-        "culture": {
-          "title": "Culture & Heritage",
-          "description": "From dabke to tatreez, we keep Palestinian traditions alive and pass them to the next generation."
-        },
-        "learning": {
-          "title": "Learning & Dialogue",
-          "description": "We host language circles, film nights, and discussions that inform, inspire, and connect."
-        }
-      },
-      "exploreEvents": "Explore Events",
-      "contactUs": "Contact Us"
+      "title": "About Us",
+      "getInTouch": "Get in Touch"
     },
     "activities": {
       "tagline": "What we do together",
@@ -104,14 +87,6 @@
       "feedAriaLabel": "Latest activities",
       "latestActivities": "Latest Activities",
       "viewArchive": "View archive",
-      "filterAriaLabel": "Filter activities by category",
-      "categories": {
-        "all": "All",
-        "community": "Community",
-        "culture": "Culture",
-        "advocacy": "Advocacy",
-        "family": "Family"
-      },
       "readMore": "Read more",
       "backToActivities": "Back to Activities"
     },
@@ -150,6 +125,10 @@
         "partnership": "Partnership",
         "other": "Other"
       },
+      "errorRequired": "This field is required.",
+      "errorEmailInvalid": "Enter a valid email address.",
+      "sending": "Sending…",
+      "sendError": "Something went wrong sending your message. Please try again or email us directly.",
       "messageLabel": "Message",
       "messagePlaceholder": "How can we help?",
       "send": "Send Message",
@@ -181,5 +160,8 @@
       "gridAriaLabel": "Cultural highlights",
       "backToHighlights": "Back to Highlights"
     }
+  },
+  "post": {
+    "byAuthor": "By {{author}}"
   }
 }
