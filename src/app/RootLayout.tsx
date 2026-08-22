@@ -5,7 +5,9 @@ import { Navigate, Outlet, useLocation, useParams } from 'react-router'
 import { TOP_LEVEL_SECTIONS } from '@/app/langRoutes'
 import Footer from '@/features/newsletter/Footer'
 import { DEFAULT_LANGUAGE, isSupportedLanguage, RTL_LANGUAGES } from '@/i18n/languages'
+import BackToTopButton from '@/shared/components/BackToTopButton'
 import Header from '@/shared/components/Header'
+import ScrollToTop from '@/shared/components/ScrollToTop'
 import { DetailTranslationsProvider } from '@/shared/context/DetailTranslationsContext'
 
 export default function RootLayout() {
@@ -41,6 +43,7 @@ export default function RootLayout() {
 
   return (
     <DetailTranslationsProvider>
+      <ScrollToTop />
       <div className="page">
         <a href="#main-content" className="skip-link">
           {t('common.skipToContent')}
@@ -52,6 +55,7 @@ export default function RootLayout() {
           </Suspense>
         </main>
         <Footer />
+        <BackToTopButton />
       </div>
     </DetailTranslationsProvider>
   )
