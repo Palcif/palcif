@@ -1,0 +1,149 @@
+/* ═════ Hero ═════ */
+.hero {
+  padding: 36px 24px 44px;
+  max-width: 1200px;
+  margin-inline: auto;
+  flex: 1;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.18fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.hero-left {
+  position: relative;
+  padding-inline-start: 64px;
+}
+
+.hero-olive {
+  position: absolute;
+  left: -4px;
+  top: 74px;
+  width: 44px;
+  height: auto;
+  opacity: 0.85;
+}
+
+#hero-heading h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(44px, 4.8vw, 68px);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin-block-end: 16px;
+  letter-spacing: -0.02em;
+}
+
+#hero-heading h1 .accent {
+  color: var(--accent-burgundy);
+}
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 20px;
+  max-width: 440px;
+}
+
+.hero-divider-line {
+  flex: 1;
+  height: 0;
+  border-block-start: 2px dotted var(--border-medium);
+}
+
+.hero-divider-ornament {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.hero-divider-ornament svg {
+  width: 12px;
+  height: 12px;
+}
+
+.hero-copy p:first-child {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-olive);
+}
+
+.hero-copy p:last-child {
+  max-width: 420px;
+}
+
+.hero-copy-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-block-end: 16px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.hero-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-right-img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  border: 8px solid #fff;
+  border-radius: 8px;
+  box-shadow: var(--shadow-medium);
+}
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .hero-left {
+    padding-inline-start: 0;
+    text-align: center;
+  }
+
+  .hero-olive {
+    display: none;
+  }
+
+  .hero-description {
+    margin-inline: auto;
+  }
+
+  .hero-divider {
+    margin-inline: auto;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-right-img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding-inline: 16px;
+    padding-block: 28px 36px;
+  }
+}

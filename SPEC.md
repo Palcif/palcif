@@ -1,8 +1,10 @@
-# Back-to-top and scroll-reset UI
+# New Changes on the code
 
 ## What changed
-Replaces per-page-type GraphQL hooks and queries with a generic content model backed by the new `palcif-content-sections` WordPress plugin (see `chore/wordpress-plugins`):
 
+Replaces per-page-type GraphQL hooks and queries with a generic content model backed by the new `palcif-content-sections` WordPress plugin (see `chore/wordpress-plugins`):
+- Split the single 2,458-line `src/App.css` into 20 focused files under `src/styles/` (`base`, `buttons`, `header`, `mobile-menu`, `footer`, `hero`, `tatreez-divider`, `content-grid`, `home-events`, `cultural-highlights`, `page-hero`, `page-section`, `post-detail`, `wp-content`, `activities`, `events`, `blog`, `contact`, `query-status`, `skeleton`, `legacy`), imported back in from `App.css` via `@import`.
+- Removed the scroll-reveal animation rules (`.reveal`, `.reveal-stagger`, `.hero-animate`, and their `prefers-reduced-motion` overrides) and unused `.truncate`/`.line-clamp-3` utilities from `src/index.css` — these backed the now-removed `useScrollReveal` hook.
 - **New hooks**: `usePage` (generic WP `page` post type — About, Contact, Home), `usePost` (single native post, e.g. a blog/highlight/activity detail page), `useSectionPosts` (posts filtered by one of the three section categories).
 - **New `src/features/posts/sections.ts`**: defines the three content sections (`blog`, `highlights`, `activities`) — route path, WP category slug, and i18n keys for noun/back-label — as a single source of truth `langRoutes.tsx` and the section pages read from instead of three hardcoded, near-identical route/page implementations.
 - **Removed**: `useActivities`/`useActivityDetail`, `useBlogPost`/`useBlogPosts`, `useHighlights`/`useHighlightDetail`, `useAboutPage`/`useContactPage`/`useHomePage`, and their corresponding `.graphql` query files — all superseded by the three generic hooks above.
@@ -27,6 +29,8 @@ Replaces per-page-type GraphQL hooks and queries with a generic content model ba
 - Added the `ArrowUp` icon used by `BackToTopButton`.
 
 ## Why
+
+`App.css` had grown into one large, hard-to-navigate file mixing layout primitives, per-page styles, and component styles. Splitting it by concern makes each stylesheet easy to find and change without scrolling through unrelated rules, and lets a page's styles be reviewed alongside just that page's markup changes.
 The three content types (activities, highlights, blog posts) were previously three separate WP post types, each with its own hook, query, and near-duplicate list/detail page. The new `palcif-content-sections` plugin unifies them into native posts differentiated by category, so the frontend can read all three through one generic shape instead of maintaining three parallel implementations that only differed in which category they filtered by.
 These are WordPress-side changes independent of the frontend build — no TypeScript/React code is touched — so they can be reviewed and deployed on their own.
 These were already dead code on `main` before any of the other changes in this pass — none of the current pages or components import them. Removing them here keeps the dependency graph and bundle honest, independent of the data-layer/CSS/UI work happening elsewhere.
