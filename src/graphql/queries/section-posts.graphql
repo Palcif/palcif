@@ -1,0 +1,30 @@
+query SectionPosts($language: LanguageCodeFilterEnum!, $category: String!) {
+  posts(
+    first: 20
+    where: { language: $language, categoryName: $category, orderby: { field: DATE, order: DESC } }
+  ) {
+    nodes {
+      id
+      title
+      excerpt
+      date
+      slug
+      author {
+        node {
+          name
+        }
+      }
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+      tags {
+        nodes {
+          name
+        }
+      }
+    }
+  }
+}

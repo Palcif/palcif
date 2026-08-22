@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import { useContactPage } from '@/features/page-copy/useContactPage'
+import { usePage } from '@/features/pages/usePage'
 import { useSiteSettings } from '@/features/site-settings/useSiteSettings'
 import {
   FloralOrnament,
@@ -14,11 +15,15 @@ import {
   SocialWhatsApp,
 } from '@/shared/components/icons'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 import { toSafeExternalUrl } from '@/shared/utils/url'
+
+import { contactFormResolver, type ContactFormValues } from './contactFormSchema'
 
 export default function Contact() {
   const { t } = useTranslation()
-  const { data: contactData, isLoading: contactLoading } = useContactPage()
+  const { data: contactData, isLoading: contactLoading } = usePage('contact')
+  const contactPage = contactData?.pages?.nodes[0]
   const { data: settingsData } = useSiteSettings()
   const settings = settingsData?.siteSettings?.siteSettingsFields
 
@@ -44,25 +49,40 @@ export default function Contact() {
       icon: SocialEmail,
     },
   ]
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: contactFormResolver,
+    defaultValues: { name: '', email: '', subject: '', message: '' },
   })
-  const [submitted, setSubmitted] = useState(false)
+  const [submitOutcome, setSubmitOutcome] = useState<'idle' | 'success' | 'error'>('idle')
+  const [submittedName, setSubmittedName] = useState('')
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setSubmitted(true)
-  }
+  const onSubmit = handleSubmit(async (values) => {
+    const formspreeId = import.meta.env['VITE_FORMSPREE_ID'] as string | undefined
+    if (!formspreeId) {
+      setSubmitOutcome('error')
+      return
+    }
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = event.target
-    setFormState((prev) => ({ ...prev, [name]: value }))
-  }
+    try {
+      const response = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(values),
+      })
+      if (!response.ok) throw new Error('Formspree submission failed')
+      setSubmittedName(values.name)
+      setSubmitOutcome('success')
+      reset()
+    } catch {
+      setSubmitOutcome('error')
+    }
+  })
 
   return (
     <>
@@ -89,14 +109,14 @@ export default function Contact() {
             {/* Contact Info */}
             <div className="contact-info">
               <h2>{t('pages.contact.getInTouch')}</h2>
-              <p>
-                {contactLoading ? (
-                  <SkeletonLines widths={['100%', '70%']} height={15} />
-                ) : (
-                  (contactData?.page?.contactFields?.contactIntro ??
-                  'Whether you want to volunteer, partner with us, or learn more about our community, our team is here to help.')
-                )}
-              </p>
+              {contactLoading ? (
+                <SkeletonLines widths={['100%', '70%']} height={15} />
+              ) : (
+                <div
+                  className="page-content"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(contactPage?.content) }}
+                />
+              )}
 
               <ul className="contact-methods">
                 <li>
@@ -141,55 +161,65 @@ export default function Contact() {
 
             {/* Contact Form */}
             <div className="contact-form-card">
-              {submitted ? (
+              {submitOutcome === 'success' ? (
                 <div className="contact-success">
                   <h3>
                     {t('pages.contact.successThanks', {
-                      name: formState.name || t('pages.contact.successFallbackName'),
+                      name: submittedName || t('pages.contact.successFallbackName'),
                     })}
                   </h3>
                   <p>{t('pages.contact.successBody')}</p>
                   <button
                     type="button"
                     className="btn-primary"
-                    onClick={() => {
-                      setSubmitted(false)
-                      setFormState({ name: '', email: '', subject: '', message: '' })
-                    }}
+                    onClick={() => setSubmitOutcome('idle')}
                   >
                     {t('pages.contact.sendAnother')}
                   </button>
                 </div>
               ) : (
                 <form
-                  onSubmit={handleSubmit}
+                  onSubmit={onSubmit}
                   className="contact-form"
                   aria-label={t('pages.contact.formAriaLabel')}
+                  noValidate
                 >
+                  {submitOutcome === 'error' && (
+                    <p className="form-error" role="alert">
+                      {t('pages.contact.sendError')}
+                    </p>
+                  )}
+
                   <div className="form-row">
                     <div className="form-field">
                       <label htmlFor="contact-name">{t('pages.contact.nameLabel')}</label>
                       <input
                         id="contact-name"
-                        name="name"
                         type="text"
-                        value={formState.name}
-                        onChange={handleChange}
                         placeholder={t('pages.contact.namePlaceholder')}
-                        required
+                        aria-invalid={errors.name ? true : undefined}
+                        {...register('name')}
                       />
+                      {errors.name && (
+                        <p className="form-field-error">
+                          {t(`pages.contact.${errors.name.message}`)}
+                        </p>
+                      )}
                     </div>
                     <div className="form-field">
                       <label htmlFor="contact-email">{t('pages.contact.emailLabel')}</label>
                       <input
                         id="contact-email"
-                        name="email"
                         type="email"
-                        value={formState.email}
-                        onChange={handleChange}
                         placeholder={t('pages.contact.emailPlaceholder')}
-                        required
+                        aria-invalid={errors.email ? true : undefined}
+                        {...register('email')}
                       />
+                      {errors.email && (
+                        <p className="form-field-error">
+                          {t(`pages.contact.${errors.email.message}`)}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -197,10 +227,9 @@ export default function Contact() {
                     <label htmlFor="contact-subject">{t('pages.contact.subjectLabel')}</label>
                     <select
                       id="contact-subject"
-                      name="subject"
-                      value={formState.subject}
-                      onChange={handleChange}
-                      required
+                      defaultValue=""
+                      aria-invalid={errors.subject ? true : undefined}
+                      {...register('subject')}
                     >
                       <option value="" disabled>
                         {t('pages.contact.subjectPlaceholder')}
@@ -215,23 +244,31 @@ export default function Contact() {
                       </option>
                       <option value="other">{t('pages.contact.subjectOptions.other')}</option>
                     </select>
+                    {errors.subject && (
+                      <p className="form-field-error">
+                        {t(`pages.contact.${errors.subject.message}`)}
+                      </p>
+                    )}
                   </div>
 
                   <div className="form-field">
                     <label htmlFor="contact-message">{t('pages.contact.messageLabel')}</label>
                     <textarea
                       id="contact-message"
-                      name="message"
-                      value={formState.message}
-                      onChange={handleChange}
                       placeholder={t('pages.contact.messagePlaceholder')}
                       rows={5}
-                      required
+                      aria-invalid={errors.message ? true : undefined}
+                      {...register('message')}
                     />
+                    {errors.message && (
+                      <p className="form-field-error">
+                        {t(`pages.contact.${errors.message.message}`)}
+                      </p>
+                    )}
                   </div>
 
-                  <button type="submit" className="btn-primary btn-full">
-                    {t('pages.contact.send')}
+                  <button type="submit" className="btn-primary btn-full" disabled={isSubmitting}>
+                    {isSubmitting ? t('pages.contact.sending') : t('pages.contact.send')}
                     <Send className="btn-icon" />
                   </button>
                 </form>

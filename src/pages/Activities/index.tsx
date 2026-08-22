@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { useActivities } from '@/features/activities/useActivities'
+import { useSectionPosts } from '@/features/posts/useSectionPosts'
 import { ArrowRight, FloralOrnament } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
@@ -11,16 +11,8 @@ import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function Activities() {
   const { t } = useTranslation()
-  const { data, isLoading, isError } = useActivities()
-  const activities = data?.activities?.nodes ?? []
-
-  const CATEGORIES = [
-    t('pages.activities.categories.all'),
-    t('pages.activities.categories.community'),
-    t('pages.activities.categories.culture'),
-    t('pages.activities.categories.advocacy'),
-    t('pages.activities.categories.family'),
-  ]
+  const { data, isLoading, isError } = useSectionPosts('activities')
+  const activities = data?.posts?.nodes ?? []
 
   return (
     <>
@@ -47,23 +39,6 @@ export default function Activities() {
             title={t('pages.activities.latestActivities')}
             action={t('pages.activities.viewArchive')}
           />
-
-          <div
-            className="category-filter"
-            role="group"
-            aria-label={t('pages.activities.filterAriaLabel')}
-          >
-            {CATEGORIES.map((category, index) => (
-              <button
-                key={category}
-                type="button"
-                className={`category-pill${index === 0 ? ' active' : ''}`}
-                aria-pressed={index === 0}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
 
           {isError && <QueryError label={t('nouns.activities')} />}
           {!isLoading && !isError && activities.length === 0 && (
@@ -109,13 +84,13 @@ export default function Activities() {
                       </div>
                       <div className="activity-card-body">
                         <div className="activity-card-meta">
-                          <span className="activity-category">
-                            {item.activityFields?.category?.[0] ?? ''}
-                          </span>
+                          {item.tags?.nodes[0]?.name && (
+                            <span className="activity-category">{item.tags.nodes[0].name}</span>
+                          )}
                           <time dateTime={item.date ?? ''}>{formatDisplayDate(item.date)}</time>
                         </div>
                         <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.title) }} />
-                        <p>{item.activityFields?.summary}</p>
+                        <p dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.excerpt) }} />
                         <LocalizedNavLink
                           to={`/activities/${item.slug}`}
                           className="activity-card-link"
