@@ -88,13 +88,22 @@ export default function Events() {
             <ul className="events-list-detailed">
               {upcoming.map((evt) => {
                 const { month, day, isoDate } = formatEventDate(evt.eventsFields?.eventdate)
+                const imageUrl = evt.featuredImage?.node.sourceUrl
+                const imageAlt = evt.featuredImage?.node.altText ?? ''
                 return (
                   <li key={evt.id}>
                     <article className="event-card-detailed">
-                      <time className="event-date-detailed" dateTime={isoDate}>
-                        <span className="event-month">{month}</span>
-                        <span className="event-day">{day}</span>
-                      </time>
+                      {imageUrl && (
+                        <div className="event-card-image">
+                          <img src={imageUrl} alt={imageAlt} loading="lazy" />
+                        </div>
+                      )}
+                      {isoDate && (
+                        <time className="event-date-detailed" dateTime={isoDate}>
+                          <span className="event-month">{month}</span>
+                          <span className="event-day">{day}</span>
+                        </time>
+                      )}
                       <div className="event-details">
                         <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }} />
                         <p
@@ -131,13 +140,22 @@ export default function Events() {
             <ul className="events-list-compact">
               {past.map((evt) => {
                 const { month, day, isoDate } = formatEventDate(evt.eventsFields?.eventdate)
+                const imageUrl = evt.featuredImage?.node.sourceUrl
+                const imageAlt = evt.featuredImage?.node.altText ?? ''
                 return (
                   <li key={evt.id}>
                     <article className="event-card-compact">
-                      <time className="event-date-compact" dateTime={isoDate}>
-                        <span className="event-month">{month}</span>
-                        <span className="event-day">{day}</span>
-                      </time>
+                      {imageUrl && (
+                        <div className="event-card-thumb">
+                          <img src={imageUrl} alt={imageAlt} loading="lazy" />
+                        </div>
+                      )}
+                      {isoDate && (
+                        <time className="event-date-compact" dateTime={isoDate}>
+                          <span className="event-month">{month}</span>
+                          <span className="event-day">{day}</span>
+                        </time>
+                      )}
                       <div className="event-info">
                         <h4 dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }} />
                         <p className="event-loc">{evt.eventsFields?.location}</p>
