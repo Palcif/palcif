@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: PALCIF GraphQL Polylang Bridge
- * Description: Adds a `language` filter argument to WPGraphQL connection queries (posts, and any Polylang-translated custom post type), backed by Polylang's native `lang` WP_Query support. Narrow, single-purpose replacement for the unmaintained third-party wp-graphql-polylang bridge.
- * Version: 1.0.0
+ * Description: Adds a `language` filter argument to WPGraphQL connection queries (posts, any Polylang-translated custom post type, and menu items), backed by Polylang's native `lang` WP_Query support / language lookups. Narrow, single-purpose replacement for the unmaintained third-party wp-graphql-polylang bridge.
+ * Version: 1.1.0
  * Requires Plugins: wp-graphql, polylang
  */
 
@@ -26,6 +26,11 @@ add_action('graphql_register_types', function () {
             'AR' => ['value' => 'ar'],
             'FI' => ['value' => 'fi'],
         ],
+    ]);
+
+    register_graphql_field('RootQueryToMenuItemConnectionWhereArgs', 'language', [
+        'type' => 'LanguageCodeFilterEnum',
+        'description' => 'Filter menu items to the ones belonging to this Polylang language.',
     ]);
 
     register_graphql_object_type('PolylangTranslation', [
@@ -93,4 +98,34 @@ add_filter('graphql_post_object_connection_query_args', function ($query_args, $
         $query_args['lang'] = sanitize_key($args['where']['language']);
     }
     return $query_args;
+}, 10, 3);
+
+/**
+ * Menu items don't resolve through WP_Query, so the language where-arg has
+ * to be captured when the `menuItems` field resolves and applied when
+ * WordPress fetches the raw menu items for that request.
+ */
+add_filter('graphql_resolve_field', function ($result, $source, $args, $context, $info) {
+    $is_root_menu_items_field = ($info->fieldName ?? null) === 'menuItems'
+        && ($info->parentType->name ?? null) === 'RootQuery';
+    if ($is_root_menu_items_field && !empty($args['where']['language'])) {
+        $GLOBALS['palcif_requested_menu_language'] = sanitize_key($args['where']['language']);
+    }
+    return $result;
+}, 10, 5);
+
+add_filter('wp_get_nav_menu_items', function ($items, $menu, $args) {
+    $requested_language = $GLOBALS['palcif_requested_menu_language'] ?? null;
+    unset($GLOBALS['palcif_requested_menu_language']);
+    if (!$requested_language || !function_exists('pll_get_post_language')) {
+        return $items;
+    }
+    return array_values(array_filter($items, function ($item) use ($requested_language) {
+        $object_id = $item->object_id ?? null;
+        if (!$object_id) {
+            return true;
+        }
+        $item_language = pll_get_post_language($object_id, 'slug');
+        return !$item_language || $item_language === $requested_language;
+    }));
 }, 10, 3);
