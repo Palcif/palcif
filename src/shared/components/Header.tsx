@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useParams } from 'react-router'
 
 import logoUrl from '@/assets/design/logo-header.png'
+import { MenuLink } from '@/features/navigation/MenuLink'
+import { useSiteMenus } from '@/features/navigation/useSiteMenus'
 import { DEFAULT_LANGUAGE, isSupportedLanguage, type Lang } from '@/i18n/languages'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { useDetailTranslations } from '@/shared/context/DetailTranslationsContext'
@@ -16,16 +18,8 @@ export default function Header() {
   const location = useLocation()
   const navigate = useNavigate()
   const translations = useDetailTranslations()
+  const { header: headerMenuItems } = useSiteMenus()
   const [menuOpen, setMenuOpen] = useState(false)
-
-  const navLinks = [
-    { to: '/', label: t('nav.home'), end: true },
-    { to: '/events', label: t('nav.events'), end: false },
-    { to: '/activities', label: t('nav.activities'), end: false },
-    { to: '/blog', label: t('nav.blog'), end: false },
-    { to: '/about', label: t('nav.about'), end: false },
-    { to: '/contact', label: t('nav.contact'), end: false },
-  ]
 
   const setLang = (target: Lang) => {
     if (target === lang) return
@@ -62,15 +56,8 @@ export default function Header() {
         </LocalizedNavLink>
 
         <nav className="main-nav" aria-label={t('header.mainNavAria')}>
-          {navLinks.map(({ to, label, end }) => (
-            <LocalizedNavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-            >
-              {label}
-            </LocalizedNavLink>
+          {headerMenuItems.map((menuItem) => (
+            <MenuLink key={menuItem.id} item={menuItem} className="nav-link" />
           ))}
         </nav>
 
@@ -109,16 +96,13 @@ export default function Header() {
         aria-hidden={!menuOpen}
       >
         <nav className="mobile-nav" aria-label={t('header.mobileNavAria')}>
-          {navLinks.map(({ to, label, end }) => (
-            <LocalizedNavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {label}
-            </LocalizedNavLink>
+          {headerMenuItems.map((menuItem) => (
+            <MenuLink
+              key={menuItem.id}
+              item={menuItem}
+              className="mobile-nav-link"
+              onNavigate={() => setMenuOpen(false)}
+            />
           ))}
         </nav>
         <div className="mobile-lang-switcher" aria-label={t('header.mobileLangSelectorAria')}>

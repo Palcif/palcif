@@ -1,6 +1,9 @@
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import logoUrl from '@/assets/design/logo-header.png'
+import { MenuLink } from '@/features/navigation/MenuLink'
+import { useSiteMenus } from '@/features/navigation/useSiteMenus'
 import { useSiteSettings } from '@/features/site-settings/useSiteSettings'
 import {
   SocialEmail,
@@ -14,17 +17,9 @@ import { toSafeExternalUrl } from '@/shared/utils/url'
 export default function Footer() {
   const { t } = useTranslation()
   const { data } = useSiteSettings()
+  const { footerExplore: footerExploreItems, footerLegal: footerLegalItems } = useSiteMenus()
   const settings = data?.siteSettings?.siteSettingsFields
   const currentYear = new Date().getFullYear()
-
-  const navLinks = [
-    { to: '/', label: t('nav.home'), end: true },
-    { to: '/events', label: t('nav.events'), end: false },
-    { to: '/activities', label: t('nav.activities'), end: false },
-    { to: '/blog', label: t('nav.blog'), end: false },
-    { to: '/about', label: t('nav.about'), end: false },
-    { to: '/contact', label: t('nav.contact'), end: false },
-  ]
 
   const socialLinks = [
     {
@@ -65,21 +60,16 @@ export default function Footer() {
             </p>
           </div>
 
-          <div className="footer-nav-group">
-            <h4 className="footer-heading">{t('footer.headingExplore')}</h4>
-            <nav className="footer-nav" aria-label={t('footer.navAriaLabel')}>
-              {navLinks.map(({ to, label, end }) => (
-                <LocalizedNavLink
-                  key={to}
-                  to={to}
-                  end={end}
-                  className={({ isActive }) => `footer-link${isActive ? ' active' : ''}`}
-                >
-                  {label}
-                </LocalizedNavLink>
-              ))}
-            </nav>
-          </div>
+          {footerExploreItems.length > 0 && (
+            <div className="footer-nav-group">
+              <h4 className="footer-heading">{t('footer.headingExplore')}</h4>
+              <nav className="footer-nav" aria-label={t('footer.navAriaLabel')}>
+                {footerExploreItems.map((menuItem) => (
+                  <MenuLink key={menuItem.id} item={menuItem} className="footer-link" />
+                ))}
+              </nav>
+            </div>
+          )}
 
           <div className="footer-contact">
             <h4 className="footer-heading">{t('footer.headingConnect')}</h4>
@@ -114,15 +104,16 @@ export default function Footer() {
             {settings?.copyrightLine ??
               `© ${currentYear} Palestinian Community in Finland. All rights reserved.`}
           </p>
-          <div className="footer-legal">
-            <a href="#" className="footer-link">
-              {t('footer.privacyPolicy')}
-            </a>
-            <span className="footer-legal-divider" aria-hidden="true" />
-            <a href="#" className="footer-link">
-              {t('footer.termsOfUse')}
-            </a>
-          </div>
+          {footerLegalItems.length > 0 && (
+            <div className="footer-legal">
+              {footerLegalItems.map((menuItem, position) => (
+                <Fragment key={menuItem.id}>
+                  {position > 0 && <span className="footer-legal-divider" aria-hidden="true" />}
+                  <MenuLink item={menuItem} className="footer-link" />
+                </Fragment>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>

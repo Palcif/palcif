@@ -78,13 +78,25 @@ The site is localized into Finnish, English, and Arabic (`src/i18n/locales/{fi,e
 
 Content (pages, blog posts, highlights, activities, site settings) is authored in WordPress and exposed over WPGraphQL. Highlights, Activities, and Blog posts are unified as native WordPress posts differentiated by category, read through a generic `usePage` / `usePost` / `useSectionPosts` data layer (see `src/features/posts/sections.ts` for the section → category/route mapping).
 
-This repo ships three companion WordPress plugins that the backend depends on (`wordpress-plugins/`):
+This repo ships companion WordPress plugins that the backend depends on (`wordpress-plugins/`):
 
 - **PALCIF Content Sections** — unifies Highlights and Activities into native posts differentiated by category, keeping the category taxonomy shared across Polylang languages.
-- **PALCIF GraphQL Polylang Bridge** — adds a `language` filter argument to WPGraphQL connection queries, backed by Polylang's native language support.
+- **PALCIF GraphQL Polylang Bridge** — adds a `language` filter argument to WPGraphQL connection queries (including menu items), backed by Polylang's native language support.
 - **PALCIF Polylang Per-Language Slugs** — scopes WordPress's slug-uniqueness check per Polylang language, so translated content can keep its natural slug instead of WordPress appending `-2`.
+- **PALCIF Nav Menus** — registers the `primary`, `footer` and `footer_legal` menu locations so the header and footer links are managed from **Appearance → Menus** (see [Navigation menus](#navigation-menus)).
 
 Each plugin's PHP file carries its own header with fuller details. Zipped build artifacts for uploading to WordPress live alongside each plugin's source folder.
+
+### Navigation menus
+
+The header navigation and both footer link groups are **not hardcoded** — they render from WordPress menus, so an editor can add, reorder, rename, or remove links without a code change.
+
+- **Locations** (Appearance → Menus → *Manage Locations*): *Primary (Header)* → header nav, *Footer (Explore column)* → the footer's "Explore" list, *Footer (Legal row)* → the small print row next to the copyright.
+- **Per language:** with Polylang, assign a separate menu per language to each location (Polylang adds a language column on the Manage Locations screen). Labels are typed per language in WordPress — there are no nav labels left in `src/i18n/locales`.
+- **Link destinations:** use **Custom Links** with site-relative paths (`/`, `/events`, `/blog`, …) so they map to the app's routes and get in-app navigation + active styling. Links to a WordPress Page, or any URL on the WordPress domain, are also treated as in-app routes; anything else opens as a normal external link (respecting the "Open in new tab" option).
+- **Empty / unset:** if a location has no menu assigned (or the request fails), that nav simply renders nothing — the header still shows the logo and language switcher.
+
+After changing which locations exist in the plugin, run `npm run codegen:schema` against a backend that has the updated plugin active, then `npm run codegen`, so `MenuLocationEnum` in `schema.graphql` matches.
 
 GraphQL responses are served as CDN-cacheable **GET** requests and cached at the edge (WPGraphQL Smart Cache + host CDN), with purging tied to WordPress publish/update/delete events; the client also caches via TanStack Query. See inline comments in `src/graphql/client.ts` and `src/app/providers.tsx` for the specific settings.
 
