@@ -7804,8 +7804,14 @@ type MenuItemToMenuItemLinkableConnectionEdge implements Edge & MenuItemLinkable
 Designated areas where navigation menus can be displayed. Represents the named regions in the interface where menus can be assigned.
 """
 enum MenuLocationEnum {
-  """Empty menu location"""
-  EMPTY
+  """Put the menu in the footer location"""
+  FOOTER
+
+  """Put the menu in the footer_legal location"""
+  FOOTER_LEGAL
+
+  """Put the menu in the primary location"""
+  PRIMARY
 }
 
 """
@@ -14128,6 +14134,11 @@ type RootQueryToMenuItemConnectionPageInfo implements MenuItemConnectionPageInfo
 input RootQueryToMenuItemConnectionWhereArgs {
   """The database ID of the object"""
   id: Int
+
+  """
+  Filter menu items to the ones belonging to this Polylang language. Added by the PALCIF GraphQL Polylang Bridge plugin.
+  """
+  language: LanguageCodeFilterEnum
 
   """The menu location for the menu being queried"""
   location: MenuLocationEnum

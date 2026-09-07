@@ -3,14 +3,6 @@
     "skipToContent": "Skip to main content",
     "backToTop": "Back to top"
   },
-  "nav": {
-    "home": "Home",
-    "events": "Events",
-    "activities": "Activities",
-    "blog": "Blog",
-    "about": "About",
-    "contact": "Contact"
-  },
   "header": {
     "homeAriaLabel": "Palestinian Community in Finland — Home",
     "logoAlt": "Palestinian Community in Finland",
@@ -25,9 +17,7 @@
     "ariaLabel": "Site footer",
     "headingExplore": "Explore",
     "headingConnect": "Connect",
-    "navAriaLabel": "Footer navigation",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfUse": "Terms of Use"
+    "navAriaLabel": "Footer navigation"
   },
   "social": {
     "facebook": "Facebook",

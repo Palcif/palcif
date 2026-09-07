@@ -3,14 +3,6 @@
     "skipToContent": "Siirry pääsisältöön",
     "backToTop": "Takaisin ylös"
   },
-  "nav": {
-    "home": "Etusivu",
-    "events": "Tapahtumat",
-    "activities": "Toiminta",
-    "blog": "Blogi",
-    "about": "Meistä",
-    "contact": "Yhteystiedot"
-  },
   "header": {
     "homeAriaLabel": "Palestiinalaisyhteisö Suomessa — Etusivu",
     "logoAlt": "Palestiinalaisyhteisö Suomessa",
@@ -25,9 +17,7 @@
     "ariaLabel": "Sivuston alatunniste",
     "headingExplore": "Tutustu",
     "headingConnect": "Ota yhteyttä",
-    "navAriaLabel": "Alatunnisteen valikko",
-    "privacyPolicy": "Tietosuojaseloste",
-    "termsOfUse": "Käyttöehdot"
+    "navAriaLabel": "Alatunnisteen valikko"
   },
   "social": {
     "facebook": "Facebook",

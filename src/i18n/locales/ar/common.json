@@ -3,14 +3,6 @@
     "skipToContent": "الانتقال إلى المحتوى الرئيسي",
     "backToTop": "العودة إلى الأعلى"
   },
-  "nav": {
-    "home": "الرئيسية",
-    "events": "الفعاليات",
-    "activities": "الأنشطة",
-    "blog": "المدونة",
-    "about": "من نحن",
-    "contact": "اتصل بنا"
-  },
   "header": {
     "homeAriaLabel": "الجالية الفلسطينية في فنلندا — الرئيسية",
     "logoAlt": "الجالية الفلسطينية في فنلندا",
@@ -25,9 +17,7 @@
     "ariaLabel": "تذييل الموقع",
     "headingExplore": "استكشف",
     "headingConnect": "تواصل",
-    "navAriaLabel": "روابط التذييل",
-    "privacyPolicy": "سياسة الخصوصية",
-    "termsOfUse": "شروط الاستخدام"
+    "navAriaLabel": "روابط التذييل"
   },
   "social": {
     "facebook": "فيسبوك",

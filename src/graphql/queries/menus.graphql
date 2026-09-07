@@ -1,0 +1,38 @@
+query SiteMenus($language: LanguageCodeFilterEnum!) {
+  headerMenu: menuItems(
+    first: 100
+    where: { location: PRIMARY, language: $language, parentDatabaseId: 0 }
+  ) {
+    nodes {
+      id
+      label
+      path
+      url
+      target
+    }
+  }
+  footerExploreMenu: menuItems(
+    first: 100
+    where: { location: FOOTER, language: $language, parentDatabaseId: 0 }
+  ) {
+    nodes {
+      id
+      label
+      path
+      url
+      target
+    }
+  }
+  footerLegalMenu: menuItems(
+    first: 100
+    where: { location: FOOTER_LEGAL, language: $language, parentDatabaseId: 0 }
+  ) {
+    nodes {
+      id
+      label
+      path
+      url
+      target
+    }
+  }
+}
