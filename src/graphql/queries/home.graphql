@@ -1,0 +1,23 @@
+query HomePage($language: LanguageCodeFilterEnum!) {
+  pages(first: 1, where: { language: $language, name: "home" }) {
+    nodes {
+      id
+      title
+      content
+      translations {
+        language
+        slug
+      }
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+          mediaDetails {
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+}

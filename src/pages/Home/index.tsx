@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
-import heroCollage from '@/assets/design/hero-collage-full.png'
 import oliveSprig from '@/assets/design/olive-sprig-left.png'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
-import { usePage } from '@/features/pages/usePage'
+import { useHomePage } from '@/features/pages/useHomePage'
 import { useSectionPosts } from '@/features/posts/useSectionPosts'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
@@ -22,14 +21,16 @@ export default function Home() {
   const latestActivities = (activitiesData?.posts?.nodes ?? []).slice(0, 3)
   const { data: blogData, isLoading: blogLoading } = useSectionPosts('blog')
   const latestPosts = (blogData?.posts?.nodes ?? []).slice(0, 3)
-  const { data: homeData, isLoading: homeLoading } = usePage('home')
+  const { data: homeData, isLoading: homeLoading } = useHomePage()
   const home = homeData?.pages?.nodes[0]
+  const heroImage = home?.featuredImage?.node
+  const hasHeroMedia = homeLoading || Boolean(heroImage?.sourceUrl)
 
   return (
     <>
       {/* ── Hero ── */}
       <section className="hero" aria-labelledby="hero-heading">
-        <div className="hero-grid">
+        <div className={`hero-grid${hasHeroMedia ? '' : ' hero-grid-text-only'}`}>
           <div className="hero-left">
             <img
               src={oliveSprig}
@@ -79,16 +80,24 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-right">
-            <img
-              src={heroCollage}
-              alt={t('home.heroImageAlt')}
-              className="hero-right-img"
-              loading="eager"
-              width="1280"
-              height="980"
-            />
-          </div>
+          {homeLoading ? (
+            <div className="hero-right">
+              <Skeleton className="hero-right-img-skeleton" aria-hidden="true" />
+            </div>
+          ) : (
+            heroImage?.sourceUrl && (
+              <div className="hero-right">
+                <img
+                  src={heroImage.sourceUrl}
+                  alt={heroImage.altText || t('home.heroImageAlt')}
+                  className="hero-right-img"
+                  loading="eager"
+                  width={heroImage.mediaDetails?.width ?? undefined}
+                  height={heroImage.mediaDetails?.height ?? undefined}
+                />
+              </div>
+            )
+          )}
         </div>
       </section>
 

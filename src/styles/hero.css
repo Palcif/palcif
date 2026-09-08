@@ -93,6 +93,12 @@
   flex-wrap: wrap;
 }
 
+/* No hero image set in WordPress: drop the empty media column. */
+.hero-grid-text-only {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+}
+
 .hero-right {
   display: flex;
   align-items: center;
@@ -107,6 +113,13 @@
   border: 8px solid #fff;
   border-radius: 8px;
   box-shadow: var(--shadow-medium);
+}
+
+.hero-right-img-skeleton {
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 1280 / 980;
+  border-radius: 8px;
 }
 
 @media (max-width: 1024px) {
