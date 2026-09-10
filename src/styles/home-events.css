@@ -13,7 +13,8 @@
     transform var(--transition-fast);
 }
 
-.event-card-tile:hover {
+.event-card-tile:hover,
+.event-card-tile:focus-visible {
   border-color: var(--border-medium);
   box-shadow: var(--shadow-soft);
   transform: translateY(-2px);
@@ -25,36 +26,39 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 600ms var(--ease-out);
+  transition:
+    transform 600ms var(--ease-out),
+    filter 600ms var(--ease-out);
 }
 
-.event-card-tile:hover .event-tile-background-image {
+.event-card-tile:hover .event-tile-background-image,
+.event-card-tile:focus-visible .event-tile-background-image {
   transform: scale(1.05);
+  filter: brightness(0.88);
 }
 
-.event-tile-overlay {
+.event-tile-scrim {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  padding: 14px;
+  inset: 0;
+  pointer-events: none;
   background: linear-gradient(
-    to bottom,
-    rgb(0 0 0 / 65%) 0%,
-    rgb(0 0 0 / 35%) 55%,
+    to top,
+    rgb(0 0 0 / 80%) 0%,
+    rgb(0 0 0 / 42%) 40%,
+    rgb(0 0 0 / 8%) 72%,
     transparent 100%
   );
 }
 
 .event-tile-date {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 48px;
+  min-width: 46px;
   padding: 6px 8px;
   background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
@@ -78,18 +82,59 @@
   color: var(--text-primary);
 }
 
-.event-tile-overlay h4 {
+.event-tile-caption {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+}
+
+.event-tile-title {
+  display: -webkit-box;
+  overflow: hidden;
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.35;
   color: #fff;
-  line-height: 1.4;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 45%);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .event-tile-meta-line {
   font-size: 12px;
   color: rgb(255 255 255 / 85%);
   line-height: 1.4;
+}
+
+.event-tile-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-block-start: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base);
+}
+
+.event-tile-cta svg {
+  width: 14px;
+  height: 14px;
+}
+
+.event-card-tile:hover .event-tile-cta,
+.event-card-tile:focus-visible .event-tile-cta {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .event-empty {

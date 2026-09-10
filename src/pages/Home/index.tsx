@@ -227,7 +227,6 @@ export default function Home() {
                 const imgAlt = evt.featuredImage?.node.altText ?? ''
                 const eventTime = evt.eventsFields?.eventtime?.trim()
                 const eventLocation = evt.eventsFields?.location?.trim()
-                const hasOverlayContent = Boolean(eventTime || eventLocation || isoDate)
                 return (
                   <li key={evt.id}>
                     <article>
@@ -240,21 +239,28 @@ export default function Home() {
                             loading="lazy"
                           />
                         )}
-                        {hasOverlayContent && (
-                          <div className="event-tile-overlay">
-                            {isoDate && (
-                              <time className="event-tile-date" dateTime={isoDate}>
-                                <span className="event-tile-month">{month}</span>
-                                <span className="event-tile-day">{day}</span>
-                              </time>
-                            )}
-                            {(eventTime || eventLocation) && (
-                              <p className="event-tile-meta-line">
-                                {[eventTime, eventLocation].filter(Boolean).join(' · ')}
-                              </p>
-                            )}
-                          </div>
+                        <span className="event-tile-scrim" aria-hidden="true" />
+                        {isoDate && (
+                          <time className="event-tile-date" dateTime={isoDate}>
+                            <span className="event-tile-month">{month}</span>
+                            <span className="event-tile-day">{day}</span>
+                          </time>
                         )}
+                        <div className="event-tile-caption">
+                          <h3
+                            className="event-tile-title"
+                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }}
+                          />
+                          {(eventTime || eventLocation) && (
+                            <p className="event-tile-meta-line">
+                              {[eventTime, eventLocation].filter(Boolean).join(' · ')}
+                            </p>
+                          )}
+                          <span className="event-tile-cta">
+                            {t('home.eventCardCta')}
+                            <ArrowRight />
+                          </span>
+                        </div>
                       </LocalizedNavLink>
                     </article>
                   </li>

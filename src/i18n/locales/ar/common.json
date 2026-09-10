@@ -1,7 +1,10 @@
 {
   "common": {
     "skipToContent": "الانتقال إلى المحتوى الرئيسي",
-    "backToTop": "العودة إلى الأعلى"
+    "backToTop": "العودة إلى الأعلى",
+    "enlargeImageAria": "تكبير الصورة",
+    "imageViewerAria": "صورة مكبّرة",
+    "closeImageAria": "إغلاق الصورة"
   },
   "header": {
     "homeAriaLabel": "الجالية الفلسطينية في فنلندا — الرئيسية",
@@ -63,7 +66,8 @@
     "latestActivities": "أحدث الأنشطة",
     "viewAllActivities": "عرض جميع الأنشطة",
     "fromBlog": "من المدونة",
-    "viewAllPosts": "عرض جميع المقالات"
+    "viewAllPosts": "عرض جميع المقالات",
+    "eventCardCta": "عرض الفعالية"
   },
   "pages": {
     "about": {
@@ -138,7 +142,9 @@
       "pastHeading": "الفعاليات السابقة",
       "noUpcomingEvents": "لا توجد فعاليات قادمة.",
       "details": "التفاصيل",
-      "backToEvents": "العودة إلى الفعاليات"
+      "backToEvents": "العودة إلى الفعاليات",
+      "showMore": "عرض المزيد",
+      "showLess": "عرض أقل"
     },
     "highlights": {
       "tagline": "قصص وتقاليد وتعبير إبداعي",

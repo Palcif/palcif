@@ -6,6 +6,7 @@ import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import SectionHeader from '@/shared/components/SectionHeader'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
+import { ZoomableImage } from '@/shared/components/ZoomableImage'
 import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
@@ -76,10 +77,9 @@ export default function Activities() {
                   <li key={item.id}>
                     <article className="activity-card">
                       <div className="activity-card-thumb">
-                        <img
-                          src={item.featuredImage?.node.sourceUrl ?? undefined}
+                        <ZoomableImage
+                          src={item.featuredImage?.node.sourceUrl}
                           alt={item.featuredImage?.node.altText ?? ''}
-                          loading="lazy"
                         />
                       </div>
                       <div className="activity-card-body">

@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 
 import { useEventDetail } from '@/features/events/useEventDetail'
 import { ChevronLeft, MapPin } from '@/shared/components/icons'
+import { ImageZoom } from '@/shared/components/ImageZoom'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
@@ -44,7 +45,7 @@ export default function EventDetail() {
 
         {event && (
           <article className="event-card-detailed">
-            <div className="event-details">
+            <ImageZoom className="event-details">
               {event.featuredImage?.node.sourceUrl && (
                 <img
                   src={event.featuredImage.node.sourceUrl}
@@ -67,7 +68,7 @@ export default function EventDetail() {
                 </span>
               </div>
               <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(event.content) }} />
-            </div>
+            </ImageZoom>
           </article>
         )}
       </div>

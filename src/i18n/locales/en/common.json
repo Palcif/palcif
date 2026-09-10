@@ -1,7 +1,10 @@
 {
   "common": {
     "skipToContent": "Skip to main content",
-    "backToTop": "Back to top"
+    "backToTop": "Back to top",
+    "enlargeImageAria": "Enlarge image",
+    "imageViewerAria": "Enlarged image",
+    "closeImageAria": "Close image"
   },
   "header": {
     "homeAriaLabel": "Palestinian Community in Finland — Home",
@@ -63,7 +66,8 @@
     "latestActivities": "Latest Activities",
     "viewAllActivities": "View all activities",
     "fromBlog": "From the Blog",
-    "viewAllPosts": "View all posts"
+    "viewAllPosts": "View all posts",
+    "eventCardCta": "View event"
   },
   "pages": {
     "about": {
@@ -138,7 +142,9 @@
       "pastHeading": "Past Events",
       "noUpcomingEvents": "There are no upcoming events.",
       "details": "Details",
-      "backToEvents": "Back to Events"
+      "backToEvents": "Back to Events",
+      "showMore": "Show more",
+      "showLess": "Show less"
     },
     "highlights": {
       "tagline": "Stories, traditions, and creative expression",

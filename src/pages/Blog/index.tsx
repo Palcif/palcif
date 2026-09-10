@@ -6,6 +6,7 @@ import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { ZoomableImage } from '@/shared/components/ZoomableImage'
 import { formatDisplayDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
@@ -96,8 +97,8 @@ export default function Blog() {
           <div className="page-section-inner">
             <article className="blog-featured">
               <div className="blog-featured-image">
-                <img
-                  src={featuredPost.featuredImage?.node.sourceUrl ?? undefined}
+                <ZoomableImage
+                  src={featuredPost.featuredImage?.node.sourceUrl}
                   alt={featuredPost.featuredImage?.node.altText ?? ''}
                   loading="eager"
                 />
@@ -137,8 +138,8 @@ export default function Blog() {
                 <li key={post.id}>
                   <article className="blog-card">
                     <div className="blog-card-image">
-                      <img
-                        src={post.featuredImage?.node.sourceUrl ?? undefined}
+                      <ZoomableImage
+                        src={post.featuredImage?.node.sourceUrl}
                         alt={post.featuredImage?.node.altText ?? ''}
                       />
                     </div>

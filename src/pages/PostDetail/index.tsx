@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router'
 import { SECTIONS } from '@/features/posts/sections'
 import { usePost } from '@/features/posts/usePost'
 import { ChevronLeft } from '@/shared/components/icons'
+import { ImageZoom } from '@/shared/components/ImageZoom'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
@@ -71,10 +72,7 @@ export default function PostDetail() {
                   <span>{t('post.byAuthor', { author: post.author.node.name })}</span>
                 </div>
               )}
-              <div
-                className="page-content"
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-              />
+              <ImageZoom className="page-content" richTextHtml={sanitizeHtml(post.content)} />
             </div>
           </article>
         )}
