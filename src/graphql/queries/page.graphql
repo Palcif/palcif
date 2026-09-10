@@ -5,6 +5,7 @@ query PageContent($language: LanguageCodeFilterEnum!, $slug: String!) {
       title
       content
       uri
+      language
       translations {
         language
         slug

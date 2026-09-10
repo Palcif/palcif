@@ -1,9 +1,12 @@
-query HomePage($language: LanguageCodeFilterEnum!) {
-  pages(first: 1, where: { language: $language, name: "home" }) {
+query SitePages($language: LanguageCodeFilterEnum!) {
+  pages(first: 100, where: { language: $language }) {
     nodes {
       id
       title
       content
+      uri
+      slug
+      language
       translations {
         language
         slug
