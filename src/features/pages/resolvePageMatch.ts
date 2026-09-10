@@ -1,4 +1,4 @@
-import { isSupportedLanguage } from '@/i18n/languages'
+import { isSupportedLanguage, type WpLanguageCode } from '@/i18n/languages'
 
 /**
  * One WordPress page as returned by the `PageContent` query, narrowed to the
@@ -9,6 +9,8 @@ export interface WordPressPageNode {
   title?: string | null
   content?: string | null
   uri?: string | null
+  /** Polylang language code for the page, e.g. `"en"`, `"ar"`, `"fi"`. */
+  language?: string | null
   translations?: ({ language: string; slug: string } | null)[] | null
 }
 
@@ -41,14 +43,20 @@ export function normalizePagePath(pathOrUri: string): string {
  * back to the sole candidate when the slug is unambiguous (so a flat link like
  * `/en/history` still resolves and then redirects to `/en/about/history`).
  * Returns `null` when nothing fits.
+ *
+ * Candidates are first narrowed to `language`: the Polylang bridge returns a
+ * shared slug once per language, and without this a page whose Arabic copy
+ * keeps the English slug would resolve to the wrong language's content.
  */
 export function resolvePageMatch(
   requestedPath: string,
-  candidates: (WordPressPageNode | null)[] | null | undefined
+  candidates: (WordPressPageNode | null)[] | null | undefined,
+  language: WpLanguageCode
 ): ResolvedPageMatch | null {
   const normalizedRequestedPath = normalizePagePath(requestedPath)
   const usableCandidates = (candidates ?? []).filter(
-    (candidate): candidate is WordPressPageNode => candidate !== null && Boolean(candidate.uri)
+    (candidate): candidate is WordPressPageNode =>
+      candidate !== null && Boolean(candidate.uri) && candidate.language?.toUpperCase() === language
   )
 
   const exactMatch = usableCandidates.find(

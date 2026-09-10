@@ -28,8 +28,8 @@ export function usePageByPath(requestedPath: string) {
   // Memoised so `match` (and the page node inside it) keeps a stable identity
   // across renders — consumers feed `match.page.translations` into an effect.
   const match = useMemo(
-    () => resolvePageMatch(requestedPath, query.data?.pages?.nodes),
-    [requestedPath, query.data?.pages?.nodes]
+    () => resolvePageMatch(requestedPath, query.data?.pages?.nodes, language),
+    [requestedPath, query.data?.pages?.nodes, language]
   )
 
   return { match, isLoading: query.isLoading, isError: query.isError }
