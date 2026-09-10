@@ -149,6 +149,12 @@
       "emptyAriaLabel": "Ei kulttuurikohokohtia",
       "gridAriaLabel": "Kulttuurikohokohdat",
       "backToHighlights": "Takaisin kohokohtiin"
+    },
+    "notFound": {
+      "title": "Sivua ei löytynyt",
+      "body": "Etsimääsi sivua ei ole olemassa tai se on siirretty.",
+      "backHome": "Takaisin etusivulle",
+      "pageLabel": "tätä sivua"
     }
   },
   "post": {

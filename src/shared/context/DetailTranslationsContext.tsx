@@ -12,6 +12,13 @@ import { useLocation } from 'react-router'
 export interface DetailTranslation {
   language: string
   slug: string
+  /**
+   * Full site path (no language prefix) to navigate to for this translation,
+   * when the detail page's URL isn't the plain `/:lang/:section/:slug` shape —
+   * e.g. a WordPress Page that may sit under a parent. Falls back to
+   * `:section/:slug` in the header when unset.
+   */
+  path?: string
 }
 
 interface DetailTranslationsState {

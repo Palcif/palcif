@@ -15,6 +15,7 @@ const Blog = lazy(() => import('@/pages/Blog'))
 const PostDetail = lazy(() => import('@/pages/PostDetail'))
 const About = lazy(() => import('@/pages/About'))
 const Contact = lazy(() => import('@/pages/Contact'))
+const WordPressPage = lazy(() => import('@/pages/WordPressPage'))
 
 const SECTION_LIST_PAGES: Record<string, ComponentType> = {
   blog: Blog,
@@ -45,7 +46,10 @@ export const langChildRoutes: RouteObject[] = [
   { path: 'news', element: <NewsRedirect /> },
   { path: 'about', element: <About /> },
   { path: 'contact', element: <Contact /> },
-  { path: '*', element: <Home /> },
+  // Anything else under `:lang` is treated as a WordPress Page path; the
+  // component renders the page, canonicalises its URL, or shows a not-found
+  // state.
+  { path: '*', element: <WordPressPage /> },
 ]
 
 // Every real top-level section name (e.g. "activities" from both

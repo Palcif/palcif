@@ -1,9 +1,10 @@
 query PageContent($language: LanguageCodeFilterEnum!, $slug: String!) {
-  pages(first: 1, where: { language: $language, name: $slug }) {
+  pages(first: 10, where: { language: $language, name: $slug }) {
     nodes {
       id
       title
       content
+      uri
       translations {
         language
         slug

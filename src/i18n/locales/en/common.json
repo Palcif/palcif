@@ -149,6 +149,12 @@
       "emptyAriaLabel": "No cultural highlights",
       "gridAriaLabel": "Cultural highlights",
       "backToHighlights": "Back to Highlights"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "body": "The page you're looking for doesn't exist or may have moved.",
+      "backHome": "Back to home",
+      "pageLabel": "this page"
     }
   },
   "post": {

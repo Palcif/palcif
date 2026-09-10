@@ -26,7 +26,8 @@ export default function Header() {
     const translated = translations?.find((entry) => entry.language === target)
     if (translated) {
       const section = location.pathname.split('/')[2] ?? ''
-      navigate(`/${target}/${section}/${translated.slug}${location.search}${location.hash}`)
+      const destination = translated.path ?? `${section}/${translated.slug}`
+      navigate(`/${target}/${destination}${location.search}${location.hash}`)
       return
     }
     const segments = location.pathname.split('/').filter(Boolean)
