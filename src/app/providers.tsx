@@ -3,6 +3,7 @@ import { I18nextProvider } from 'react-i18next'
 import { RouterProvider } from 'react-router'
 
 import i18n from '@/i18n'
+import { ImageLightboxProvider } from '@/shared/context/ImageLightboxContext'
 
 import { router } from './router'
 
@@ -26,7 +27,9 @@ export function Providers() {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
-        <RouterProvider router={router} />
+        <ImageLightboxProvider>
+          <RouterProvider router={router} />
+        </ImageLightboxProvider>
       </I18nextProvider>
     </QueryClientProvider>
   )

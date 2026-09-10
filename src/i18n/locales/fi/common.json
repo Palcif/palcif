@@ -1,7 +1,10 @@
 {
   "common": {
     "skipToContent": "Siirry pääsisältöön",
-    "backToTop": "Takaisin ylös"
+    "backToTop": "Takaisin ylös",
+    "enlargeImageAria": "Suurenna kuva",
+    "imageViewerAria": "Suurennettu kuva",
+    "closeImageAria": "Sulje kuva"
   },
   "header": {
     "homeAriaLabel": "Palestiinalaisyhteisö Suomessa — Etusivu",
@@ -63,7 +66,8 @@
     "latestActivities": "Viimeisimmät toiminnot",
     "viewAllActivities": "Katso kaikki toiminnot",
     "fromBlog": "Blogista",
-    "viewAllPosts": "Katso kaikki artikkelit"
+    "viewAllPosts": "Katso kaikki artikkelit",
+    "eventCardCta": "Katso tapahtuma"
   },
   "pages": {
     "about": {
@@ -138,7 +142,9 @@
       "pastHeading": "Menneet tapahtumat",
       "noUpcomingEvents": "Ei tulevia tapahtumia.",
       "details": "Lisätiedot",
-      "backToEvents": "Takaisin tapahtumiin"
+      "backToEvents": "Takaisin tapahtumiin",
+      "showMore": "Näytä lisää",
+      "showLess": "Näytä vähemmän"
     },
     "highlights": {
       "tagline": "Tarinoita, perinteitä ja luovaa ilmaisua",

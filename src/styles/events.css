@@ -79,12 +79,38 @@
   margin-block-end: 8px;
 }
 
+.event-description-block {
+  margin-block-end: 12px;
+}
+
 .event-description {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-secondary);
-  margin-block-end: 12px;
   max-width: 640px;
+}
+
+.event-description-clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+
+.event-description-toggle {
+  margin-block-start: 6px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-burgundy);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.event-description-toggle:hover {
+  text-decoration: underline;
 }
 
 .event-meta-row {

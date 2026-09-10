@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next'
 
+import { CollapsibleEventDescription } from '@/features/events/CollapsibleEventDescription'
 import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
 import { ArrowRight, FloralOrnament, MapPin } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import { QueryEmpty, QueryError } from '@/shared/components/QueryStatus'
 import { Skeleton } from '@/shared/components/skeletons/Skeleton'
 import { SkeletonLines } from '@/shared/components/skeletons/SkeletonLines'
+import { ZoomableImage } from '@/shared/components/ZoomableImage'
 import { formatEventDate } from '@/shared/utils/date'
 import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
@@ -95,7 +97,7 @@ export default function Events() {
                     <article className="event-card-detailed">
                       {imageUrl && (
                         <div className="event-card-image">
-                          <img src={imageUrl} alt={imageAlt} loading="lazy" />
+                          <ZoomableImage src={imageUrl} alt={imageAlt} />
                         </div>
                       )}
                       {isoDate && (
@@ -106,10 +108,7 @@ export default function Events() {
                       )}
                       <div className="event-details">
                         <h3 dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.title) }} />
-                        <p
-                          className="event-description"
-                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(evt.content) }}
-                        />
+                        <CollapsibleEventDescription contentHtml={evt.content} />
                         <div className="event-meta-row">
                           <span>{evt.eventsFields?.eventtime}</span>
                           <span className="event-meta-divider" aria-hidden="true" />
@@ -147,7 +146,7 @@ export default function Events() {
                     <article className="event-card-compact">
                       {imageUrl && (
                         <div className="event-card-thumb">
-                          <img src={imageUrl} alt={imageAlt} loading="lazy" />
+                          <ZoomableImage src={imageUrl} alt={imageAlt} />
                         </div>
                       )}
                       {isoDate && (

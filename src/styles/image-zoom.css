@@ -1,0 +1,109 @@
+/* ═════ Image Zoom / Lightbox ═════
+   Rich-text content images (.page-content, event detail) and card thumbnails
+   on the listing pages open in a full-screen viewer on click. Card thumbnails
+   also zoom in slightly on hover. See src/shared/components/ImageZoom.tsx and
+   src/shared/components/ZoomableImage.tsx. */
+
+.page-content img,
+.event-details img,
+.event-detail-hero-image,
+.activity-card-thumb img,
+.event-card-image img,
+.event-card-thumb img,
+.blog-featured-image img,
+.blog-card-image img {
+  cursor: zoom-in;
+}
+
+/* Hover zoom-in for card thumbnails. Each frame already clips overflow, so the
+   image scales up within its existing footprint. */
+.activity-card-thumb img,
+.event-card-image img,
+.event-card-thumb img,
+.blog-featured-image img,
+.blog-card-image img {
+  transition: transform 320ms var(--ease-out);
+}
+
+.activity-card-thumb:hover img,
+.event-card-image:hover img,
+.event-card-thumb:hover img,
+.blog-featured-image:hover img,
+.blog-card-image:hover img {
+  transform: scale(1.05);
+}
+
+.image-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(27, 26, 23, 0.9);
+  animation: image-lightbox-fade var(--transition-fast) both;
+}
+
+.image-lightbox-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+  cursor: default;
+}
+
+.image-lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.image-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+@keyframes image-lightbox-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-lightbox-backdrop {
+    animation: none;
+  }
+
+  .activity-card-thumb img,
+  .event-card-image img,
+  .event-card-thumb img,
+  .blog-featured-image img,
+  .blog-card-image img {
+    transition: none;
+  }
+
+  .activity-card-thumb:hover img,
+  .event-card-image:hover img,
+  .event-card-thumb:hover img,
+  .blog-featured-image:hover img,
+  .blog-card-image:hover img {
+    transform: none;
+  }
+}

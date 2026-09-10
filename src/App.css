@@ -35,5 +35,6 @@
 /* Shared UI states */
 @import './styles/query-status.css';
 @import './styles/skeleton.css';
+@import './styles/image-zoom.css';
 
 @import './styles/legacy.css';

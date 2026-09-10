@@ -52,7 +52,8 @@
     transform var(--transition-fast);
 }
 
-.article-card:hover {
+.article-card:hover,
+.article-card:focus-visible {
   background: var(--bg);
   transform: translateX(2px);
 }
@@ -71,6 +72,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform var(--transition-base);
+}
+
+.article-card:hover .article-thumb img,
+.article-card:focus-visible .article-thumb img {
+  transform: scale(1.06);
 }
 
 .article-info {
@@ -86,6 +93,12 @@
   color: var(--text-primary);
   line-height: 1.4;
   margin-block-end: 5px;
+  transition: color var(--transition-fast);
+}
+
+.article-card:hover .article-info h4,
+.article-card:focus-visible .article-info h4 {
+  color: var(--accent-burgundy);
 }
 
 .article-info time {
