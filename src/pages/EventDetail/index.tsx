@@ -28,7 +28,7 @@ export default function EventDetail() {
 
         {isLoading && (
           <article
-            className="event-card-detailed"
+            className="event-detail-card"
             role="status"
             aria-live="polite"
             aria-label={t('query.loading', { label: t('nouns.event') })}
@@ -44,7 +44,7 @@ export default function EventDetail() {
         {!isLoading && !isError && !event && <QueryEmpty label={t('nouns.event')} />}
 
         {event && (
-          <article className="event-card-detailed">
+          <article className="event-detail-card">
             <ImageZoom className="event-details">
               {event.featuredImage?.node.sourceUrl && (
                 <img
