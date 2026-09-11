@@ -131,7 +131,7 @@ export default function Home() {
               : latestActivities.map((item) => (
                   <li key={item.id}>
                     <article>
-                      <LocalizedNavLink to="/activities" className="article-card">
+                      <LocalizedNavLink to={`/activities/${item.slug}`} className="article-card">
                         <div className="article-thumb">
                           <img
                             src={item.featuredImage?.node.sourceUrl ?? undefined}
@@ -173,7 +173,7 @@ export default function Home() {
               : latestPosts.map((post) => (
                   <li key={post.id}>
                     <article>
-                      <LocalizedNavLink to="/blog" className="article-card">
+                      <LocalizedNavLink to={`/blog/${post.slug}`} className="article-card">
                         <div className="article-thumb">
                           <img
                             src={post.featuredImage?.node.sourceUrl ?? undefined}

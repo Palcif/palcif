@@ -8,7 +8,6 @@
 .event-details img,
 .event-detail-hero-image,
 .activity-card-thumb img,
-.event-card-image img,
 .event-card-thumb img,
 .blog-featured-image img,
 .blog-card-image img {
@@ -18,7 +17,6 @@
 /* Hover zoom-in for card thumbnails. Each frame already clips overflow, so the
    image scales up within its existing footprint. */
 .activity-card-thumb img,
-.event-card-image img,
 .event-card-thumb img,
 .blog-featured-image img,
 .blog-card-image img {
@@ -26,7 +24,6 @@
 }
 
 .activity-card-thumb:hover img,
-.event-card-image:hover img,
 .event-card-thumb:hover img,
 .blog-featured-image:hover img,
 .blog-card-image:hover img {
@@ -92,7 +89,6 @@
   }
 
   .activity-card-thumb img,
-  .event-card-image img,
   .event-card-thumb img,
   .blog-featured-image img,
   .blog-card-image img {
@@ -100,7 +96,6 @@
   }
 
   .activity-card-thumb:hover img,
-  .event-card-image:hover img,
   .event-card-thumb:hover img,
   .blog-featured-image:hover img,
   .blog-card-image:hover img {
