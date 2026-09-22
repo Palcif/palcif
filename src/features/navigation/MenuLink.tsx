@@ -47,7 +47,7 @@ export function MenuLink({
 
   const trigger =
     item.kind === 'external' ? (
-
+      <a
         href={item.href}
         className={className}
         target={item.opensInNewTab ? '_blank' : undefined}
