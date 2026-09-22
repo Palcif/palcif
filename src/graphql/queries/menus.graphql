@@ -9,6 +9,15 @@ query SiteMenus($language: LanguageCodeFilterEnum!) {
       path
       url
       target
+      childItems {
+        nodes {
+          id
+          label
+          path
+          url
+          target
+        }
+      }
     }
   }
   footerExploreMenu: menuItems(
@@ -21,6 +30,15 @@ query SiteMenus($language: LanguageCodeFilterEnum!) {
       path
       url
       target
+      childItems {
+        nodes {
+          id
+          label
+          path
+          url
+          target
+        }
+      }
     }
   }
   footerLegalMenu: menuItems(

@@ -1,3 +1,5 @@
+import { useId, useRef, useState } from 'react'
+
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 
 import type { ResolvedMenuItem } from './resolveMenuItem'
@@ -14,7 +16,9 @@ interface MenuLinkProps {
 
 /**
  * Renders one resolved menu item: an in-app `LocalizedNavLink` for internal
- * routes (with active styling), or a plain anchor for off-site links.
+ * routes (with active styling), or a plain anchor for off-site links. If the
+ * item has children, it's rendered as a trigger for a dropdown submenu —
+ * opened on hover/focus (desktop) or click (touch/keyboard).
  */
 export function MenuLink({
   item,
@@ -22,28 +26,91 @@ export function MenuLink({
   activeClassName = 'active',
   onNavigate,
 }: MenuLinkProps) {
-  if (item.kind === 'external') {
-    return (
-      <a
+  const hasChildren = item.children.length > 0
+  const [isOpen, setIsOpen] = useState(false)
+  const submenuId = useId()
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+  // Small delay on close so moving the mouse from trigger -> submenu
+  // doesn't close it before the pointer lands on the submenu itself.
+  const scheduleClose = () => {
+    closeTimeoutRef.current = setTimeout(() => setIsOpen(false), 150)
+  }
+  const cancelClose = () => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current)
+  }
+
+  const handleNavigate = () => {
+    setIsOpen(false)
+    onNavigate?.()
+  }
+
+  const trigger =
+    item.kind === 'external' ? (
+
         href={item.href}
         className={className}
         target={item.opensInNewTab ? '_blank' : undefined}
         rel={item.opensInNewTab ? 'noopener noreferrer' : undefined}
-        onClick={onNavigate}
+        aria-expanded={hasChildren ? isOpen : undefined}
+        aria-controls={hasChildren ? submenuId : undefined}
+        onClick={hasChildren ? undefined : onNavigate}
       >
         {item.label}
       </a>
+    ) : (
+      <LocalizedNavLink
+        to={item.to}
+        end={item.isSiteRoot}
+        className={({ isActive }) => (isActive ? `${className} ${activeClassName}` : className)}
+        aria-expanded={hasChildren ? isOpen : undefined}
+        aria-controls={hasChildren ? submenuId : undefined}
+        onClick={hasChildren ? undefined : onNavigate}
+      >
+        {item.label}
+      </LocalizedNavLink>
     )
+
+  if (!hasChildren) {
+    return trigger
   }
 
   return (
-    <LocalizedNavLink
-      to={item.to}
-      end={item.isSiteRoot}
-      className={({ isActive }) => (isActive ? `${className} ${activeClassName}` : className)}
-      onClick={onNavigate}
+    <div
+      className="menu-item-with-children"
+      onMouseEnter={() => {
+        cancelClose()
+        setIsOpen(true)
+      }}
+      onMouseLeave={scheduleClose}
     >
-      {item.label}
-    </LocalizedNavLink>
+      <button
+        type="button"
+        className={className}
+        aria-expanded={isOpen}
+        aria-controls={submenuId}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        {item.label}
+        <span className="menu-item-caret" aria-hidden="true">
+          ▾
+        </span>
+      </button>
+
+      {isOpen && (
+        <ul id={submenuId} className="submenu" role="menu">
+          {item.children.map((child) => (
+            <li key={child.id} role="none">
+              <MenuLink
+                item={child}
+                className="submenu-link"
+                activeClassName={activeClassName}
+                onNavigate={handleNavigate}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   )
 }
