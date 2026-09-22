@@ -29,8 +29,7 @@ export function MenuLink({
   const hasChildren = item.children.length > 0
   const [isOpen, setIsOpen] = useState(false)
   const submenuId = useId()
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout>>()
-
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   // Small delay on close so moving the mouse from trigger -> submenu
   // doesn't close it before the pointer lands on the submenu itself.
   const scheduleClose = () => {
