@@ -12,6 +12,7 @@ export interface WordPressMenuItem {
   path?: string | null
   url?: string | null
   target?: string | null
+  childItems?: { nodes: readonly WordPressMenuItem[] } | null
 }
 
 /**
@@ -29,6 +30,7 @@ export type ResolvedMenuItem =
       to: string
       /** `NavLink` `end` — true only for the site root, so "Home" isn't active everywhere. */
       isSiteRoot: boolean
+      children: ResolvedMenuItem[]
     }
   | {
       id: string
@@ -36,6 +38,7 @@ export type ResolvedMenuItem =
       kind: 'external'
       href: string
       opensInNewTab: boolean
+      children: ResolvedMenuItem[]
     }
 
 /**
@@ -99,12 +102,10 @@ export function resolveMenuItem(rawItem: WordPressMenuItem): ResolvedMenuItem | 
   const label = rawItem.label?.trim()
   if (!label) return null
 
-  // `path` is documented as relative for internal resources, absolute for
-  // external ones; `url` is the fallback for items where `path` is unset.
+  const children = resolveMenuItems(rawItem.childItems?.nodes)
   const destination = rawItem.path?.trim() || rawItem.url?.trim() || ''
-  if (!destination) return null
+  const internalPath = destination ? toInternalPath(destination) : null
 
-  const internalPath = toInternalPath(destination)
   if (internalPath !== null) {
     return {
       id: rawItem.id,
@@ -112,13 +113,15 @@ export function resolveMenuItem(rawItem: WordPressMenuItem): ResolvedMenuItem | 
       kind: 'internal',
       to: internalPath,
       isSiteRoot: pointsAtSiteRoot(internalPath),
+      children,
     }
   }
 
-  const href = toSafeExternalUrl(destination)
-  // `toSafeExternalUrl` returns '#' for values it rejects (e.g. `javascript:`);
-  // render nothing rather than a dead or unsafe link.
-  if (href === '#') return null
+  const href = destination ? toSafeExternalUrl(destination) : '#'
+  // A bad/empty destination is only fatal for leaf items — a parent with
+  // children still needs to render as a dropdown toggle, and MenuLink
+  // ignores `href` entirely once `children.length > 0`.
+  if (href === '#' && children.length === 0) return null
 
   return {
     id: rawItem.id,
@@ -126,6 +129,7 @@ export function resolveMenuItem(rawItem: WordPressMenuItem): ResolvedMenuItem | 
     kind: 'external',
     href,
     opensInNewTab: rawItem.target?.trim() === '_blank',
+    children,
   }
 }
 
