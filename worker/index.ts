@@ -21,19 +21,15 @@ const CACHE_STATUS_HEADER = 'x-edge-cache'
 type CacheStatus = 'HIT' | 'STALE' | 'MISS'
 
 /**
- * Tag the response with its cache status and set what browsers may do with it.
- * The stored copy carries a day-long max-age for Cloudflare's benefit, which
- * must never reach browsers: they could then reuse it for a day without asking
- * the Worker again.
+ * Tag the response with its cache status and tell browsers to revalidate every
+ * time. The edge copy is purged by WordPress when content changes, so a browser
+ * holding its own copy would hide that purge. The stored copy's day-long
+ * max-age is for Cloudflare only and must never reach browsers.
  */
-function withCacheStatus(
-  response: Response,
-  status: CacheStatus,
-  browserMaxAgeSeconds: number
-): Response {
+function withCacheStatus(response: Response, status: CacheStatus): Response {
   const annotated = new Response(response.body, response)
   annotated.headers.set(CACHE_STATUS_HEADER, status)
-  annotated.headers.set('cache-control', `public, max-age=${browserMaxAgeSeconds}`)
+  annotated.headers.set('cache-control', 'public, max-age=0, must-revalidate')
   return annotated
 }
 
@@ -68,8 +64,6 @@ async function fetchFromWordPress(
   const responseText = await upstreamResponse.text()
   const headers = new Headers({
     'content-type': upstreamResponse.headers.get('content-type') ?? 'application/json',
-    // Browsers may reuse the response briefly; the Worker still revalidates after that.
-    'cache-control': `public, max-age=${FRESH_SECONDS}`,
   })
   const response = new Response(responseText, { status: 200, headers })
 
@@ -112,20 +106,16 @@ async function handleGraphqlRequest(
     const cachedAt = Number(cachedResponse.headers.get(CACHED_AT_HEADER) ?? 0)
     const ageSeconds = (Date.now() - cachedAt) / 1000
     if (ageSeconds <= FRESH_SECONDS) {
-      return withCacheStatus(cachedResponse, 'HIT', Math.ceil(FRESH_SECONDS - ageSeconds))
+      return withCacheStatus(cachedResponse, 'HIT')
     }
     executionContext.waitUntil(
       fetchFromWordPress(upstreamUrl.toString(), cacheKey, cache).catch(() => undefined)
     )
-    return withCacheStatus(cachedResponse, 'STALE', 0)
+    return withCacheStatus(cachedResponse, 'STALE')
   }
 
   try {
-    return withCacheStatus(
-      await fetchFromWordPress(upstreamUrl.toString(), cacheKey, cache),
-      'MISS',
-      FRESH_SECONDS
-    )
+    return withCacheStatus(await fetchFromWordPress(upstreamUrl.toString(), cacheKey, cache), 'MISS')
   } catch {
     return new Response(JSON.stringify({ errors: [{ message: 'Content service unreachable.' }] }), {
       status: 502,
