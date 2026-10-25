@@ -1,4 +1,6 @@
-query SiteMenus($language: LanguageCodeFilterEnum!) {
+# Everything the header and footer need on every page, in one request:
+# the three menus plus the global site settings.
+query SiteShell($language: LanguageCodeFilterEnum!) {
   headerMenu: menuItems(
     first: 100
     where: { location: PRIMARY, language: $language, parentDatabaseId: 0 }
@@ -33,6 +35,18 @@ query SiteMenus($language: LanguageCodeFilterEnum!) {
       path
       url
       target
+    }
+  }
+  siteSettings {
+    siteSettingsFields {
+      orgName: orgname
+      address
+      email
+      socialFacebook: socialfacebook
+      socialInstagram: socialinstagram
+      socialWhatsapp: socialwhatsapp
+      footerTagline: footertagline
+      copyrightLine: copyrightline
     }
   }
 }

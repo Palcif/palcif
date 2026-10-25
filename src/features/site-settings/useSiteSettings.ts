@@ -1,11 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { gqlClient } from '@/graphql/client'
-import { SiteSettingsDocument } from '@/graphql/generated/graphql'
+import { useSiteShell } from '@/features/site-shell/useSiteShell'
 
 export function useSiteSettings() {
-  return useQuery({
-    queryKey: ['siteSettings'],
-    queryFn: () => gqlClient.request(SiteSettingsDocument),
-  })
+  return useSiteShell((data) => ({ siteSettings: data.siteSettings }))
 }

@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
 import oliveSprig from '@/assets/design/olive-sprig-left.png'
-import { splitEventsByDate, useEvents } from '@/features/events/useEvents'
+import { splitEventsByDate } from '@/features/events/useEvents'
 import CulturalHighlights from '@/features/highlights/CulturalHighlights'
-import { useHomePage } from '@/features/pages/useHomePage'
-import { useSectionPosts } from '@/features/posts/useSectionPosts'
+import { useHomePageData } from '@/features/pages/useHomePageData'
 import { ArrowRight, FloralOrnament, OliveBranch } from '@/shared/components/icons'
 import { LocalizedNavLink } from '@/shared/components/LocalizedLink'
 import SectionHeader from '@/shared/components/SectionHeader'
@@ -15,16 +14,10 @@ import { sanitizeHtml } from '@/shared/utils/sanitizeHtml'
 
 export default function Home() {
   const { t } = useTranslation()
-  const { data: eventsData, isLoading: eventsLoading } = useEvents()
-  const upcomingEvents = splitEventsByDate(eventsData?.events?.nodes ?? []).upcoming.slice(0, 6)
-  const { data: activitiesData, isLoading: activitiesLoading } = useSectionPosts('activities')
-  const latestActivities = (activitiesData?.posts?.nodes ?? []).slice(0, 3)
-  const { data: blogData, isLoading: blogLoading } = useSectionPosts('blog')
-  const latestPosts = (blogData?.posts?.nodes ?? []).slice(0, 3)
-  const { data: homeData, isLoading: homeLoading } = useHomePage()
-  const home = homeData?.pages?.nodes[0]
-  const heroImage = home?.featuredImage?.node
-  const hasHeroMedia = homeLoading || Boolean(heroImage?.sourceUrl)
+  const { homePage, events, latestActivities, latestPosts, isLoading } = useHomePageData()
+  const upcomingEvents = splitEventsByDate(events).upcoming.slice(0, 6)
+  const heroImage = homePage?.featuredImage?.node
+  const hasHeroMedia = isLoading || Boolean(heroImage?.sourceUrl)
 
   return (
     <>
@@ -40,7 +33,7 @@ export default function Home() {
               width="88"
               height="340"
             />
-            {homeLoading ? (
+            {isLoading ? (
               <div className="hero-copy-skeleton" aria-hidden="true">
                 <Skeleton width={140} height={14} />
                 <Skeleton width="90%" height={38} className="skeleton-line" />
@@ -51,7 +44,7 @@ export default function Home() {
               <div
                 id="hero-heading"
                 className="page-content hero-copy"
-                dangerouslySetInnerHTML={{ __html: sanitizeHtml(home?.content) }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(homePage?.content) }}
               />
             )}
 
@@ -80,7 +73,7 @@ export default function Home() {
             </div>
           </div>
 
-          {homeLoading ? (
+          {isLoading ? (
             <div className="hero-right">
               <Skeleton className="hero-right-img-skeleton" aria-hidden="true" />
             </div>
@@ -114,7 +107,7 @@ export default function Home() {
             to="/activities"
           />
           <ul className="article-list">
-            {activitiesLoading
+            {isLoading
               ? Array.from({ length: 3 }, (_, index) => (
                   <li key={index}>
                     <div className="article-card" aria-hidden="true">
@@ -156,7 +149,7 @@ export default function Home() {
         <div className="content-column">
           <SectionHeader title={t('home.fromBlog')} action={t('home.viewAllPosts')} to="/blog" />
           <ul className="article-list">
-            {blogLoading
+            {isLoading
               ? Array.from({ length: 3 }, (_, index) => (
                   <li key={index}>
                     <div className="article-card" aria-hidden="true">
@@ -209,7 +202,7 @@ export default function Home() {
             </LocalizedNavLink>
           </header>
 
-          {eventsLoading ? (
+          {isLoading ? (
             <ul className="home-events-grid" aria-hidden="true">
               {Array.from({ length: 6 }, (_, index) => (
                 <li key={index}>
