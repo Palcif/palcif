@@ -20,9 +20,20 @@ const CACHE_STATUS_HEADER = 'x-edge-cache'
 
 type CacheStatus = 'HIT' | 'STALE' | 'MISS'
 
-function withCacheStatus(response: Response, status: CacheStatus): Response {
+/**
+ * Tag the response with its cache status and set what browsers may do with it.
+ * The stored copy carries a day-long max-age for Cloudflare's benefit, which
+ * must never reach browsers: they could then reuse it for a day without asking
+ * the Worker again.
+ */
+function withCacheStatus(
+  response: Response,
+  status: CacheStatus,
+  browserMaxAgeSeconds: number
+): Response {
   const annotated = new Response(response.body, response)
   annotated.headers.set(CACHE_STATUS_HEADER, status)
+  annotated.headers.set('cache-control', `public, max-age=${browserMaxAgeSeconds}`)
   return annotated
 }
 
@@ -58,7 +69,7 @@ async function fetchFromWordPress(
   const headers = new Headers({
     'content-type': upstreamResponse.headers.get('content-type') ?? 'application/json',
     // Browsers may reuse the response briefly; the Worker still revalidates after that.
-    'cache-control': `public, max-age=${FRESH_SECONDS}, stale-while-revalidate=${STALE_SECONDS}`,
+    'cache-control': `public, max-age=${FRESH_SECONDS}`,
   })
   const response = new Response(responseText, { status: 200, headers })
 
@@ -101,18 +112,19 @@ async function handleGraphqlRequest(
     const cachedAt = Number(cachedResponse.headers.get(CACHED_AT_HEADER) ?? 0)
     const ageSeconds = (Date.now() - cachedAt) / 1000
     if (ageSeconds <= FRESH_SECONDS) {
-      return withCacheStatus(cachedResponse, 'HIT')
+      return withCacheStatus(cachedResponse, 'HIT', Math.ceil(FRESH_SECONDS - ageSeconds))
     }
     executionContext.waitUntil(
       fetchFromWordPress(upstreamUrl.toString(), cacheKey, cache).catch(() => undefined)
     )
-    return withCacheStatus(cachedResponse, 'STALE')
+    return withCacheStatus(cachedResponse, 'STALE', 0)
   }
 
   try {
     return withCacheStatus(
       await fetchFromWordPress(upstreamUrl.toString(), cacheKey, cache),
-      'MISS'
+      'MISS',
+      FRESH_SECONDS
     )
   } catch {
     return new Response(JSON.stringify({ errors: [{ message: 'Content service unreachable.' }] }), {
