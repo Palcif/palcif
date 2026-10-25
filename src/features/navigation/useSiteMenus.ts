@@ -1,8 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { gqlClient } from '@/graphql/client'
-import { SiteMenusDocument } from '@/graphql/generated/graphql'
-import { useWpLanguage } from '@/shared/hooks/useWpLanguage'
+import { useSiteShell } from '@/features/site-shell/useSiteShell'
 
 import { resolveMenuItems } from './resolveMenuItem'
 
@@ -13,12 +9,7 @@ import { resolveMenuItems } from './resolveMenuItem'
  * rather than a hardcoded fallback.
  */
 export function useSiteMenus() {
-  const language = useWpLanguage()
-
-  const query = useQuery({
-    queryKey: ['siteMenus', language],
-    queryFn: () => gqlClient.request(SiteMenusDocument, { language }),
-  })
+  const query = useSiteShell()
 
   return {
     status: query,

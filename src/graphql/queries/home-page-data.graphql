@@ -1,0 +1,116 @@
+# The homepage's content in one request instead of four. Field selections match
+# the SitePages, Events and SectionPosts queries exactly so the hook can seed
+# their cache entries (the other pages then open instantly).
+query HomePageData(
+  $language: LanguageCodeFilterEnum!
+  $activitiesCategory: String!
+  $blogCategory: String!
+) {
+  pages(first: 100, where: { language: $language }) {
+    nodes {
+      id
+      title
+      content
+      uri
+      slug
+      language
+      translations {
+        language
+        slug
+      }
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+          mediaDetails {
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+  events(first: 50, where: { language: $language }) {
+    nodes {
+      id
+      title
+      slug
+      content
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+      eventsFields {
+        eventdate
+        eventtime
+        location
+      }
+    }
+  }
+  activities: posts(
+    first: 20
+    where: {
+      language: $language
+      categoryName: $activitiesCategory
+      orderby: { field: DATE, order: DESC }
+    }
+  ) {
+    nodes {
+      id
+      title
+      excerpt
+      date
+      slug
+      author {
+        node {
+          name
+        }
+      }
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+      tags {
+        nodes {
+          name
+        }
+      }
+    }
+  }
+  blog: posts(
+    first: 20
+    where: {
+      language: $language
+      categoryName: $blogCategory
+      orderby: { field: DATE, order: DESC }
+    }
+  ) {
+    nodes {
+      id
+      title
+      excerpt
+      date
+      slug
+      author {
+        node {
+          name
+        }
+      }
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
+      }
+      tags {
+        nodes {
+          name
+        }
+      }
+    }
+  }
+}

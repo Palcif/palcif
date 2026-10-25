@@ -16,7 +16,7 @@ Live at [palcif.fi](https://palcif.fi).
 
 ## Prerequisites
 
-- Node.js 20+ and npm
+- Node.js 22+ and npm (Wrangler requires Node 22 or newer)
 - Access to the WPGraphQL endpoint of a PALCIF WordPress backend (local or production)
 - A [Cloudflare](https://developers.cloudflare.com/workers/) account with `wrangler` authenticated, for deploys
 
@@ -37,7 +37,7 @@ Set these in `.env` (gitignored; see `.env.example` for the template):
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `VITE_WP_GRAPHQL_URL` | Yes | WPGraphQL endpoint the app queries content from, e.g. `https://your-wp-site.com/graphql`. |
+| `VITE_WP_GRAPHQL_URL` | Yes | WPGraphQL endpoint of the WordPress backend, e.g. `https://your-wp-site.com/graphql`. Used at build time only: `codegen:schema` introspects it, and the menu resolver matches menu links against its origin. The browser never calls it directly; it queries the Worker's `/graphql` route (see [GraphQL edge cache](#graphql-edge-cache)). |
 | `VITE_FORMSPREE_ID` | Yes, for the contact form | [Formspree](https://formspree.io/) form ID (`https://formspree.io/f/<id>`) that the Contact page submits to. Without it, the contact form shows an error instead of submitting. |
 
 ## Available scripts
@@ -98,7 +98,24 @@ The header navigation and both footer link groups are **not hardcoded** — they
 
 After changing which locations exist in the plugin, run `npm run codegen:schema` against a backend that has the updated plugin active, then `npm run codegen`, so `MenuLocationEnum` in `schema.graphql` matches.
 
-GraphQL responses are served as CDN-cacheable **GET** requests and cached at the edge (WPGraphQL Smart Cache + host CDN), with purging tied to WordPress publish/update/delete events; the client also caches via TanStack Query. See inline comments in `src/graphql/client.ts` and `src/app/providers.tsx` for the specific settings.
+### GraphQL edge cache
+
+The browser never talks to WordPress directly. It sends GraphQL **GET** requests to the app's own `/graphql` route, which the Cloudflare Worker in `worker/index.ts` proxies to WordPress and caches in Cloudflare's Cache API (`caches.default`):
+
+- **Fresh for 60 s**: served from the edge with no WordPress round trip (`x-edge-cache: HIT`).
+- **Stale for up to 24 h**: served instantly while the Worker refreshes the entry in the background (`x-edge-cache: STALE`), so visitors never wait on a slow WordPress.
+- **Cold**: fetched from WordPress and stored (`x-edge-cache: MISS`).
+- Non-OK responses, non-JSON bodies and GraphQL `errors` payloads are never cached. Anything other than a GET query gets `405`.
+
+An edit in WordPress therefore reaches visitors after at most about 60 s plus one more visit. There is no purge on publish.
+
+The Worker reads the WordPress endpoint from `WP_GRAPHQL_URL` under `vars` in `wrangler.jsonc`. Change it there when the backend moves. `run_worker_first: ["/graphql"]` makes sure the route reaches the Worker instead of the SPA fallback.
+
+> **The Cache API only works on a custom domain.** On `*.workers.dev` every request is a `MISS`, so the edge cache has no effect until the Worker is attached to a custom domain or route.
+
+To check it locally, run `npm run preview` and request `http://localhost:8787/graphql?query=%7B__typename%7D` twice. The second response should carry `x-edge-cache: HIT`.
+
+On the client, TanStack Query keeps data for 60 s before treating it as stale, and the cache is persisted to `localStorage` (`@tanstack/query-async-storage-persister`) for 24 h, so returning visitors see the last content immediately while it refreshes. Each build gets a new `buster`, which discards the persisted cache after a deploy. The home page loads through two requests (`SiteShell` for menus and settings, `HomePageData` for the homepage content), and seeds the per-page caches from them. See `src/app/providers.tsx` and `src/features/pages/useHomePageData.ts`.
 
 ## Deployment
 
@@ -108,4 +125,4 @@ The app deploys to Cloudflare Workers:
 npm run deploy
 ```
 
-This builds the app (`codegen` → `tsc` → `vite build`) and runs `wrangler deploy` using the configuration in `wrangler.jsonc`. Ensure `wrangler` is authenticated (`wrangler login`) and that the target Worker's environment has `VITE_WP_GRAPHQL_URL` / `VITE_FORMSPREE_ID` set to production values before deploying.
+This builds the app (`codegen` → `tsc` → `vite build`) and runs `wrangler deploy` using the configuration in `wrangler.jsonc`. Ensure `wrangler` is authenticated (`wrangler login`) and that the target Worker's environment has `VITE_WP_GRAPHQL_URL` / `VITE_FORMSPREE_ID` set to production values before deploying. The Worker proxy (`worker/index.ts`) is deployed together with the static assets; its `WP_GRAPHQL_URL` comes from `wrangler.jsonc`, not from `.env`.

@@ -1,12 +1,20 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "palcif",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-07-27",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    // Only /graphql needs the Worker (edge-cached proxy to WordPress); every
+    // other path is served straight from static assets.
+    "run_worker_first": ["/graphql"]
+  },
+  "vars": {
+    "WP_GRAPHQL_URL": "https://admin.palcif.fi/graphql"
   },
   "compatibility_flags": [
     "nodejs_compat"

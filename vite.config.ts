@@ -4,6 +4,9 @@ import { fileURLToPath, URL } from 'url'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  define: {
+    __BUILD_ID__: JSON.stringify(Date.now().toString(36)),
+  },
   plugins: [react(), cloudflare()],
   resolve: {
     alias: {
